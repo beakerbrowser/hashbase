@@ -81,6 +81,7 @@ MIT
 * expose dat-publish options
 * user can do server config? (set root archive, index page, etc.)
 * share files to update metadata after each push (will speed replicate up)
+* Put some of the server stuff back into dat-publish
 * improve taglines
 
 ### Cheesy Taglines
@@ -90,5 +91,4 @@ MIT
 * centralize the decentralized.
 * why have p2p when you could have a cloud?
 * Hypercloud: a fancy name for a list of dat-publish servers.
-* Put some of the server stuff back into dat-publish
 * ???

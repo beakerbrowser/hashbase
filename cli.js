@@ -22,8 +22,9 @@ else if (cmd === 'backup') backup()
 function start (cb) {
   // temp hack to get default "cloud"
   hypercloud.core.list(function (err, keys) {
+    if (err) throw err
     var key = keys.length ? keys[0] : null
-    if (key) console.log('Manager Key', key.toString('hex'))
+    if (key) console.log('Cloud Feed Key:', key.toString('hex'))
     hypercloud.create(key)
     cb()
   })
@@ -43,7 +44,7 @@ function backup () {
   }
   var dir = args.dir || path.join(__dirname, 'backup')
   var db = args.db || '.backup'
-  var cloud = Hypercloud({dbName: cb, dir: dir})
+  var cloud = Hypercloud({dbName: db, dir: dir})
   // get cloud
   cloud.createBackup(args.key)
 }
