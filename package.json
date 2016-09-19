@@ -1,0 +1,39 @@
+{
+  "name": "hypercloud",
+  "version": "0.0.1",
+  "description": "a p2p ☁",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "bin": {
+    "hypercloud": "cli.js"
+  },
+  "keywords": [
+    "hyperdrive",
+    "dat",
+    "data",
+    "cloud",
+    "p2p"
+  ],
+  "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "crypto": "0.0.3",
+    "dat-js": "^3.4.0",
+    "hypercore": "^4.10.0",
+    "hyperdrive-archive-swarm": "^4.1.6",
+    "level": "^1.4.0",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joehand/hypercloud.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joehand/hypercloud/issues"
+  },
+  "homepage": "https://github.com/joehand/hypercloud#readme"
+}
