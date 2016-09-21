@@ -50,7 +50,7 @@ function backup () {
 }
 
 function usage () {
-  console.error('Welcome to hypercloud! \t☁\t☁\t☁')
+  console.error('Welcome to hypercloud!')
   console.error('Usage')
   console.error('  start hypercloud:         hypercloud start')
   console.error('  add a new server:         hypercloud add --name server-name   ')

@@ -6,7 +6,11 @@ Hypercloud is a "high-availability" server for peer to peer Dats. Hypercloud Dat
 
 Hypercloud has a admin that adds new servers. Servers are for a single user or group - anyone with the key will push to that server. All files pushed to a server will be available over http and Dat at their original key.
 
-In replication mode, users can replicate their whole server. The whole cloud (many servers) can also be backed up.
+Hypercloud can be replicated on three levels:
+
+1. the whole "cloud"
+2. each user server
+3. each dat that is pushed
 
 ### Example
 
