@@ -1,6 +1,6 @@
 {
   "name": "hypercloud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a p2p ☁",
   "main": "index.js",
   "scripts": {
