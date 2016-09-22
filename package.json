@@ -21,6 +21,7 @@
   "dependencies": {
     "crypto": "0.0.3",
     "dat-js": "^3.4.0",
+    "dat-publish": "^1.1.2",
     "hypercore": "^4.10.0",
     "hyperdrive-archive-swarm": "^4.1.6",
     "level": "^1.4.0",
