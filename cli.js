@@ -16,8 +16,13 @@ var hypercloud = Hypercloud({dbName: db, dir: dir})
 
 if (cmd === 'start') start(function () { hypercloud.start() })
 else if (cmd === 'add') start(addServer)
-else if (cmd === 'replicate') start(function () { hypercloud.replicate() })
-else if (cmd === 'backup') backup()
+else if (cmd === 'replicate') {
+  start(function () {
+    hypercloud.replicate(function (err) {
+      if (err) console.error(err)
+    })
+ })
+} else if (cmd === 'backup') backup()
 
 function start (cb) {
   // temp hack to get default "cloud"
