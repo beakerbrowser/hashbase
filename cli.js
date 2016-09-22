@@ -10,7 +10,7 @@ if (!args._[0]) {
 }
 
 var cmd = args._[0]
-var dir = args.dir || path.join(__dirname, 'servers')
+var dir = args.dir || path.join(process.cwd(), 'servers')
 var db = args.db || '.hypercloud'
 var hypercloud = Hypercloud({dbName: db, dir: dir})
 
@@ -42,7 +42,7 @@ function backup () {
     console.error('hypercloud key required')
     process.exit(1)
   }
-  var dir = args.dir || path.join(__dirname, 'backup')
+  var dir = args.dir || path.join(process.cwd(), 'backup')
   var db = args.db || '.backup'
   var cloud = Hypercloud({dbName: db, dir: dir})
   // get cloud
