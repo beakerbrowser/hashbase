@@ -24,7 +24,7 @@
     "dat-publish": "^1.1.2",
     "hypercore": "^4.10.0",
     "hyperdrive-archive-swarm": "^4.1.6",
-    "level": "^1.4.0",
+    "level-party": "^3.0.4",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1"
   },

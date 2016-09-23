@@ -1,6 +1,6 @@
 var path = require('path')
 var mkdirp = require('mkdirp')
-var level = require('level')
+var level = require('level-party')
 var hypercore = require('hypercore')
 var swarm = require('hyperdrive-archive-swarm')
 var Dat = require('dat-js')
