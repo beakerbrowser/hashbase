@@ -32,13 +32,14 @@ Hypercloud.prototype.addServer = function (name, opts, cb) {
   if (typeof opts === 'function') return this.addServer(name, null, opts)
   if (!opts) opts = {}
   var self = this
-
-  var server = Server({name: name, baseDir: self.dir, port: 8080 + self.feed.blocks})
-  server.create(function (err) {
-    if (err) return cb(err)
-    self.feed.append(JSON.stringify(server.settings), function (err) {
+  self.feed.open(function () {
+    var server = Server({name: name, baseDir: self.dir, port: 8080 + self.feed.blocks})
+    server.create(function (err) {
       if (err) return cb(err)
-      cb(null, server)
+      self.feed.append(JSON.stringify(server.settings), function (err) {
+        if (err) return cb(err)
+        cb(null, server)
+      })
     })
   })
 }
