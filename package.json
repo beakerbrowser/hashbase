@@ -4,10 +4,7 @@
   "description": "a p2p ☁",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
-  },
-  "bin": {
-    "hypercloud": "cli.js"
+    "start": "node index.js"
   },
   "keywords": [
     "hyperdrive",
@@ -19,14 +16,11 @@
   "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
   "license": "MIT",
   "dependencies": {
-    "crypto": "0.0.3",
-    "dat-js": "^3.4.0",
-    "dat-publish": "^1.1.2",
-    "hypercore": "^4.10.0",
-    "hyperdrive-archive-swarm": "^4.1.6",
+    "appa": "^6.0.0",
+    "hyperarchiver": "^1.1.0",
     "level-party": "^3.0.4",
-    "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1"
+    "township": "^1.1.0",
+    "xtend": "^4.0.1"
   },
   "devDependencies": {},
   "repository": {
