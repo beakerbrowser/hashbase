@@ -4,7 +4,8 @@
   "description": "a p2p ☁",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node bin.js",
+    "test": "node test/*.js && standard"
   },
   "keywords": [
     "hyperdrive",
