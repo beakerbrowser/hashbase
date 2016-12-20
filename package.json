@@ -16,7 +16,8 @@
   "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
   "license": "MIT",
   "dependencies": {
-    "appa": "^6.0.0",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
     "hyperarchiver": "^1.1.0",
     "level-party": "^3.0.4",
     "township": "^1.1.0",
