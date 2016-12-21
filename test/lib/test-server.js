@@ -50,7 +50,12 @@ module.exports = function (cb) {
   app.req = request.defaults({
     baseUrl: app.url
   })
-  app.close = server.close.bind(server)
+
+  var close = app.close
+  app.close = (cb) => {
+    close.call(app)
+    server.close(cb)
+  }
 
   return app
 }

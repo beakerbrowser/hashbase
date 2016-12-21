@@ -2,7 +2,7 @@ var test = require('tape')
 var createTestServer = require('./lib/test-server.js')
 
 var app
-var token
+// var token
 
 test('start test server', function (t) {
   app = createTestServer(err => {
@@ -16,9 +16,9 @@ test('register', function (t) {
     'email': 'foo@example.com',
     'password': 'foobar'
   }
-  app.req.post({uri: '/v1/register', json}, function (err, resp, body) {
+  app.req.post({uri: '/v1/register', json}, function (err, res, body) {
     t.ifErr(err)
-    t.equals(resp.statusCode, 201, '201 created user')
+    t.equals(res.statusCode, 201, '201 created user')
     t.ok(body.token, 'got token in response')
     t.end()
   })
@@ -29,11 +29,11 @@ test('login', function (t) {
     'email': 'foo@example.com',
     'password': 'foobar'
   }
-  app.req.post({uri: '/v1/login', json}, function (err, resp, body) {
+  app.req.post({uri: '/v1/login', json}, function (err, res, body) {
     t.ifErr(err)
-    t.equals(resp.statusCode, 200, '200 got token')
+    t.equals(res.statusCode, 200, '200 got token')
     t.ok(body.token, 'got token in response')
-    token = body.token
+    // token = body.token TODO uncomment when needed
     t.end()
   })
 })
@@ -46,9 +46,9 @@ test('login', function (t) {
 //     'newPassword': 'tacobar'
 //   }
 //   var headers = {authorization: 'Bearer ' + token}
-//   app.req.post({uri: '/updatepassword', json, headers}, function (err, resp, body) {
+//   app.req.post({uri: '/updatepassword', json, headers}, function (err, res, body) {
 //     t.ifErr(err)
-//     t.equals(resp.statusCode, 200, '200 got token')
+//     t.equals(res.statusCode, 200, '200 got token')
 //     t.ok(body.token, 'got token in response')
 //     t.notEqual(token, body.token, 'new token is diff from old token')
 //     token = body.token
@@ -62,9 +62,9 @@ test('login', function (t) {
 //     'email': 'foo@example.com',
 //     'password': 'tacobar'
 //   }
-//   app.req.post({uri: '/login', json}, function (err, resp, body) {
+//   app.req.post({uri: '/login', json}, function (err, res, body) {
 //     t.ifErr(err)
-//     t.equals(resp.statusCode, 200, '200 got token')
+//     t.equals(res.statusCode, 200, '200 got token')
 //     t.ok(body.token, 'got token in response')
 //     t.notEqual(token, body.token, 'login token is diff from token from after changing pw')
 //     token = body.token

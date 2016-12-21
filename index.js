@@ -22,6 +22,9 @@ module.exports = function (config) {
     res.send('HYPERCLOUD - p2p + cloud')
   })
 
+  // user & auth
+  // =
+
   app.post('/v1/register', (req, res) => {
     ship.register(req, res, { body: req.body }, (err, code, obj) => {
       if (err) return res.status(code).send(err.message)
@@ -51,9 +54,47 @@ module.exports = function (config) {
     // TODO
   })
 
-  app.get(DAT_HASH_REGEX, (req, res) => {
-    cloud.dat.httpRequest(req, res)
+  // archive admin
+  // =
+
+  app.post('/v1/dat/add', (req, res) => {
+    // TODO admin perms -prf
+    cloud.api.add(req, res, { body: req.body }, (err, code, data) => {
+      if (err) res.status(code).send(err.message)
+      res.status(code).json(data)
+    })
   })
+
+  app.post('/v1/dat/remove', (req, res) => {
+    // TODO admin perms -prf
+    cloud.api.remove(req, res, { body: req.body }, (err, code, data) => {
+      if (err) res.status(code).send(err.message)
+      res.status(code).json(data)
+    })
+  })
+
+  // archive read
+  // =
+
+  app.get(DAT_HASH_REGEX, (req, res) => {
+    if (req.query.view === 'status') {
+      cloud.api.status(req, res, null, (err, code, data) => {
+        if (err) res.status(code).send(err.message)
+        res.status(code).json(data)
+      })
+    }
+    else {
+      cloud.dat.httpRequest(req, res)
+    }
+  })
+
+  // shutdown
+  // =
+
+  app.close = () => {
+    cloud.close()
+    db.close()
+  }
 
   return app
 }
