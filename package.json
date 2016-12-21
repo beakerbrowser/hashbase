@@ -21,7 +21,7 @@
     "archiver-server": "^2.1.0",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "hypercore-archiver": "^3.0.2",
+    "hypercore-archiver": "^3.2.0",
     "level-party": "^3.0.4",
     "multicb": "^1.2.1",
     "request": "^2.79.0",
