@@ -81,7 +81,9 @@ test('check archive status after removed', function (t) {
 
 test('stop test server', function (t) {
   app.close(() => {
-    t.ok(true, 'closed')
-    t.end()
+    testDat.close(() => {
+      t.ok(true, 'closed')
+      t.end()
+    })
   })
 })

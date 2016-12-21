@@ -54,11 +54,9 @@ module.exports = function (cb) {
     baseUrl: app.url
   })
 
-  var close = app.close
-  app.close = (cb) => {
-    close.call(app)
-    server.close(cb)
-  }
+  // wrap app.close to stop the server
+  var orgClose = app.close
+  app.close = cb => orgClose.call(app, () => server.close(cb))
 
   return app
 }

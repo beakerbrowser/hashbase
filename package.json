@@ -23,6 +23,7 @@
     "express": "^4.14.0",
     "hypercore-archiver": "^3.0.2",
     "level-party": "^3.0.4",
+    "multicb": "^1.2.1",
     "request": "^2.79.0",
     "township": "^1.1.0",
     "xtend": "^4.0.1"

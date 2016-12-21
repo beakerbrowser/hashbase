@@ -2,6 +2,7 @@ var level = require('level-party')
 var township = require('township')
 var express = require('express')
 var bodyParser = require('body-parser')
+var multicb = require('multicb')
 var hypercloud = require('./lib/cloud')
 
 const DAT_HASH_REGEX = /[0-9a-f]{64}$/
@@ -92,9 +93,11 @@ module.exports = function (config) {
   // shutdown
   // =
 
-  app.close = () => {
-    cloud.close()
-    db.close()
+  app.close = cb => {
+    var done = multicb()
+    cloud.close(done())
+    db.close(done())
+    done(cb)
   }
 
   return app
