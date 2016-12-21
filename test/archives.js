@@ -67,6 +67,15 @@ test('check archive status and wait till synced', t => {
   }
 })
 
+test('check server status', t => {
+  app.req({uri: '/', qs: {view: 'status'}, json: true}, (err, res, body) => {
+    t.ifErr(err)
+    t.equals(res.statusCode, 200, '200 got status')
+    t.equals(body.archives, 1, '1 archive')
+    t.end()
+  })
+})
+
 test('archive is accessable via dat swarm', t => {
   console.log('closing origin testdat swarm')
   testDat.close(() => {

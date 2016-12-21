@@ -19,7 +19,7 @@ function createRemoteApp (cb) {
   var app = {
     url,
     isRemote: true,
-    req: request.defaults({ baseUrl: url, timeout: 5e3 }),
+    req: request.defaults({ baseUrl: url, timeout: 10e3 }),
     close: cb => cb()
   }
   cb()

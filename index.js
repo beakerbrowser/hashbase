@@ -21,7 +21,14 @@ module.exports = function (config) {
   app.use(bodyParser.json())
 
   app.get('/', (req, res) => {
-    res.send('HYPERCLOUD - p2p + cloud')
+    if (req.query.view === 'status') {
+      cloud.api.status(req, res, null, (err, code, data) => {
+        if (err) res.status(code).send(err.message)
+        res.status(code).json(data)
+      })
+    } else {
+      res.send('HYPERCLOUD - p2p + cloud')
+    }
   })
 
   // user & auth
