@@ -13,7 +13,7 @@ var config = {
       }
     },
     cloud: {
-      dir: path.join(__dirname, 'cloud')
+      dir: path.join(__dirname, 'cloud.db')
     },
     port: 8080
   },
@@ -21,7 +21,10 @@ var config = {
   production: {
     township: {
       secret: process.env.TOWNSHIP_SECRET,
-      db: path.join(os.homedir(), 'township.db')
+      db: path.join(os.homedir(), '.hypercloud/township.db')
+    },
+    cloud: {
+      dir: path.join(os.homedir(), '.hypercloud')
     }
   }
 }
