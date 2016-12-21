@@ -107,6 +107,25 @@ test('check archive status after removed', t => {
   })
 })
 
+test('archive status will timeout on archive that fails to sync', t => {
+  // add a fake archive
+  var fakeKey = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+  var json = {key: fakeKey}
+  app.req({uri: '/v1/dat/add', method: 'POST', json: json}, function (err, resp, body) {
+    t.ifErr(err)
+    t.same(resp.statusCode, 201, '201 status')
+    t.ok(body.key, 'get key back')
+
+    // now ask for the status. since the archive is never found, this should timeout
+    console.log('waiting for timeout, this should take 5 seconds...')
+    app.req({uri: `/${fakeKey}`, qs: {view: 'status'}}, function (err, resp, body) {
+      t.ifErr(err)
+      t.same(resp.statusCode, 408, '408 status')
+      t.end()
+    })
+  })
+})
+
 test('stop test server', t => {
   app.close(() => {
     testDat.close(() => {
