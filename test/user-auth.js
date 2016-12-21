@@ -4,19 +4,19 @@ var createTestServer = require('./lib/test-server.js')
 var app
 // var token
 
-test('start test server', function (t) {
+test('start test server', t => {
   app = createTestServer(err => {
     t.ifErr(err)
     t.end()
   })
 })
 
-test('register', function (t) {
+test('register', t => {
   var json = {
     'email': 'foo@example.com',
     'password': 'foobar'
   }
-  app.req.post({uri: '/v1/register', json}, function (err, res, body) {
+  app.req.post({uri: '/v1/register', json}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 201, '201 created user')
     t.ok(body.token, 'got token in response')
@@ -24,12 +24,12 @@ test('register', function (t) {
   })
 })
 
-test('login', function (t) {
+test('login', t => {
   var json = {
     'email': 'foo@example.com',
     'password': 'foobar'
   }
-  app.req.post({uri: '/v1/login', json}, function (err, res, body) {
+  app.req.post({uri: '/v1/login', json}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 200, '200 got token')
     t.ok(body.token, 'got token in response')
@@ -39,14 +39,14 @@ test('login', function (t) {
 })
 
 // TODO! -prf
-// test('change pw', function (t) {
+// test('change pw', t => {
 //   var json = {
 //     'email': 'foo@example.com',
 //     'password': 'foobar',
 //     'newPassword': 'tacobar'
 //   }
 //   var headers = {authorization: 'Bearer ' + token}
-//   app.req.post({uri: '/updatepassword', json, headers}, function (err, res, body) {
+//   app.req.post({uri: '/updatepassword', json, headers}, (err, res, body) => {
 //     t.ifErr(err)
 //     t.equals(res.statusCode, 200, '200 got token')
 //     t.ok(body.token, 'got token in response')
@@ -57,12 +57,12 @@ test('login', function (t) {
 // })
 
 // TODO! -prf
-// test('login with new pw', function (t) {
+// test('login with new pw', t => {
 //   var json = {
 //     'email': 'foo@example.com',
 //     'password': 'tacobar'
 //   }
-//   app.req.post({uri: '/login', json}, function (err, res, body) {
+//   app.req.post({uri: '/login', json}, (err, res, body) => {
 //     t.ifErr(err)
 //     t.equals(res.statusCode, 200, '200 got token')
 //     t.ok(body.token, 'got token in response')
@@ -72,7 +72,7 @@ test('login', function (t) {
 //   })
 // })
 
-test('stop test server', function (t) {
+test('stop test server', t => {
   app.close(() => {
     t.ok(true, 'closed')
     t.end()

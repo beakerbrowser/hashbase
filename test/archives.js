@@ -6,14 +6,14 @@ var app
 var testDat
 var testDatKey
 
-test('start test server', function (t) {
+test('start test server', t => {
   app = createTestServer(err => {
     t.ifErr(err)
     t.end()
   })
 })
 
-test('share test-dat', function (t) {
+test('share test-dat', t => {
   shareDat(__dirname + '/scaffold/testdat1', (err, d, dkey) => {
     t.ifErr(err)    
     testDat = d
@@ -22,9 +22,9 @@ test('share test-dat', function (t) {
   })
 })
 
-test('add archive', function (t) {
+test('add archive', t => {
   var json = {key: testDatKey}
-  app.req.post({uri: '/v1/dat/add', json}, function (err, res, body) {
+  app.req.post({uri: '/v1/dat/add', json}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 201, '201 added dat')
     t.equals(body.key, testDatKey, 'got key in response')
@@ -32,9 +32,9 @@ test('add archive', function (t) {
   })
 })
 
-test('add archive that was already added', function (t) {
+test('add archive that was already added', t => {
   var json = {key: testDatKey}
-  app.req.post({uri: '/v1/dat/add', json}, function (err, res, body) {
+  app.req.post({uri: '/v1/dat/add', json}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 201, '201 added dat')
     t.equals(body.key, testDatKey, 'got key in response')
@@ -42,8 +42,8 @@ test('add archive that was already added', function (t) {
   })
 })
 
-test('check archive status', function (t) {
-  app.req({uri: `/${testDatKey}`, qs: {view: 'status'}}, function (err, res, body) {
+test('check archive status', t => {
+  app.req({uri: `/${testDatKey}`, qs: {view: 'status'}}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 200, '200 got status')
     // TODO more tests -prf
@@ -51,9 +51,9 @@ test('check archive status', function (t) {
   })
 })
 
-test('remove archive', function (t) {
+test('remove archive', t => {
   var json = {key: testDatKey}
-  app.req.post({uri: '/v1/dat/remove', json}, function (err, res, body) {
+  app.req.post({uri: '/v1/dat/remove', json}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 200, '200 removed dat')
     t.equals(body.key, testDatKey, 'got key in response')
@@ -61,9 +61,9 @@ test('remove archive', function (t) {
   })
 })
 
-test('remove archive that was already removed', function (t) {
+test('remove archive that was already removed', t => {
   var json = {key: testDatKey}
-  app.req.post({uri: '/v1/dat/remove', json}, function (err, res, body) {
+  app.req.post({uri: '/v1/dat/remove', json}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 200, '200 removed dat')
     t.equals(body.key, testDatKey, 'got key in response')
@@ -71,15 +71,15 @@ test('remove archive that was already removed', function (t) {
   })
 })
 
-test('check archive status after removed', function (t) {
-  app.req({uri: `/${testDatKey}`, qs: {view: 'status'}}, function (err, res, body) {
+test('check archive status after removed', t => {
+  app.req({uri: `/${testDatKey}`, qs: {view: 'status'}}, (err, res, body) => {
     t.ifErr(err)
     t.equals(res.statusCode, 404, '404 not found')
     t.end()
   })
 })
 
-test('stop test server', function (t) {
+test('stop test server', t => {
   app.close(() => {
     testDat.close(() => {
       t.ok(true, 'closed')
