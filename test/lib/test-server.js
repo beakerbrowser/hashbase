@@ -1,4 +1,6 @@
 var request = require('request')
+var memdb = require('memdb')
+var RAM = require('random-access-memory')
 var createApp = require('../../index.js')
 
 var portCounter = 10000
@@ -10,14 +12,15 @@ module.exports = function (cb) {
   var config = {
     township: {
       secret: 'very very not secret',
-      memdb: true,
+      db: memdb(),
       email: {
         fromEmail: 'hi@example.com',
         postmarkAPIKey: 'your api key'
       }
     },
     cloud: {
-      memdb: true
+      db: memdb(),
+      storage: RAM
     },
     port: portCounter++
   }

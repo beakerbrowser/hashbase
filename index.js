@@ -1,5 +1,4 @@
 var level = require('level-party')
-var memdb = require('memdb')
 var township = require('township')
 var express = require('express')
 var bodyParser = require('body-parser')
@@ -8,7 +7,9 @@ var hypercloud = require('./lib/cloud')
 const DAT_HASH_REGEX = /[0-9a-f]{64}$/
 
 module.exports = function (config) {
-  var db = config.township.memdb ? memdb() : level(config.township.db)
+  var db = typeof config.township.db === 'string' 
+    ? level(config.township.db)
+    : config.township.db
   var ship = township(config.township, db)
   var cloud = hypercloud(config.cloud)
 
