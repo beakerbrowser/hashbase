@@ -1,6 +1,6 @@
 var test = require('tape')
 var createTestServer = require('./lib/test-server.js')
-var { shareDat } = require('./lib/dat.js')
+var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
 
 var app
 var testDat
@@ -14,7 +14,7 @@ test('start test server', t => {
 })
 
 test('share test-dat', t => {
-  shareDat(__dirname + '/scaffold/testdat1', (err, d, dkey) => {
+  makeDatFromFolder(__dirname + '/scaffold/testdat1', (err, d, dkey) => {
     t.ifErr(err)    
     testDat = d
     testDatKey = dkey
@@ -47,6 +47,14 @@ test('check archive status', t => {
     t.ifErr(err)
     t.equals(res.statusCode, 200, '200 got status')
     // TODO more tests -prf
+    t.end()
+  })
+})
+
+test('archive is accessable via dat swarm', t => {
+  downloadDatFromSwarm(testDatKey, { timeout: 5e3 }, (err, receivedDat) => {
+    t.ifErr(err)
+    t.equals(testDat.archive.content.blocks, receivedDat.archive.content.blocks, 'got all content blocks')
     t.end()
   })
 })
