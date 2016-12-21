@@ -1,62 +1,104 @@
-var http = require('http')
 var level = require('level-party')
 var township = require('township')
-var appa = require('appa')
-
-var send = require('appa/send')
-var error = require('appa/error')
-var config = require('./config')
+var express = require('express')
+var bodyParser = require('body-parser')
+var multicb = require('multicb')
 var hypercloud = require('./lib/cloud')
 
-var db = level(config.township.db)
-var ship = township(config.township, db)
-var cloud = hypercloud(config.cloud)
-var app = appa()
-var log = app.log
+const DAT_HASH_REGEX = /[0-9a-f]{64}$/
 
-app.on('/', function (req, res, ctx) {
-  send(200, 'HYPERCLOUD - p2p + cloud').pipe(res)
-})
+module.exports = function (config) {
+  var db = typeof config.township.db === 'string' 
+    ? level(config.township.db)
+    : config.township.db
+  var ship = township(config.township, db)
+  var cloud = hypercloud(config.cloud)
 
-app.on('/register', function (req, res, ctx) {
-  ship.register(req, res, ctx, function (err, statusCode, obj) {
-    if (err) return error(400, err.message).pipe(res)
-    send(obj).pipe(res)
+  var app = express()
+  app.cloud = cloud
+  app.config = config
+
+  app.use(bodyParser.json())
+
+  app.get('/', (req, res) => {
+    res.send('HYPERCLOUD - p2p + cloud')
   })
-})
 
-app.on('/addUser', function (req, res, ctx) {
-  // adds a archive to backup + serve
-  if (req.method === 'POST') {
-    ship.verify(req, res, function (err, decoded, token) {
-      if (err) return error(400, err.message).pipe(res)
-      if (!decoded) return error(403, 'Not authorized').pipe(res)
-      cloud.addUser(req, res, ctx, function (err, code, data) {
-        if (err) return app.error(res, code, err.message)
-        send(code, data).pipe(res)
+  // user & auth
+  // =
+
+  app.post('/v1/register', (req, res) => {
+    ship.register(req, res, { body: req.body }, (err, code, obj) => {
+      if (err) return res.status(code).send(err.message)
+      res.status(code).json(obj)
+    })
+  })
+
+  app.post('/v1/profile', (req, res) => {
+    ship.verify(req, res, (err, decoded, token) => {
+      if (err) return res.status(400).send(err.message)
+      if (!decoded) return res.status(403).send('Not authorized')
+      cloud.addUser(req, res, (err, code, data) => {
+        if (err) return res.status(code).send(err.message)
+        res.status(code).json(data)
       })
     })
-  } else {
-    error(500, 'method not allowed').pipe(res)
-  }
-})
-
-app.on('/login', function (req, res, ctx) {
-  ship.login(req, res, ctx, function (err, code, token) {
-    if (err) return error(400, err.message).pipe(res)
-    send(token).pipe(res)
   })
-})
 
-app.on('/logout', function (req, res, ctx) {
+  app.post('/v1/login', (req, res) => {
+    ship.login(req, res, { body: req.body }, (err, code, token) => {
+      if (err) return res.status(code).send(err.message)
+      res.status(code).send(token)
+    })
+  })
 
-})
+  app.post('/v1/logout', (req, res) => {
+    // TODO
+  })
 
-http.createServer(function (req, res) {
-  if (/[0-9a-f]{64}$/.test(req.url)) {
-    return cloud.dat.httpRequest(req, res)
+  // archive admin
+  // =
+
+  app.post('/v1/dat/add', (req, res) => {
+    // TODO admin perms -prf
+    cloud.api.add(req, res, { body: req.body }, (err, code, data) => {
+      if (err) res.status(code).send(err.message)
+      res.status(code).json(data)
+    })
+  })
+
+  app.post('/v1/dat/remove', (req, res) => {
+    // TODO admin perms -prf
+    cloud.api.remove(req, res, { body: req.body }, (err, code, data) => {
+      if (err) res.status(code).send(err.message)
+      res.status(code).json(data)
+    })
+  })
+
+  // archive read
+  // =
+
+  app.get(DAT_HASH_REGEX, (req, res) => {
+    if (req.query.view === 'status') {
+      cloud.api.status(req, res, null, (err, code, data) => {
+        if (err) res.status(code).send(err.message)
+        res.status(code).json(data)
+      })
+    }
+    else {
+      cloud.dat.httpRequest(req, res)
+    }
+  })
+
+  // shutdown
+  // =
+
+  app.close = cb => {
+    var done = multicb()
+    cloud.close(done())
+    db.close(done())
+    done(cb)
   }
-  return app(req, res)
-}).listen(config.port, function () {
-  log.info(`server started on http://127.0.0.1:${config.port}`)
-})
+
+  return app
+}
