@@ -6,7 +6,7 @@ const memdb = require('memdb')
 
 exports.makeDatFromFolder = function (dir, cb) {
   var dat = Dat({ dir, db: memdb() })
-  dat.share(err =>{
+  dat.share(err => {
     if (err) return cb(err)
 
     var key = dat.archive.key.toString('hex')
@@ -15,7 +15,7 @@ exports.makeDatFromFolder = function (dir, cb) {
   })
 }
 
-exports.downloadDatFromSwarm = function (key, { timeout=5e3 }, cb) {
+exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
   var dir = fs.mkdtempSync(os.tmpdir() + path.sep + 'beaker-test-')
   var dat = Dat({ dir, key, db: memdb() })
   dat.download()

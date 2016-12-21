@@ -11,6 +11,19 @@ Hypercloud will also have user management and profiles via Dat.
 
 ## API
 
+## Tests
+
+Run the tests with
+
+```
+npm test
+```
+
+To run the tests against a running server, specify the env var:
+
+```
+REMOTE_URL=http://{hostname}/ npm test
+```
 
 
 ## License

@@ -8,7 +8,7 @@ var hypercloud = require('./lib/cloud')
 const DAT_HASH_REGEX = /[0-9a-f]{64}$/
 
 module.exports = function (config) {
-  var db = typeof config.township.db === 'string' 
+  var db = typeof config.township.db === 'string'
     ? level(config.township.db)
     : config.township.db
   var ship = township(config.township, db)
@@ -84,8 +84,7 @@ module.exports = function (config) {
         if (err) res.status(code).send(err.message)
         res.status(code).json(data)
       })
-    }
-    else {
+    } else {
       cloud.dat.httpRequest(req, res)
     }
   })

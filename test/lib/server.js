@@ -6,6 +6,27 @@ var createApp = require('../../index.js')
 var portCounter = 10000
 
 module.exports = function (cb) {
+  if (process.env.REMOTE_URL) {
+    return createRemoteApp(cb)
+  } else {
+    return createLocalApp(cb)
+  }
+}
+
+function createRemoteApp (cb) {
+  var url = process.env.REMOTE_URL
+  console.log(`connecting to ${url}`)
+  var app = {
+    url,
+    isRemote: true,
+    req: request.defaults({ baseUrl: url, timeout: 5e3 }),
+    close: cb => cb()
+  }
+  cb()
+  return app
+}
+
+function createLocalApp (cb) {
   // setup config
   // =
 
@@ -49,6 +70,7 @@ module.exports = function (cb) {
     cb(err)
   })
 
+  app.isRemote = false
   app.url = `http://127.0.0.1:${config.port}`
   app.req = request.defaults({
     baseUrl: app.url

@@ -1,5 +1,5 @@
 var test = require('tape')
-var createTestServer = require('./lib/test-server.js')
+var createTestServer = require('./lib/server.js')
 
 var app
 // var token

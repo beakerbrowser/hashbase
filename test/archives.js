@@ -1,5 +1,6 @@
 var test = require('tape')
-var createTestServer = require('./lib/test-server.js')
+var path = require('path')
+var createTestServer = require('./lib/server.js')
 var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
 
 var app
@@ -14,8 +15,8 @@ test('start test server', t => {
 })
 
 test('share test-dat', t => {
-  makeDatFromFolder(__dirname + '/scaffold/testdat1', (err, d, dkey) => {
-    t.ifErr(err)    
+  makeDatFromFolder(path.join(__dirname, '/scaffold/testdat1'), (err, d, dkey) => {
+    t.ifErr(err)
     testDat = d
     testDatKey = dkey
     t.end()
@@ -42,20 +43,39 @@ test('add archive that was already added', t => {
   })
 })
 
-test('check archive status', t => {
-  app.req({uri: `/${testDatKey}`, qs: {view: 'status'}}, (err, res, body) => {
-    t.ifErr(err)
-    t.equals(res.statusCode, 200, '200 got status')
-    // TODO more tests -prf
-    t.end()
-  })
+test('check archive status and wait till synced', t => {
+  var to = setTimeout(() => {
+    throw new Error('Archive did not sync')
+  }, 15e3)
+
+  checkStatus()
+  function checkStatus () {
+    app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, json: true}, (err, res, body) => {
+      t.ifErr(err)
+      t.equals(res.statusCode, 200, '200 got status')
+      t.ok(body.progress)
+
+      if (body.progress === 1) {
+        clearTimeout(to)
+        console.log('synced!')
+        t.end()
+      } else {
+        console.log('progress', body.progress * 100, '%')
+        setTimeout(checkStatus, 300)
+      }
+    })
+  }
 })
 
 test('archive is accessable via dat swarm', t => {
-  downloadDatFromSwarm(testDatKey, { timeout: 5e3 }, (err, receivedDat) => {
-    t.ifErr(err)
-    t.equals(testDat.archive.content.blocks, receivedDat.archive.content.blocks, 'got all content blocks')
-    t.end()
+  console.log('closing origin testdat swarm')
+  testDat.close(() => {
+    console.log('downloading from server swarm')
+    downloadDatFromSwarm(testDatKey, { timeout: 15e3 }, (err, receivedDat) => {
+      t.ifErr(err)
+      t.equals(testDat.archive.content.blocks, receivedDat.archive.content.blocks, 'got all content blocks')
+      t.end()
+    })
   })
 })
 
