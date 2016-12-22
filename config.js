@@ -6,14 +6,14 @@ var config = {
   shared: {
     township: {
       secret: 'very very not secret',
-      db: path.join(__dirname, 'township.db'),
+      db: path.join(__dirname, '.hypercloud', 'township.db'),
       email: {
         fromEmail: 'hi@example.com',
         postmarkAPIKey: 'your api key'
       }
     },
     cloud: {
-      dir: path.join(__dirname, 'cloud.db')
+      dir: path.join(__dirname, '.hypercloud')
     },
     port: 8080
   },
@@ -21,7 +21,7 @@ var config = {
   production: {
     township: {
       secret: process.env.TOWNSHIP_SECRET,
-      db: path.join(os.homedir(), '.hypercloud/township.db')
+      db: path.join(os.homedir(), '.hypercloud', 'township.db')
     },
     cloud: {
       dir: path.join(os.homedir(), '.hypercloud')
