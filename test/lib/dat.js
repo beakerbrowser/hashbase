@@ -19,7 +19,7 @@ exports.makeDatFromFolder = function (dir, cb) {
 }
 
 exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
-  var dir = fs.mkdtempSync(os.tmpdir() + path.sep + 'beaker-test-')
+  var dir = mktmp()
   Dat(dir, { key, db: memdb() }, (err, dat) => {
     if (err) return cb(err)
 
@@ -44,4 +44,13 @@ exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
       })
     })
   })
+}
+
+function mktmp () {
+  if (fs.mkdtempSync) {
+    return fs.mkdtempSync(os.tmpdir() + path.sep + 'hypercloud-test-')
+  }
+  var p = (os.tmpdir() + path.sep + 'beaker-test-' + Date.now())
+  fs.mkdirSync(p)
+  return p
 }

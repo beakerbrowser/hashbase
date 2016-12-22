@@ -4,8 +4,9 @@
   "description": "a p2p ☁",
   "main": "index.js",
   "scripts": {
+    "install-transpiler": "npm install babel-register babel-preset-es2015",
     "start": "node bin.js",
-    "test": "node test/*.js && standard"
+    "test": "node test/runner.js && standard"
   },
   "keywords": [
     "hyperdrive",
