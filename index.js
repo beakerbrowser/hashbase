@@ -5,8 +5,6 @@ var bodyParser = require('body-parser')
 var multicb = require('multicb')
 var hypercloud = require('./lib/cloud')
 
-const DAT_HASH_REGEX = /[0-9a-f]{64}$/
-
 module.exports = function (config) {
   var db = typeof config.township.db === 'string'
     ? level(config.township.db)
@@ -22,7 +20,7 @@ module.exports = function (config) {
 
   app.get('/', (req, res) => {
     if (req.query.view === 'status') {
-      cloud.api.status(req, res, null, (err, code, data) => {
+      cloud.api.status((err, code, data) => {
         if (err) res.status(code).send(err.message)
         res.status(code).json(data)
       })
@@ -68,7 +66,7 @@ module.exports = function (config) {
 
   app.post('/v1/dat/add', (req, res) => {
     // TODO admin perms -prf
-    cloud.api.add(req, res, { body: req.body }, (err, code, data) => {
+    cloud.api.add(req.body, (err, code, data) => {
       if (err) res.status(code).send(err.message)
       res.status(code).json(data)
     })
@@ -76,7 +74,7 @@ module.exports = function (config) {
 
   app.post('/v1/dat/remove', (req, res) => {
     // TODO admin perms -prf
-    cloud.api.remove(req, res, { body: req.body }, (err, code, data) => {
+    cloud.api.remove(req.body, (err, code, data) => {
       if (err) res.status(code).send(err.message)
       res.status(code).json(data)
     })
@@ -85,9 +83,9 @@ module.exports = function (config) {
   // archive read
   // =
 
-  app.get(DAT_HASH_REGEX, (req, res) => {
+  app.get(/^\/[0-9a-f]{64}\/?$/, (req, res) => {
     if (req.query.view === 'status') {
-      cloud.api.status(req, res, null, (err, code, data) => {
+      cloud.api.archiveProgress(req.path.slice(1), (err, code, data) => {
         if (err) res.status(code).send(err.message)
         res.status(code).json(data)
       })

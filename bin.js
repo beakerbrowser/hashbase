@@ -1,3 +1,4 @@
+require('./lib/nodecompat')
 var config = require('./config')
 var createApp = require('./index')
 
