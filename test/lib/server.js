@@ -1,7 +1,7 @@
-var request = require('request')
-var memdb = require('memdb')
-var RAM = require('random-access-memory')
-var createApp = require('../../index.js')
+const path = require('path')
+const request = require('request')
+const createApp = require('../../index.js')
+const util = require('./util')
 
 var portCounter = 10000
 
@@ -30,18 +30,18 @@ function createLocalApp (cb) {
   // setup config
   // =
 
+  var tmpdir = util.mktmpdir()
   var config = {
     township: {
       secret: 'very very not secret',
-      db: memdb(),
+      db: path.join(tmpdir, 'township.db'),
       email: {
         fromEmail: 'hi@example.com',
         postmarkAPIKey: 'your api key'
       }
     },
     cloud: {
-      db: memdb(),
-      storage: RAM
+      dir: tmpdir
     },
     port: portCounter++
   }

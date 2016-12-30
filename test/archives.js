@@ -53,7 +53,6 @@ test('check archive status and wait till synced', t => {
     app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, json: true}, (err, res, body) => {
       t.ifErr(err)
       t.equals(res.statusCode, 200, '200 got status')
-      t.ok(body.progress)
 
       if (body.progress === 1) {
         clearTimeout(to)

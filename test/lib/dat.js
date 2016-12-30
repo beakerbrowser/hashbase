@@ -1,8 +1,6 @@
-const os = require('os')
-const path = require('path')
-const fs = require('fs')
 const Dat = require('dat-node')
 const memdb = require('memdb')
+const util = require('./util')
 
 exports.makeDatFromFolder = function (dir, cb) {
   Dat(dir, { db: memdb() }, (err, dat) => {
@@ -19,7 +17,7 @@ exports.makeDatFromFolder = function (dir, cb) {
 }
 
 exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
-  var dir = mktmp()
+  var dir = util.mktmpdir()
   Dat(dir, { key, db: memdb() }, (err, dat) => {
     if (err) return cb(err)
 
@@ -32,25 +30,24 @@ exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
     stats.on('update', () => console.log('stats', stats.get()))
 
     dat.archive.metadata.on('download', (index, block) => {
-      console.log('download event', index, block.toString())
+      console.log('meta download event', index, block.toString())
     })
 
     var to = setTimeout(() => cb(new Error('timed out waiting for download')), timeout)
     dat.archive.metadata.on('download-finished', () => {
+      console.log('meta download finished')
+    })
+    dat.archive.open(() => {
+      console.log('opened')
+      dat.archive.content.on('download', (index, block) => {
+        console.log('content download event', index, block.toString())
+      })
       dat.archive.content.on('download-finished', () => {
+        console.log('content download finished')
         clearTimeout(to)
         dat.close()
         cb(null, dat, key)
       })
     })
   })
-}
-
-function mktmp () {
-  if (fs.mkdtempSync) {
-    return fs.mkdtempSync(os.tmpdir() + path.sep + 'hypercloud-test-')
-  }
-  var p = (os.tmpdir() + path.sep + 'beaker-test-' + Date.now())
-  fs.mkdirSync(p)
-  return p
 }
