@@ -10,6 +10,13 @@ var config = {
     email: {
       transport: 'stub',
       sender: '"Hypercloud" <noreply@hypercloud.local>'
+    },
+    sessions: {
+      secret: 'THIS MUST BE REPLACED!',
+      expiresIn: '1h'
+    },
+    proofs: {
+      secret: 'THIS MUST BE REPLACED!'
     }
   },
   development: {},
