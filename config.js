@@ -5,7 +5,12 @@ var xtend = require('xtend')
 var config = {
   shared: {
     dir: path.join(__dirname, '.hypercloud')
-    port: 8080
+    hostname: 'hypercloud.local',
+    port: 8080,
+    email: {
+      transport: 'stub',
+      sender: '"Hypercloud" <noreply@hypercloud.local>'
+    }
   },
   development: {},
   production: {
