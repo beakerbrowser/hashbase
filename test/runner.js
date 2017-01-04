@@ -1,3 +1,3 @@
-require('../lib/nodecompat')
+require('../nodecompat')
 require('./archives')
 require('./user-auth')

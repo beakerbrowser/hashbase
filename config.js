@@ -4,28 +4,12 @@ var xtend = require('xtend')
 
 var config = {
   shared: {
-    township: {
-      secret: 'very very not secret',
-      db: path.join(__dirname, '.hypercloud', 'township.db'),
-      email: {
-        fromEmail: 'hi@example.com',
-        postmarkAPIKey: 'your api key'
-      }
-    },
-    cloud: {
-      dir: path.join(__dirname, '.hypercloud')
-    },
+    dir: path.join(__dirname, '.hypercloud')
     port: 8080
   },
   development: {},
   production: {
-    township: {
-      secret: process.env.TOWNSHIP_SECRET,
-      db: path.join(os.homedir(), '.hypercloud', 'township.db')
-    },
-    cloud: {
-      dir: path.join(os.homedir(), '.hypercloud')
-    }
+    dir: path.join(os.homedir(), '.hypercloud')
   }
 }
 
