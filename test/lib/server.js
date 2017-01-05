@@ -35,6 +35,9 @@ function createLocalApp (cb) {
     hostname: 'test.local',
     dir: tmpdir,
     port: portCounter++,
+    admin: {
+      password: 'foobar'
+    },
     email: {
       transport: 'mock',
       sender: '"Test Server" <noreply@test.local>'
@@ -54,7 +57,7 @@ function createLocalApp (cb) {
   var app = createApp(config)
   var server = app.listen(config.port, (err) => {
     console.log(`server started on http://127.0.0.1:${config.port}`)
-    cb(err)
+    app.cloud.whenAdminCreated(() => cb(err))
   })
 
   app.isRemote = false

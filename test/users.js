@@ -194,6 +194,16 @@ test('login', async t => {
   t.end()
 })
 
+test('login configured admin user', async t => {
+  var res = await app.req.post({uri: '/v1/login', json: {
+    'username': 'admin',
+    'password': 'foobar'
+  }})
+  t.equals(res.statusCode, 200, '200 got token')
+  t.ok(res.body.sessionToken, 'got token in response')
+  t.end()
+})
+
 test('login validation', async t => {
   async function run(inputs, badParam) {
     var res = await app.req.post({uri: '/v1/login', json: inputs})

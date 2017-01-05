@@ -9,6 +9,7 @@ var customSanitizers = require('./lib/sanitizers')
 
 module.exports = function (config) {
   var cloud = new Hypercloud(config)
+  cloud.setupAdminUser()
 
   var app = express()
   app.cloud = cloud
