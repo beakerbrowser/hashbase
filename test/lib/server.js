@@ -32,34 +32,21 @@ function createLocalApp (cb) {
 
   var tmpdir = util.mktmpdir()
   var config = {
-    township: {
-      secret: 'very very not secret',
-      db: path.join(tmpdir, 'township.db'),
-      email: {
-        fromEmail: 'hi@example.com',
-        postmarkAPIKey: 'your api key'
-      }
+    hostname: 'test.local',
+    dir: tmpdir,
+    port: portCounter++,
+    email: {
+      transport: 'stub',
+      sender: '"Hypercloud" <noreply@hypercloud.local>'
     },
-    cloud: {
-      dir: tmpdir
+    sessions: {
+      secret: 'super secret',
+      expiresIn: '1h'
     },
-    port: portCounter++
+    proofs: {
+      secret: 'super secret 2'
+    }
   }
-
-  config.township.publicKey = `-----BEGIN PUBLIC KEY-----
-  MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAvmJlA/DZl3SVKNl0OcyVbsMTOmTM
-  qU0Avhmcl6r8qxkBgjwArIxQr7G7v8m0LOeFIklnmF3sYAwA+8llHGFReV8ASW4w
-  5AUC8ngZThaH9xk6DQscaMmoEFPN5thWpNcwMgUFYovBtPLwtAZjYr9Se+UT/5k4
-  VltW7ko6SHbCfMgUUbU=
-  -----END PUBLIC KEY-----`
-
-  config.township.privateKey = `-----BEGIN EC PRIVATE KEY-----
-  MIHbAgEBBEFmz7VMXRtCPTlBETqMMx/mokyA3xPXra2SkcA7Xh0N6sgne1rgSZNU
-  ngT6TR3XLfBOt5+p5GRW6p1FVtn+vtPyRKAHBgUrgQQAI6GBiQOBhgAEAL5iZQPw
-  2Zd0lSjZdDnMlW7DEzpkzKlNAL4ZnJeq/KsZAYI8AKyMUK+xu7/JtCznhSJJZ5hd
-  7GAMAPvJZRxhUXlfAEluMOQFAvJ4GU4Wh/cZOg0LHGjJqBBTzebYVqTXMDIFBWKL
-  wbTy8LQGY2K/UnvlE/+ZOFZbVu5KOkh2wnzIFFG1
-  -----END EC PRIVATE KEY-----`
 
   // create server
   // =

@@ -1,16 +1,14 @@
-var level = require('level-party')
 var express = require('express')
 var bodyParser = require('body-parser')
 var multicb = require('multicb')
-var wrap = require('co-express')
 var expressValidator = require('express-validator')
 
-var hypercloud = require('./lib')
+var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
 var customSanitizers = require('./lib/sanitizers')
 
 module.exports = function (config) {
-  var cloud = hypercloud(config)
+  var cloud = new Hypercloud(config)
 
   var app = express()
   app.cloud = cloud
@@ -34,12 +32,12 @@ module.exports = function (config) {
   // user & auth
   // =
 
-  app.post('/v1/register', wrap(cloud.api.users.register))
-  app.post('/v1/verify', wrap(cloud.api.users.verify))
-  app.get('/v1/account', wrap(cloud.api.users.getAccount))
-  app.post('/v1/account', wrap(cloud.api.users.updateAccount))
-  app.post('/v1/login', wrap(cloud.api.users.login))
-  app.post('/v1/logout', wrap(cloud.api.users.logout))
+  app.post('/v1/register', cloud.api.users.register)
+  app.post('/v1/verify', cloud.api.users.verify)
+  app.get('/v1/account', cloud.api.users.getAccount)
+  app.post('/v1/account', cloud.api.users.updateAccount)
+  app.post('/v1/login', cloud.api.users.login)
+  app.post('/v1/logout', cloud.api.users.logout)
 
   // archive admin
   // =
@@ -77,11 +75,10 @@ module.exports = function (config) {
   // error-handling fallback
   // =
 
-  app.use((err, req, res) => {
+  app.use((err, req, res, next) => {
     // handle validation errors
-    // TODO is there a better way to detect that the error came from express-validator? -prf
     if ('isEmpty' in err) {
-      return res.code(422).json({
+      return res.status(422).json({
         message: 'Invalid inputs',
         invalidInputs: true,
         details: err.array()
@@ -90,7 +87,7 @@ module.exports = function (config) {
 
     // general uncaught error
     console.error('[ERROR]', err)
-    res.code(500).json({
+    res.status(500).json({
       message: 'Internal server error',
       internalError: true
     })
@@ -99,12 +96,7 @@ module.exports = function (config) {
   // shutdown
   // =
 
-  app.close = cb => {
-    var done = multicb()
-    cloud.close(done())
-    db.close(done())
-    done(cb)
-  }
+  app.close = cloud.close.bind(cloud)
 
   return app
 }

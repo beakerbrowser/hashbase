@@ -8,5 +8,5 @@ if (+(/^v([\d]+)/.exec(process.version)[1]) < 6) {
   }
 } else {
   console.log('Detected node version 6, transpiling async to generators')
-  require('babel-register')({ presets: ['transform-async-to-generator'] })
+  require('babel-register')({ plugins: ['transform-async-to-generator'] })
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "install-transpiler": "npm install babel-preset-es2015",
     "start": "node bin.js",
-    "test": "node test/runner.js && standard"
+    "test": "node -r ./nodecompat.js test/*.js && standard"
   },
   "keywords": [
     "hyperdrive",
@@ -24,18 +24,19 @@
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
     "co-express": "^1.2.2",
+    "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
     "express-validator": "^3.1.2",
     "hypercore-archiver": "^3.2.0",
     "jsonwebtoken": "^7.2.1",
-    "level-party": "^3.0.4",
+    "level": "^1.5.0",
+    "level-promise": "^2.1.1",
     "level-simple-indexes": "^2.0.0",
     "lock": "^0.1.3",
     "multicb": "^1.2.1",
     "nodemailer": "^2.7.0",
     "nodemailer-ses-transport": "^1.5.0",
     "nodemailer-stub-transport": "^1.1.0",
-    "pify": "^2.3.0",
     "request": "^2.79.0",
     "subleveldown": "^2.1.0",
     "uuid": "^3.0.1",
