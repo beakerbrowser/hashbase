@@ -33,6 +33,7 @@ module.exports = function (config) {
   // =
 
   app.post('/v1/register', cloud.api.users.register)
+  app.get('/v1/verify', cloud.api.users.verify)
   app.post('/v1/verify', cloud.api.users.verify)
   app.get('/v1/account', cloud.api.users.getAccount)
   app.post('/v1/account', cloud.api.users.updateAccount)

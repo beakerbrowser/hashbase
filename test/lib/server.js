@@ -1,5 +1,5 @@
 const path = require('path')
-const request = require('request')
+const request = require('request-promise-native')
 const createApp = require('../../index.js')
 const util = require('./util')
 
@@ -19,7 +19,7 @@ function createRemoteApp (cb) {
   var app = {
     url,
     isRemote: true,
-    req: request.defaults({ baseUrl: url, timeout: 10e3 }),
+    req: request.defaults({ baseUrl: url, timeout: 10e3, resolveWithFullResponse: true, simple: false }),
     close: cb => cb()
   }
   cb()
@@ -60,7 +60,9 @@ function createLocalApp (cb) {
   app.isRemote = false
   app.url = `http://127.0.0.1:${config.port}`
   app.req = request.defaults({
-    baseUrl: app.url
+    baseUrl: app.url,
+    resolveWithFullResponse: true,
+    simple: false
   })
 
   // wrap app.close to stop the server
