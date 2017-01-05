@@ -36,8 +36,8 @@ function createLocalApp (cb) {
     dir: tmpdir,
     port: portCounter++,
     email: {
-      transport: 'stub',
-      sender: '"Hypercloud" <noreply@hypercloud.local>'
+      transport: 'mock',
+      sender: '"Test Server" <noreply@test.local>'
     },
     sessions: {
       secret: 'super secret',
