@@ -41,50 +41,33 @@ module.exports = function (config) {
   app.post('/v1/login', cloud.api.users.login)
   app.post('/v1/logout', cloud.api.users.logout)
 
-  // archive admin
+  // archives
   // =
 
-  app.post('/v1/dat/add', (req, res) => {
-    // TODO admin perms -prf
-    cloud.api.archives.add(req.body, (err, code, data) => {
-      if (err) res.status(code).send(err.message)
-      res.status(code).json(data)
-    })
-  })
-
-  app.post('/v1/dat/remove', (req, res) => {
-    // TODO admin perms -prf
-    cloud.api.archives.remove(req.body, (err, code, data) => {
-      if (err) res.status(code).send(err.message)
-      res.status(code).json(data)
-    })
-  })
-
-  // archive read
-  // =
-
-  app.get(/^\/[0-9a-f]{64}\/?$/, (req, res) => {
-    if (req.query.view === 'status') {
-      cloud.api.archives.archiveProgress(req.path.slice(1), (err, code, data) => {
-        if (err) res.status(code).send(err.message)
-        res.status(code).json(data)
-      })
-    } else {
-      cloud.dat.httpRequest(req, res)
-    }
-  })
+  // app.post('/v1/archives/add', (req, res, next) => {
+  //   console.log('hit')
+  //   next()
+  // })
+  app.post('/v1/archives/add', cloud.api.archives.add)
+  app.post('/v1/archives/remove', cloud.api.archives.remove)
+  app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
 
   // error-handling fallback
   // =
 
   app.use((err, req, res, next) => {
-    // handle validation errors
+    // validation errors
     if ('isEmpty' in err) {
       return res.status(422).json({
         message: 'Invalid inputs',
         invalidInputs: true,
         details: err.array()
       })
+    }
+
+    // common errors
+    if ('status' in err) {
+      return res.status(err.status).json(err.body)
     }
 
     // general uncaught error
