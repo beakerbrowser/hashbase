@@ -48,7 +48,7 @@ test('add archive', async t => {
     name: null
   })
 
-  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -71,7 +71,7 @@ test('add archive that was already added', async t => {
     name: null
   })
 
-  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -105,7 +105,7 @@ test('change archive name', async t => {
     description: null
   })
 
-  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by key')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -116,8 +116,8 @@ test('change archive name', async t => {
   })
 
   // change name the second time
-  var json = {key: testDatKey, name: 'testdat'}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  json = {key: testDatKey, name: 'testdat'}
+  res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   res = await app.req.get({url: '/admin?view=dats', json: true, auth})
@@ -137,7 +137,7 @@ test('change archive name', async t => {
     description: null
   })
 
-  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by key')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -206,7 +206,7 @@ test('check archive status after removed', async t => {
   t.is(res.statusCode, 200, '200 got user data')
   t.is(res.body.dats.length, 0)
 
-  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 404, '404 not found')
 
   res = await app.req.get({url: '/admin/testdat', json: true, auth})
