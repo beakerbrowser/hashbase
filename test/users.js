@@ -237,6 +237,23 @@ test('cant login with invalid credentials', async t => {
   t.end()  
 })
 
+test('login and get profile', async t => {
+  // login
+  var res = await app.req.post({uri: '/v1/login', json: {
+    'username': 'bob',
+    'password': 'foobar'
+  }})
+  t.equals(res.statusCode, 200, '200 got token')
+
+  // get profile
+  var auth = {bearer: res.body.sessionToken}
+  res = await app.req.get({url: '/v1/account', auth, json: true})
+  t.equals(res.statusCode, 200, '200 got profile')
+  t.equal(res.body.email, 'bob@example.com', 'email is included')
+  t.equal(res.body.username, 'bob', 'username is included')
+  t.end()
+})
+
 test('stop test server', t => {
   app.close(() => {
     t.ok(true, 'closed')

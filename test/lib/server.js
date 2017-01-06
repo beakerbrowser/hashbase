@@ -43,10 +43,12 @@ function createLocalApp (cb) {
       sender: '"Test Server" <noreply@test.local>'
     },
     sessions: {
+      algorithm: 'HS256',
       secret: 'super secret',
       expiresIn: '1h'
     },
     proofs: {
+      algorithm: 'HS256',
       secret: 'super secret 2'
     }
   }
