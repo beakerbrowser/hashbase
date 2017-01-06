@@ -1,5 +1,4 @@
-const path = require('path')
-const request = require('request')
+const request = require('request-promise-native')
 const createApp = require('../../index.js')
 const util = require('./util')
 
@@ -19,7 +18,7 @@ function createRemoteApp (cb) {
   var app = {
     url,
     isRemote: true,
-    req: request.defaults({ baseUrl: url, timeout: 10e3 }),
+    req: request.defaults({ baseUrl: url, timeout: 10e3, resolveWithFullResponse: true, simple: false }),
     close: cb => cb()
   }
   cb()
@@ -32,34 +31,26 @@ function createLocalApp (cb) {
 
   var tmpdir = util.mktmpdir()
   var config = {
-    township: {
-      secret: 'very very not secret',
-      db: path.join(tmpdir, 'township.db'),
-      email: {
-        fromEmail: 'hi@example.com',
-        postmarkAPIKey: 'your api key'
-      }
+    hostname: 'test.local',
+    dir: tmpdir,
+    port: portCounter++,
+    admin: {
+      password: 'foobar'
     },
-    cloud: {
-      dir: tmpdir
+    email: {
+      transport: 'mock',
+      sender: '"Test Server" <noreply@test.local>'
     },
-    port: portCounter++
+    sessions: {
+      algorithm: 'HS256',
+      secret: 'super secret',
+      expiresIn: '1h'
+    },
+    proofs: {
+      algorithm: 'HS256',
+      secret: 'super secret 2'
+    }
   }
-
-  config.township.publicKey = `-----BEGIN PUBLIC KEY-----
-  MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAvmJlA/DZl3SVKNl0OcyVbsMTOmTM
-  qU0Avhmcl6r8qxkBgjwArIxQr7G7v8m0LOeFIklnmF3sYAwA+8llHGFReV8ASW4w
-  5AUC8ngZThaH9xk6DQscaMmoEFPN5thWpNcwMgUFYovBtPLwtAZjYr9Se+UT/5k4
-  VltW7ko6SHbCfMgUUbU=
-  -----END PUBLIC KEY-----`
-
-  config.township.privateKey = `-----BEGIN EC PRIVATE KEY-----
-  MIHbAgEBBEFmz7VMXRtCPTlBETqMMx/mokyA3xPXra2SkcA7Xh0N6sgne1rgSZNU
-  ngT6TR3XLfBOt5+p5GRW6p1FVtn+vtPyRKAHBgUrgQQAI6GBiQOBhgAEAL5iZQPw
-  2Zd0lSjZdDnMlW7DEzpkzKlNAL4ZnJeq/KsZAYI8AKyMUK+xu7/JtCznhSJJZ5hd
-  7GAMAPvJZRxhUXlfAEluMOQFAvJ4GU4Wh/cZOg0LHGjJqBBTzebYVqTXMDIFBWKL
-  wbTy8LQGY2K/UnvlE/+ZOFZbVu5KOkh2wnzIFFG1
-  -----END EC PRIVATE KEY-----`
 
   // create server
   // =
@@ -67,13 +58,15 @@ function createLocalApp (cb) {
   var app = createApp(config)
   var server = app.listen(config.port, (err) => {
     console.log(`server started on http://127.0.0.1:${config.port}`)
-    cb(err)
+    app.cloud.whenAdminCreated(() => cb(err))
   })
 
   app.isRemote = false
   app.url = `http://127.0.0.1:${config.port}`
   app.req = request.defaults({
-    baseUrl: app.url
+    baseUrl: app.url,
+    resolveWithFullResponse: true,
+    simple: false
   })
 
   // wrap app.close to stop the server

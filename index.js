@@ -1,26 +1,26 @@
-var level = require('level-party')
-var township = require('township')
 var express = require('express')
 var bodyParser = require('body-parser')
-var multicb = require('multicb')
-var hypercloud = require('./lib/cloud')
+var expressValidator = require('express-validator')
+
+var Hypercloud = require('./lib')
+var customValidators = require('./lib/validators')
+var customSanitizers = require('./lib/sanitizers')
 
 module.exports = function (config) {
-  var db = typeof config.township.db === 'string'
-    ? level(config.township.db)
-    : config.township.db
-  var ship = township(config.township, db)
-  var cloud = hypercloud(config.cloud)
+  var cloud = new Hypercloud(config)
+  cloud.setupAdminUser()
 
   var app = express()
   app.cloud = cloud
   app.config = config
 
   app.use(bodyParser.json())
+  app.use(expressValidator({ customValidators, customSanitizers }))
+  app.use(cloud.sessions.middleware())
 
   app.get('/', (req, res) => {
     if (req.query.view === 'status') {
-      cloud.api.status((err, code, data) => {
+      cloud.api.archives.status((err, code, data) => {
         if (err) res.status(code).send(err.message)
         res.status(code).json(data)
       })
@@ -29,80 +29,60 @@ module.exports = function (config) {
     }
   })
 
-  // user & auth
+  // user & auth apis
   // =
 
-  app.post('/v1/register', (req, res) => {
-    ship.register(req, res, { body: req.body }, (err, code, obj) => {
-      if (err) return res.status(code).send(err.message)
-      res.status(code).json(obj)
-    })
-  })
+  app.post('/v1/register', cloud.api.users.register)
+  app.get('/v1/verify', cloud.api.users.verify)
+  app.post('/v1/verify', cloud.api.users.verify)
+  app.get('/v1/account', cloud.api.users.getAccount)
+  app.post('/v1/account', cloud.api.users.updateAccount)
+  app.post('/v1/login', cloud.api.users.login)
+  app.post('/v1/logout', cloud.api.users.logout)
 
-  app.post('/v1/profile', (req, res) => {
-    ship.verify(req, res, (err, decoded, token) => {
-      if (err) return res.status(400).send(err.message)
-      if (!decoded) return res.status(403).send('Not authorized')
-      cloud.addUser(req, res, (err, code, data) => {
-        if (err) return res.status(code).send(err.message)
-        res.status(code).json(data)
+  // archives apis
+  // =
+
+  app.post('/v1/archives/add', cloud.api.archives.add)
+  app.post('/v1/archives/remove', cloud.api.archives.remove)
+
+  // 'frontend'
+  // =
+
+  app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
+  app.get('/:username', cloud.api.users.get)
+  app.get('/:username/:datname', cloud.api.archives.getByName)
+
+  // error-handling fallback
+  // =
+
+  app.use((err, req, res, next) => {
+    // validation errors
+    if ('isEmpty' in err) {
+      return res.status(422).json({
+        message: 'Invalid inputs',
+        invalidInputs: true,
+        details: err.array()
       })
-    })
-  })
-
-  app.post('/v1/login', (req, res) => {
-    ship.login(req, res, { body: req.body }, (err, code, token) => {
-      if (err) return res.status(code).send(err.message)
-      res.status(code).send(token)
-    })
-  })
-
-  app.post('/v1/logout', (req, res) => {
-    // TODO
-  })
-
-  // archive admin
-  // =
-
-  app.post('/v1/dat/add', (req, res) => {
-    // TODO admin perms -prf
-    cloud.api.add(req.body, (err, code, data) => {
-      if (err) res.status(code).send(err.message)
-      res.status(code).json(data)
-    })
-  })
-
-  app.post('/v1/dat/remove', (req, res) => {
-    // TODO admin perms -prf
-    cloud.api.remove(req.body, (err, code, data) => {
-      if (err) res.status(code).send(err.message)
-      res.status(code).json(data)
-    })
-  })
-
-  // archive read
-  // =
-
-  app.get(/^\/[0-9a-f]{64}\/?$/, (req, res) => {
-    if (req.query.view === 'status') {
-      cloud.api.archiveProgress(req.path.slice(1), (err, code, data) => {
-        if (err) res.status(code).send(err.message)
-        res.status(code).json(data)
-      })
-    } else {
-      cloud.dat.httpRequest(req, res)
     }
+
+    // common errors
+    if ('status' in err) {
+      return res.status(err.status).json(err.body)
+    }
+
+    // general uncaught error
+    console.error('[ERROR]', err)
+    res.status(500).json({
+      message: 'Internal server error',
+      internalError: true
+    })
   })
 
   // shutdown
   // =
 
-  app.close = cb => {
-    var done = multicb()
-    cloud.close(done())
-    db.close(done())
-    done(cb)
-  }
+  app.close = cloud.close.bind(cloud)
 
   return app
 }

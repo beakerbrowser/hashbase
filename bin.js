@@ -1,5 +1,5 @@
-require('./lib/nodecompat')
-var config = require('./config')
+require('./nodecompat')
+var config = require('./lib/config')
 var createApp = require('./index')
 
 var app = createApp(config)

@@ -1,0 +1,16 @@
+dir: ./.hypercloud
+hostname: hypercloud.local
+port: 8080
+admin:
+  email: ''
+  password: ''
+email:
+  transport: stub
+  sender: '"Hypercloud" <noreply@hypercloud.local>'
+sessions:
+  algorithm: HS256
+  secret: THIS MUST BE REPLACED!
+  expiresIn: 1h
+proofs:
+  algorithm: HS256
+  secret: THIS MUST BE REPLACED!
