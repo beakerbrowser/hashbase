@@ -1,6 +1,8 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var es6Renderer = require('express-es6-template-engine')
 var expressValidator = require('express-validator')
+var lessExpress = require('less-express')
 
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
@@ -14,21 +16,14 @@ module.exports = function (config) {
   app.cloud = cloud
   app.config = config
 
+  app.engine('html', es6Renderer)
+  app.set('views', './lib/templates/html')
+  app.set('view engine', 'html')
+
   app.use(bodyParser.json())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
-
-  app.get('/', (req, res) => {
-    if (req.query.view === 'status') {
-      cloud.api.archives.status((err, code, data) => {
-        if (err) res.status(code).send(err.message)
-        res.status(code).json(data)
-      })
-    } else {
-      res.send('HYPERCLOUD - p2p + cloud')
-    }
-  })
-
+ 
   // user & auth apis
   // =
 
@@ -46,12 +41,20 @@ module.exports = function (config) {
   app.post('/v1/archives/add', cloud.api.archives.add)
   app.post('/v1/archives/remove', cloud.api.archives.remove)
 
+  // assets
+  // =
+
+  app.get('/assets/css/main.css', lessExpress('./lib/templates/css/main.less'))
+  app.use('/assets/css', express.static('./lib/templates/css'))
+  app.use('/assets/js', express.static('./lib/templates/js'))
+
   // 'frontend'
   // =
 
   app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
   app.get('/:username', cloud.api.users.get)
   app.get('/:username/:datname', cloud.api.archives.getByName)
+  app.get('/', cloud.api.archives.frontpage)
 
   // error-handling fallback
   // =
