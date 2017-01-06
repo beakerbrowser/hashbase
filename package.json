@@ -6,7 +6,7 @@
   "scripts": {
     "install-transpiler": "npm install babel-preset-es2015",
     "start": "node bin.js",
-    "test": "node -r ./nodecompat.js test/*.js && standard"
+    "test": "ava test/*.js && standard"
   },
   "keywords": [
     "hyperdrive",
@@ -15,16 +15,20 @@
     "cloud",
     "p2p"
   ],
+  "ava": {
+    "serial": true,
+    "require": ["./nodecompat.js"]
+  },
   "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
   "license": "MIT",
   "dependencies": {
-    "archiver-api": "^3.0.1",
     "archiver-server": "^2.1.0",
     "await-lock": "^1.1.2",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
     "co-express": "^1.2.2",
+    "deep-extend": "^0.4.1",
     "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
     "express-validator": "^3.1.2",
@@ -41,15 +45,14 @@
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
     "subleveldown": "^2.1.0",
-    "uuid": "^3.0.1",
-    "xtend": "^4.0.1"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "ava": "^0.17.0",
     "dat-node": "^1.0.0",
     "memdb": "^1.3.1",
     "nodemailer-mock-transport": "^1.3.0",
-    "standard": "^8.6.0",
-    "tape": "^4.6.3"
+    "standard": "^8.6.0"
   },
   "repository": {
     "type": "git",

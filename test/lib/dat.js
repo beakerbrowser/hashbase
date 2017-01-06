@@ -30,7 +30,7 @@ exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
     stats.on('update', () => console.log('stats', stats.get()))
 
     dat.archive.metadata.on('download', (index, block) => {
-      console.log('meta download event', index, block.toString())
+      console.log('meta download event', index)
     })
 
     var to = setTimeout(() => cb(new Error('timed out waiting for download')), timeout)
@@ -40,7 +40,7 @@ exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
     dat.archive.open(() => {
       console.log('opened')
       dat.archive.content.on('download', (index, block) => {
-        console.log('content download event', index, block.toString())
+        console.log('content download event', index)
       })
       dat.archive.content.on('download-finished', () => {
         console.log('content download finished')

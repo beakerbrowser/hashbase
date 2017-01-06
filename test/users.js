@@ -1,4 +1,4 @@
-var test = require('tape')
+var test = require('ava')
 var createTestServer = require('./lib/server.js')
 
 var app
@@ -8,9 +8,9 @@ var app
 // - bob
 // - carla (invalid, never verifies email)
 
-test('start test server', t => {
+test.cb('start test server', t => {
   app = createTestServer(err => {
-    t.ifErr(err)
+    t.ifError(err)
     t.end()
   })
 })
@@ -24,27 +24,25 @@ test('register and POST verify', async t => {
     username: 'alice',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 201, '201 created user')
+  t.is(res.statusCode, 201, '201 created user')
 
   // check sent mail and extract the verification nonce
   lastMail = app.cloud.mailer.transport.sentMail.pop()
-  t.ok(lastMail)
-  t.equals(lastMail.data.subject, 'Verify your email address')
-  emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Verify your email address')
+  var emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
 
   // verify via POST
   res = await app.req.post({uri: '/v1/verify', json: {
     username: 'alice',
     nonce: emailVerificationNonce
   }})
-  t.equals(res.statusCode, 200, '200 verified user')
+  t.is(res.statusCode, 200, '200 verified user')
     
   // check sent mail
   lastMail = app.cloud.mailer.transport.sentMail.pop()
-  t.ok(lastMail)
-  t.equals(lastMail.data.subject, 'Welcome to test.local')
-
-  t.end()
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Welcome to test.local')
 })
 
 test('register and GET verify', async t => {
@@ -56,35 +54,33 @@ test('register and GET verify', async t => {
     username: 'bob',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 201, '201 created user')
+  t.is(res.statusCode, 201, '201 created user')
 
   // check sent mail and extract the verification nonce
   lastMail = app.cloud.mailer.transport.sentMail.pop()
-  t.ok(lastMail)
-  t.equals(lastMail.data.subject, 'Verify your email address')
-  emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Verify your email address')
+  var emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
 
   // verify via GET
   res = await app.req.get({uri: '/v1/verify', qs: {
     username: 'bob',
     nonce: emailVerificationNonce
   }})
-  t.equals(res.statusCode, 200, '200 verified user')
+  t.is(res.statusCode, 200, '200 verified user')
     
   // check sent mail
   lastMail = app.cloud.mailer.transport.sentMail.pop()
-  t.ok(lastMail)
-  t.equals(lastMail.data.subject, 'Welcome to test.local')
-
-  t.end()
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Welcome to test.local')
 })
 
 test('register validation', async t => {
   async function run(inputs, badParam) {
     var res = await app.req.post({uri: '/v1/register', json: inputs})
-    t.equals(res.statusCode, 422, '422 bad input')
-    t.equals(res.body.invalidInputs, true, 'invalidInputs')
-    t.equals(res.body.details[0].param, badParam, 'bad '+badParam)
+    t.is(res.statusCode, 422, '422 bad input')
+    t.is(res.body.invalidInputs, true, 'invalidInputs')
+    t.is(res.body.details[0].param, badParam, 'bad '+badParam)
   }
 
   await run({ email: 'bob@example.com', username: 'bob' }, 'password') // missing password
@@ -94,7 +90,6 @@ test('register validation', async t => {
   await run({ email: 'bob@example.com', username: 'a', password: 'foobar' }, 'username') // username too short
   await run({ email: 'bob@example.com', username: 'bob.boy', password: 'foobar' }, 'username') // username has invalid chars
   await run({ email: 'asdf', username: 'bob', password: 'foobar' }, 'email') // invalid email
-  t.end()
 })
 
 test('verify validation', async t => {
@@ -102,9 +97,9 @@ test('verify validation', async t => {
     var res = await (type === 'post' 
       ? app.req.post({uri: '/v1/verify', json: inputs})
       : app.req.get({url: '/v1/verify', qs: inputs, json: true}))
-    t.equals(res.statusCode, 422, '422 bad input')
-    t.equals(res.body.invalidInputs, true, 'invalidInputs')
-    t.equals(res.body.details[0].param, badParam, 'bad '+badParam)
+    t.is(res.statusCode, 422, '422 bad input')
+    t.is(res.body.invalidInputs, true, 'invalidInputs')
+    t.is(res.body.details[0].param, badParam, 'bad '+badParam)
   }
 
   // register carla
@@ -113,13 +108,12 @@ test('verify validation', async t => {
     username: 'carla',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 201, '201 created user')
+  t.is(res.statusCode, 201, '201 created user')
 
   await run('get', { username: 'carla' }, 'nonce') // missing nonce
   await run('post', { username: 'carla' }, 'nonce') // missing nonce
   await run('get', { nonce: 'asdf' }, 'username') // missing username
   await run('post', { nonce: 'asdf' }, 'username') // missing username
-  t.end()
 })
 
 test('cant register an already-registered user', async t => {
@@ -131,8 +125,8 @@ test('cant register an already-registered user', async t => {
     username: 'rando',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.equals(res.body.emailNotAvailable, true, 'emailNotAvailable')
+  t.is(res.statusCode, 422, '422 bad input')
+  t.is(res.body.emailNotAvailable, true, 'emailNotAvailable')
 
   // username collision on fully-registered account
   res = await app.req.post({uri: '/v1/register', json: {
@@ -140,8 +134,8 @@ test('cant register an already-registered user', async t => {
     username: 'alice',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.equals(res.body.usernameNotAvailable, true, 'usernameNotAvailable')
+  t.is(res.statusCode, 422, '422 bad input')
+  t.is(res.body.usernameNotAvailable, true, 'usernameNotAvailable')
 
   // email collision on half-registered account
   res = await app.req.post({uri: '/v1/register', json: {
@@ -149,8 +143,8 @@ test('cant register an already-registered user', async t => {
     username: 'rando',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.equals(res.body.emailNotAvailable, true, 'emailNotAvailable')
+  t.is(res.statusCode, 422, '422 bad input')
+  t.is(res.body.emailNotAvailable, true, 'emailNotAvailable')
 
   // username collision on half-registered account
   res = await app.req.post({uri: '/v1/register', json: {
@@ -158,10 +152,8 @@ test('cant register an already-registered user', async t => {
     username: 'carla',
     password: 'foobar'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.equals(res.body.usernameNotAvailable, true, 'usernameNotAvailable')
-
-  t.end()
+  t.is(res.statusCode, 422, '422 bad input')
+  t.is(res.body.usernameNotAvailable, true, 'usernameNotAvailable')
 })
 
 test('cant verify a username that hasnt been registered', async t => {
@@ -169,9 +161,8 @@ test('cant verify a username that hasnt been registered', async t => {
     username: 'rando',
     nonce: 'asdf'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.equals(res.body.invalidUsername, true, 'invalidUsername')
-  t.end()
+  t.is(res.statusCode, 422, '422 bad input')
+  t.is(res.body.invalidUsername, true, 'invalidUsername')
 })
 
 test('verify fails with incorrect nonce', async t => {
@@ -179,9 +170,8 @@ test('verify fails with incorrect nonce', async t => {
     username: 'carla',
     nonce: 'asdf'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.equals(res.body.invalidNonce, true, 'invalidNonce')
-  t.end()
+  t.is(res.statusCode, 422, '422 bad input')
+  t.is(res.body.invalidNonce, true, 'invalidNonce')
 })
 
 test('login', async t => {
@@ -189,9 +179,8 @@ test('login', async t => {
     'username': 'bob',
     'password': 'foobar'
   }})
-  t.equals(res.statusCode, 200, '200 got token')
-  t.ok(res.body.sessionToken, 'got token in response')
-  t.end()
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
 })
 
 test('login configured admin user', async t => {
@@ -199,22 +188,20 @@ test('login configured admin user', async t => {
     'username': 'admin',
     'password': 'foobar'
   }})
-  t.equals(res.statusCode, 200, '200 got token')
-  t.ok(res.body.sessionToken, 'got token in response')
-  t.end()
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
 })
 
 test('login validation', async t => {
   async function run(inputs, badParam) {
     var res = await app.req.post({uri: '/v1/login', json: inputs})
-    t.equals(res.statusCode, 422, '422 bad input')
-    t.equals(res.body.invalidInputs, true, 'invalidInputs')
-    t.equals(res.body.details[0].param, badParam, 'bad '+badParam)
+    t.is(res.statusCode, 422, '422 bad input')
+    t.is(res.body.invalidInputs, true, 'invalidInputs')
+    t.is(res.body.details[0].param, badParam, 'bad '+badParam)
   }
 
   await run({ username: 'bob' }, 'password') // missing password
   await run({ password: 'foobar' }, 'username') // missing username
-  t.end()
 })
 
 test('cant login with invalid credentials', async t => {
@@ -224,17 +211,15 @@ test('cant login with invalid credentials', async t => {
     'username': 'rando',
     'password': 'foobar'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.ok(res.body.invalidCredentials, 'invalidCredentials')
+  t.is(res.statusCode, 422, '422 bad input')
+  t.truthy(res.body.invalidCredentials, 'invalidCredentials')
 
   res = await app.req.post({uri: '/v1/login', json: {
     'username': 'bob',
     'password': 'asdf'
   }})
-  t.equals(res.statusCode, 422, '422 bad input')
-  t.ok(res.body.invalidCredentials, 'invalidCredentials')
-
-  t.end()  
+  t.is(res.statusCode, 422, '422 bad input')
+  t.truthy(res.body.invalidCredentials, 'invalidCredentials')
 })
 
 test('login and get profile', async t => {
@@ -243,20 +228,19 @@ test('login and get profile', async t => {
     'username': 'bob',
     'password': 'foobar'
   }})
-  t.equals(res.statusCode, 200, '200 got token')
+  t.is(res.statusCode, 200, '200 got token')
 
   // get profile
   var auth = {bearer: res.body.sessionToken}
   res = await app.req.get({url: '/v1/account', auth, json: true})
-  t.equals(res.statusCode, 200, '200 got profile')
-  t.equal(res.body.email, 'bob@example.com', 'email is included')
-  t.equal(res.body.username, 'bob', 'username is included')
-  t.end()
+  t.is(res.statusCode, 200, '200 got profile')
+  t.is(res.body.email, 'bob@example.com', 'email is included')
+  t.is(res.body.username, 'bob', 'username is included')
 })
 
-test('stop test server', t => {
+test.cb('stop test server', t => {
   app.close(() => {
-    t.ok(true, 'closed')
+    t.pass('closed')
     t.end()
   })
 })
