@@ -40,12 +40,115 @@ test('add archive', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
+
+  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  t.is(res.statusCode, 200, '200 got user data')
+  t.deepEqual(res.body.dats[0], {
+    key: testDatKey,
+    name: null
+  })
+
+  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: null,
+    title: null,
+    description: null
+  })
 })
 
 test('add archive that was already added', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
+
+  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  t.is(res.statusCode, 200, '200 got user data')
+  t.deepEqual(res.body.dats[0], {
+    key: testDatKey,
+    name: null
+  })
+
+  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: null,
+    title: null,
+    description: null
+  })
+})
+
+test('change archive name', async t => {
+  // change name the first time
+  var json = {key: testDatKey, name: 'testarchive'}
+  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  t.is(res.statusCode, 200, '200 got user data')
+  t.deepEqual(res.body.dats[0], {
+    key: testDatKey,
+    name: 'testarchive'
+  })
+
+  res = await app.req.get({url: '/admin/testarchive', json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data by name')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: 'testarchive',
+    title: null,
+    description: null
+  })
+
+  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data by key')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: 'testarchive',
+    title: null,
+    description: null
+  })
+
+  // change name the second time
+  var json = {key: testDatKey, name: 'testdat'}
+  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  t.is(res.statusCode, 200, '200 got user data')
+  t.deepEqual(res.body.dats[0], {
+    key: testDatKey,
+    name: 'testdat'
+  })
+
+  res = await app.req.get({url: '/admin/testdat', json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data by name')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: 'testdat',
+    title: null,
+    description: null
+  })
+
+  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data by key')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: 'testdat',
+    title: null,
+    description: null
+  })
+
+  res = await app.req.get({url: '/admin/testarchive', json: true, auth})
+  t.is(res.statusCode, 404, '404 old name not found')
 })
 
 test.cb('check archive status and wait till synced', t => {
@@ -97,6 +200,16 @@ test('remove archive that was already removed', async t => {
 
 test('check archive status after removed', async t => {
   var res = await app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, auth})
+  t.is(res.statusCode, 404, '404 not found')
+
+  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  t.is(res.statusCode, 200, '200 got user data')
+  t.is(res.body.dats.length, 0)
+
+  res = await app.req.get({url: '/admin/'+testDatKey, json: true, auth})
+  t.is(res.statusCode, 404, '404 not found')
+
+  res = await app.req.get({url: '/admin/testdat', json: true, auth})
   t.is(res.statusCode, 404, '404 not found')
 })
 

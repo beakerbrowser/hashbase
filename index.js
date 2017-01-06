@@ -29,7 +29,7 @@ module.exports = function (config) {
     }
   })
 
-  // user & auth
+  // user & auth apis
   // =
 
   app.post('/v1/register', cloud.api.users.register)
@@ -40,16 +40,18 @@ module.exports = function (config) {
   app.post('/v1/login', cloud.api.users.login)
   app.post('/v1/logout', cloud.api.users.logout)
 
-  // archives
+  // archives apis
   // =
 
-  // app.post('/v1/archives/add', (req, res, next) => {
-  //   console.log('hit')
-  //   next()
-  // })
   app.post('/v1/archives/add', cloud.api.archives.add)
   app.post('/v1/archives/remove', cloud.api.archives.remove)
+
+  // 'frontend'
+  // =
+
   app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
+  app.get('/:username', cloud.api.users.get)
+  app.get('/:username/:datname', cloud.api.archives.getByName)
 
   // error-handling fallback
   // =
