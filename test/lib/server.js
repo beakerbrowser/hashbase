@@ -1,4 +1,3 @@
-const path = require('path')
 const request = require('request-promise-native')
 const createApp = require('../../index.js')
 const util = require('./util')

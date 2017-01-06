@@ -12,11 +12,14 @@ test.cb('start test server', t => {
     t.ifError(err)
 
     // login
-    var res = await app.req.post({uri: '/v1/login', json: {
-      'username': 'admin',
-      'password': 'foobar'
-    }})
-    if (res.statusCode !== 200) throw 'Failed to login as admin'
+    var res = await app.req.post({
+      uri: '/v1/login',
+      json: {
+        'username': 'admin',
+        'password': 'foobar'
+      }
+    })
+    if (res.statusCode !== 200) throw new Error('Failed to login as admin')
     sessionToken = res.body.sessionToken
     auth = { bearer: sessionToken }
 

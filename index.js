@@ -1,6 +1,5 @@
 var express = require('express')
 var bodyParser = require('body-parser')
-var multicb = require('multicb')
 var expressValidator = require('express-validator')
 
 var Hypercloud = require('./lib')
