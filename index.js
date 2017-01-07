@@ -19,8 +19,11 @@ module.exports = function (config) {
 
   app.locals = {
     partialPaths: {
+      stdhead: './lib/templates/html/com/stdhead.html',
+      stdjs: './lib/templates/html/com/stdjs.html',
       nav: './lib/templates/html/com/nav.html',
       footer: './lib/templates/html/com/footer.html',
+      footerLight: './lib/templates/html/com/footer-light.html',
       homeCTA: './lib/templates/html/com/home-cta.html'
     },
     session: false, // default session value
@@ -43,13 +46,15 @@ module.exports = function (config) {
   // user & auth apis
   // =
 
-  app.post('/v1/register', cloud.api.users.register)
+  app.get('/v1/register', cloud.api.users.getRegister)
+  app.post('/v1/register', cloud.api.users.doRegister)
   app.get('/v1/verify', cloud.api.users.verify)
   app.post('/v1/verify', cloud.api.users.verify)
   app.get('/v1/account', cloud.api.users.getAccount)
   app.post('/v1/account', cloud.api.users.updateAccount)
-  app.post('/v1/login', cloud.api.users.login)
-  app.post('/v1/logout', cloud.api.users.logout)
+  app.get('/v1/login', cloud.api.users.getLogin)
+  app.post('/v1/login', cloud.api.users.doLogin)
+  app.post('/v1/logout', cloud.api.users.doLogout)
 
   // archives apis
   // =

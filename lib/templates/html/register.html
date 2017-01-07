@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    ${partials.stdhead}
+  </head>
+  <body>
+    ${partials.nav}
+    
+    <div class="container">
+      <form class="form-register">
+        <h1 class="form-register-heading text-muted mb-4">Join ${appInfo.brandname}</h1>
+        <div class="row pl-3">
+          <div class="col-4 pt-4 pb-4 pl-4 pr-5 bg-faded rounded">
+            <div class="form-group">
+              <label for="exampleInputUsername1">Username</label>
+              <input type="text" class="form-control" id="exampleInputUsername1">
+              <small id="emailHelp" class="form-text text-muted">Your profile will be at ${appInfo.hostname}/username.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1">
+              <small id="emailHelp" class="form-text text-muted">Must be at least 7 characters long.</small>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Create Your Account</button>
+          </div>
+          <div class="col-5">
+            <div class="card" style="width: 250px">
+              <div class="card-block">
+                <h5 class="card-title mb-3">${appInfo.brandname} gives you</h5>
+                <p class="card-text"><strong>10 GB</strong> free hosting</p>
+                <p class="card-text"><strong>100 GB</strong> free bandwidth</p>
+              </div>
+            </div>
+            <div class="text-muted pt-5" style="font-weight: 100; font-size: 90%">
+              <p>
+                ${appInfo.brandname} is a host for P2P archives called Dats.
+              </p>
+              <p>
+                Dats can be synced <a href="https://github.com/datproject/dat" target="_blank">from the command-line</a> or <a href="https://github.com/datproject/dat-desktop" target="_blank">desktop apps</a>, or browsed as websites using the <a href="https://beakerbrowser.com" target="_blank">Beaker Browser</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    ${partials.footer}
+    ${partials.stdjs}
+  </body>
+</html>
