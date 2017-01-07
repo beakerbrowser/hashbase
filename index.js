@@ -7,6 +7,7 @@ var lessExpress = require('less-express')
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
 var customSanitizers = require('./lib/sanitizers')
+var packageJson = require('./package.json')
 
 module.exports = function (config) {
   var cloud = new Hypercloud(config)
@@ -15,6 +16,21 @@ module.exports = function (config) {
   var app = express()
   app.cloud = cloud
   app.config = config
+
+  app.locals = {
+    partialPaths: {
+      nav: './lib/templates/html/com/nav.html',
+      footer: './lib/templates/html/com/footer.html',
+      homeCTA: './lib/templates/html/com/home-cta.html'
+    },
+    session: false, // default session value
+    appInfo: {
+      version: packageJson.version,
+      brandname: config.brandname,
+      hostname: config.hostname,
+      port: config.port
+    }
+  }
 
   app.engine('html', es6Renderer)
   app.set('views', './lib/templates/html')
