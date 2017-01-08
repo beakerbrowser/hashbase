@@ -42,7 +42,7 @@ module.exports = function (config) {
   app.use(bodyParser.json())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
- 
+
   // user & auth apis
   // =
 
@@ -73,8 +73,8 @@ module.exports = function (config) {
   // =
 
   app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
-  app.get('/:username', cloud.api.users.get)
-  app.get('/:username/:datname', cloud.api.archives.getByName)
+  app.get('/:username([^/]{3,})', cloud.api.users.get)
+  app.get('/:username([^/]{3,})/:datname', cloud.api.archives.getByName)
   app.get('/', cloud.api.archives.frontpage)
 
   // error-handling fallback
