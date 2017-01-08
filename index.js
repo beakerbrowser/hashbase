@@ -58,6 +58,7 @@ module.exports = function (config) {
   app.post('/v1/account', cloud.api.users.updateAccount)
   app.get('/v1/login', cloud.api.users.getLogin)
   app.post('/v1/login', cloud.api.users.doLogin)
+  app.get('/v1/logout', cloud.api.users.doLogout)
   app.post('/v1/logout', cloud.api.users.doLogout)
 
   // archives apis
