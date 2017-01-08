@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 var es6Renderer = require('express-es6-template-engine')
 var expressValidator = require('express-validator')
 var lessExpress = require('less-express')
@@ -40,6 +41,7 @@ module.exports = function (config) {
   app.set('views', './lib/templates/html')
   app.set('view engine', 'html')
 
+  app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))

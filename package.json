@@ -30,6 +30,7 @@
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
     "co-express": "^1.2.2",
+    "cookie-parser": "^1.4.3",
     "deep-extend": "^0.4.1",
     "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
