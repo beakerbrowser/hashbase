@@ -7,24 +7,28 @@
     ${partials.nav}
     
     <div class="container">
-      <form class="form-register">
+      <form class="form-register" action="/v1/register" method="POST">
         <h1 class="form-register-heading text-muted mb-4">Join ${appInfo.brandname}</h1>
+          ${!!errors.general ? `<div class="alert alert-warning" role="alert">${errors.general.message}</div>` : ''}
         <div class="row pl-3">
           <div class="col-4 pt-4 pb-4 pl-4 pr-5 bg-faded rounded">
-            <div class="form-group">
-              <label for="exampleInputUsername1">Username</label>
-              <input type="text" class="form-control" id="exampleInputUsername1">
-              <small id="emailHelp" class="form-text text-muted">Your profile will be at ${appInfo.hostname}/username.</small>
+            <div class="form-group ${!!errors.username ? 'has-warning' : ''}">
+              <label for="input-username">Username</label>
+              <input type="text" name="username" class="form-control" id="input-username" value="${values.username}">
+               ${!!errors.username ? `<div class="form-control-feedback">${errors.username.msg}</div>` : ''}
+              <small id="emailHelp" class="form-text text-muted">Your profile will be at ${appInfo.hostname}/<span id="output-username">username</span>.</small>
             </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1">
+            <div class="form-group ${!!errors.email ? 'has-warning' : ''}">
+              <label for="input-email">Email address</label>
+              <input type="email" name="email" class="form-control" id="input-email" value="${values.email}">
+               ${!!errors.email ? `<div class="form-control-feedback">${errors.email.msg}</div>` : ''}
               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
-              <small id="emailHelp" class="form-text text-muted">Must be at least 7 characters long.</small>
+            <div class="form-group ${!!errors.password ? 'has-warning' : ''}">
+              <label for="input-password">Password</label>
+              <input type="password" name="password" class="form-control" id="input-password" value="${values.password}">
+               ${!!errors.password ? `<div class="form-control-feedback">${errors.password.msg}</div>` : ''}
+              <small id="emailHelp" class="form-text text-muted">Must be at least 6 characters long.</small>
             </div>
             <button class="btn btn-primary btn-block" type="submit">Create Your Account</button>
           </div>
@@ -38,10 +42,13 @@
             </div>
             <div class="text-muted pt-5" style="font-weight: 100; font-size: 90%">
               <p>
-                ${appInfo.brandname} is a host for P2P archives called Dats.
+                ${appInfo.brandname} is a host for P2P websites.
               </p>
               <p>
-                Dats can be synced <a href="https://github.com/datproject/dat" target="_blank">from the command-line</a> or <a href="https://github.com/datproject/dat-desktop" target="_blank">desktop apps</a>, or browsed as websites using the <a href="https://beakerbrowser.com" target="_blank">Beaker Browser</a>.
+                Sites can be synced <a href="https://github.com/datproject/dat" target="_blank">from the command-line</a> or <a href="https://github.com/datproject/dat-desktop" target="_blank">desktop app</a>, or browsed using the <a href="https://beakerbrowser.com" target="_blank">Beaker Browser</a>.
+              </p>
+              <p>
+                Confused? <a href="/about">Learn more</a>.
               </p>
             </div>
           </div>
@@ -51,5 +58,6 @@
 
     ${partials.footer}
     ${partials.stdjs}
+    <script src="/assets/js/register.js"></script>
   </body>
 </html>

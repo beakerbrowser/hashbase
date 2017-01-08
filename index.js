@@ -27,6 +27,7 @@ module.exports = function (config) {
       homeCTA: './lib/templates/html/com/home-cta.html'
     },
     session: false, // default session value
+    errors: false, // common default value
     appInfo: {
       version: packageJson.version,
       brandname: config.brandname,
@@ -40,6 +41,7 @@ module.exports = function (config) {
   app.set('view engine', 'html')
 
   app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
 

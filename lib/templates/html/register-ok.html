@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    ${partials.stdhead}
+  </head>
+  <body>
+    ${partials.nav}
+    
+    <div class="container">
+      <div class="mx-auto pt-5 pb-5" style="width: 300px;">
+        <h2 class="text-muted">Ok!</h2>
+        <div class="card mb-3">
+          <div class="card-block">
+            We've sent a confirmation email to <strong>${values.email}</strong>.
+          </div>
+        </div>
+        <div class="card bg-faded text-center text-muted" style="font-weight: 100;">
+          <div class="card-block">
+            No email? <a href="/v1/support">Contact Support</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${partials.footer}
+    ${partials.stdjs}
+  </body>
+</html>
