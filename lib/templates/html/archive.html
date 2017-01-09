@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>${appInfo.brandname} - Terms of Service</title>
+    ${partials.stdhead}
+  </head>
+  <body>
+    ${partials.nav}
+
+    <div class="container pt-4 pb-5">
+      <div class="row">
+        <div class="col">
+          <h4 class="diplay-4"><a href=".">${username}</a> / <a href="">${datname}</a></h4>
+        </div>
+        <div class="col col-md-auto">
+          ${isOwner ? `
+            <a href="#" class="btn btn-sm btn-secondary">Rename</a>
+            <a href="#" class="btn btn-sm btn-secondary">Delete</a>
+          ` : ''}
+        </div>
+      </div>
+      <div class="text-muted">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <small>Upload Progress: ${progress}%</small>
+      </div>
+    </div>
+
+    ${partials.footer}
+    ${partials.stdjs}
+  </body>
+</html>

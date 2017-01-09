@@ -25,8 +25,7 @@ module.exports = function (config) {
       nav: './lib/templates/html/com/nav.html',
       footer: './lib/templates/html/com/footer.html',
       footerLight: './lib/templates/html/com/footer-light.html',
-      homeCTA: './lib/templates/html/com/home-cta.html',
-      homeDashboard: './lib/templates/html/com/home-dashboard.html'
+      homeCTA: './lib/templates/html/com/home-cta.html'
     },
     session: false, // default session value
     errors: false, // common default value

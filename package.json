@@ -48,6 +48,7 @@
     "nodemailer-stub-transport": "^1.1.0",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
+    "stream-collector": "^1.0.1",
     "subleveldown": "^2.1.0",
     "uuid": "^3.0.1"
   },

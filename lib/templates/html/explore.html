@@ -7,9 +7,11 @@
   <body>
     ${partials.nav}
 
-    <div class="container">
-      <h2 class="display-2">TODO</h2>
-      <h3 class="display-3">Explore page</h3>
+    <div class="container pt-4 pb-5">
+      <h4 class="diplay-4">Explore Users</h4>
+      <div class="list-group mt-3">
+        ${users.map(u => `<a href="/${u.username}" class="list-group-item list-group-item-action">${u.username}</a>`)}
+      </div>
     </div>
 
     ${partials.footer}
