@@ -17,7 +17,9 @@
   ],
   "ava": {
     "serial": true,
-    "require": ["./nodecompat.js"]
+    "require": [
+      "./nodecompat.js"
+    ]
   },
   "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
   "license": "MIT",
@@ -28,13 +30,16 @@
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
     "co-express": "^1.2.2",
+    "cookie-parser": "^1.4.3",
     "deep-extend": "^0.4.1",
     "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
+    "express-es6-template-engine": "https://github.com/pfrazee/express-es6-template-enginenpm",
     "express-validator": "^3.1.2",
     "hypercore-archiver": "^3.2.0",
     "js-yaml": "^3.7.0",
     "jsonwebtoken": "^7.2.1",
+    "less-express": "^1.0.1",
     "level": "^1.5.0",
     "level-promise": "^2.1.1",
     "level-simple-indexes": "^2.0.0",
@@ -43,6 +48,7 @@
     "nodemailer-stub-transport": "^1.1.0",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
+    "stream-collector": "^1.0.1",
     "subleveldown": "^2.1.0",
     "uuid": "^3.0.1"
   },

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>${appInfo.brandname}</title>
+    ${partials.stdhead}
+  </head>
+  <body>
+    ${partials.nav}
+    ${session ? `
+      <div class="container pt-4 pb-5">
+        ${verified ? `
+          <div class="alert alert-success" role="alert">
+            <strong>Welcome!</strong> Your email is verified and your account is now active.
+          </div>
+        ` : ''}
+        ${userRecord.archives.length === 0 ? `
+          <p class="text-muted text-center">You have no dats uploaded. <a href="/v1/dats/add">New Dat</a>.</p>
+        ` : ''}
+        <div class="list-group my-3">
+          ${userRecord.archives.map(a => `<a href="/${userRecord.username}/${a.name || a.key}" class="list-group-item list-group-item-action">${userRecord.username} / ${a.name || a.key}</a>`).join('')}
+        </div>
+      </div>
+    ` : partials.homeCTA}
+    ${partials.footer}
+    ${partials.stdjs}
+  </body>
+</html>

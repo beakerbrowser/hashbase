@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>${appInfo.brandname} - Terms of Service</title>
+    ${partials.stdhead}
+  </head>
+  <body>
+    ${partials.nav}
+
+    <div class="container pt-4 pb-5">
+      <h4 class="diplay-4"><a href=".">${userRecord.username}</a></h4>
+      ${userRecord.archives.length === 0 ? `
+        <p class="text-muted">${userRecord.username} has no dats uploaded.</p>
+      ` : ''}
+      <div class="list-group mt-3">
+        ${userRecord.archives.map(a => `<a href="/${userRecord.username}/${a.name || a.key}" class="list-group-item list-group-item-action">${userRecord.username} / ${a.name || a.key}</a>`).join('')}
+      </div>
+    </div>
+
+    ${partials.footer}
+    ${partials.stdjs}
+  </body>
+</html>

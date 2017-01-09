@@ -262,7 +262,7 @@ test('cant login with invalid credentials', async t => {
     uri: '/v1/login',
     json: {
       username: 'bob',
-      password: 'asdf'
+      password: 'asdfasdf'
     }
   })
   t.is(res.statusCode, 422, '422 bad input')
