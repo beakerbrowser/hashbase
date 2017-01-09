@@ -8,6 +8,11 @@
     ${partials.nav}
     ${session ? `
       <div class="container pt-4 pb-5">
+        ${verified ? `
+          <div class="alert alert-success" role="alert">
+            <strong>Welcome!</strong> Your email is verified and your account is now active.
+          </div>
+        ` : ''}
         <div class="list-group my-3">
           ${userRecord.archives.map(a => `<a href="/${userRecord.username}/${a.name || a.key}" class="list-group-item list-group-item-action">${userRecord.username} / ${a.name || a.key}</a>`).join('')}
         </div>
