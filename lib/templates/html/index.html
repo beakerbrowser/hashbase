@@ -6,7 +6,7 @@
   </head>
   <body>
     ${partials.nav}
-    ${partials.homeCTA}
+    ${session ? partials.homeDashboard : partials.homeCTA}
     ${partials.footer}
     ${partials.stdjs}
   </body>

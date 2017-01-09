@@ -12,7 +12,7 @@
         <h1 class="form-register-heading text-muted mb-4">Join ${appInfo.brandname}</h1>
           ${!!errors.general ? `<div class="alert alert-warning" role="alert">${errors.general.message}</div>` : ''}
         <div class="row pl-3">
-          <div class="col-4 pt-4 pb-4 pl-4 pr-5 bg-faded rounded">
+          <div class="col-7 pt-4 pb-4 pl-4 pr-5 bg-faded rounded">
             <div class="form-group ${!!errors.username ? 'has-warning' : ''}">
               <label for="input-username">Username</label>
               <input type="text" name="username" class="form-control" id="input-username" value="${values.username}">

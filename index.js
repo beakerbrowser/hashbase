@@ -25,7 +25,8 @@ module.exports = function (config) {
       nav: './lib/templates/html/com/nav.html',
       footer: './lib/templates/html/com/footer.html',
       footerLight: './lib/templates/html/com/footer-light.html',
-      homeCTA: './lib/templates/html/com/home-cta.html'
+      homeCTA: './lib/templates/html/com/home-cta.html',
+      homeDashboard: './lib/templates/html/com/home-dashboard.html'
     },
     session: false, // default session value
     errors: false, // common default value
@@ -64,8 +65,8 @@ module.exports = function (config) {
   // archives apis
   // =
 
-  app.post('/v1/archives/add', cloud.api.archives.add)
-  app.post('/v1/archives/remove', cloud.api.archives.remove)
+  app.post('/v1/dats/add', cloud.api.archives.add)
+  app.post('/v1/dats/remove', cloud.api.archives.remove)
 
   // assets
   // =

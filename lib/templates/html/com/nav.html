@@ -1,5 +1,5 @@
 <div class="container">
-  <nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md">
+  <nav class="navbar navbar-light navbar-toggleable-md pl-0 pr-0">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#containerNavbar" aria-controls="containerNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -14,12 +14,7 @@
         <li class="nav-item dropdown">
           ${session
             ? `
-              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Your Account</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown04">
-                <a class="dropdown-item" href="#">Your Profile</a>
-                <a class="dropdown-item" href="#">Your Dats</a>
-                <a class="dropdown-item" href="/v1/logout">Logout</a>
-              </div>
+              <li class="nav-item"><a class="nav-link" href="/v1/logout">Logout</a></li>
             ` : `
               <li class="nav-item"><a class="nav-link" href="/v1/register">Sign Up</a></li>
               <li class="nav-item"><a class="nav-link" href="/v1/login">Login</a></li>
