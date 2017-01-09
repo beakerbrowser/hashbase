@@ -10,7 +10,7 @@
     <div class="container pt-4 pb-5">
       <h4 class="diplay-4">Explore Users</h4>
       <div class="list-group mt-3">
-        ${users.map(u => `<a href="/${u.username}" class="list-group-item list-group-item-action">${u.username}</a>`)}
+        ${users.map(u => `<a href="/${u.username}" class="list-group-item list-group-item-action">${u.username}</a>`).join('')}
       </div>
     </div>
 

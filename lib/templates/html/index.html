@@ -8,16 +8,8 @@
     ${partials.nav}
     ${session ? `
       <div class="container pt-4 pb-5">
-        <form>
-          <div class="input-group">
-            <input type="text" class="form-control" id="input-key" placeholder="Enter the URL of the Dat you want to host on ${appInfo.brandname}">
-            <span class="input-group-btn">
-              <button class="btn btn-secondary" type="button">Add</button>
-            </span>
-          </div>
-        </form>
-        <div class="list-group mt-3">
-          ${userRecord.archives.map(a => `<a href="/${userRecord.username}/${a.name || a.key}" class="list-group-item list-group-item-action">${userRecord.username} / ${a.name || a.key}</a>`)}
+        <div class="list-group my-3">
+          ${userRecord.archives.map(a => `<a href="/${userRecord.username}/${a.name || a.key}" class="list-group-item list-group-item-action">${userRecord.username} / ${a.name || a.key}</a>`).join('')}
         </div>
       </div>
     ` : partials.homeCTA}

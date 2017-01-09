@@ -38,7 +38,7 @@ test.cb('share test-dat', t => {
 
 test('add archive', async t => {
   var json = {key: testDatKey}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  var res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   res = await app.req.get({url: '/admin?view=dats', json: true, auth})
@@ -61,7 +61,7 @@ test('add archive', async t => {
 
 test('add archive that was already added', async t => {
   var json = {key: testDatKey}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  var res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   res = await app.req.get({url: '/admin?view=dats', json: true, auth})
@@ -85,7 +85,7 @@ test('add archive that was already added', async t => {
 test('change archive name', async t => {
   // change name the first time
   var json = {key: testDatKey, name: 'testarchive'}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  var res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   res = await app.req.get({url: '/admin?view=dats', json: true, auth})
@@ -117,7 +117,7 @@ test('change archive name', async t => {
 
   // change name the second time
   json = {key: testDatKey, name: 'testdat'}
-  res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   res = await app.req.get({url: '/admin?view=dats', json: true, auth})
@@ -159,8 +159,8 @@ test.cb('check archive status and wait till synced', t => {
   checkStatus()
   async function checkStatus () {
     var res = await app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
-    if (!('progress' in res.body)) {
-      console.log('progress not returned', res)
+    if (!res.body || !('progress' in res.body)) {
+      console.log('progress not returned', res.statusCode, res.body)
       return t.end()
     }
     if (res.body.progress === 1) {
@@ -188,13 +188,13 @@ test.cb('archive is accessable via dat swarm', t => {
 
 test('remove archive', async t => {
   var json = {key: testDatKey}
-  var res = await app.req.post({uri: '/v1/archives/remove', json, auth})
+  var res = await app.req.post({uri: '/v1/dats/remove', json, auth})
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
 test('remove archive that was already removed', async t => {
   var json = {key: testDatKey}
-  var res = await app.req.post({uri: '/v1/archives/remove', json, auth})
+  var res = await app.req.post({uri: '/v1/dats/remove', json, auth})
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
@@ -217,7 +217,7 @@ test('archive status will timeout on archive that fails to sync', async t => {
   // add a fake archive
   var fakeKey = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
   var json = {key: fakeKey}
-  var res = await app.req({uri: '/v1/archives/add', method: 'POST', json, auth})
+  var res = await app.req({uri: '/v1/dats/add', method: 'POST', json, auth})
   t.same(res.statusCode, 200, '200 status')
 
   // now ask for the status. since the archive is never found, this should timeout

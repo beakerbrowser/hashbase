@@ -64,6 +64,7 @@ module.exports = function (config) {
   // archives apis
   // =
 
+  app.get('/v1/dats/add', cloud.api.archives.getAddPage)
   app.post('/v1/dats/add', cloud.api.archives.add)
   app.post('/v1/dats/remove', cloud.api.archives.remove)
 
@@ -112,6 +113,10 @@ module.exports = function (config) {
       message: 'Internal server error',
       internalError: true
     })
+  })
+
+  process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
   })
 
   // shutdown
