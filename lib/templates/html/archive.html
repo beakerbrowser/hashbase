@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${appInfo.brandname} - Terms of Service</title>
+    <title>${username}/${datname} - ${appInfo.brandname}</title>
     ${partials.stdhead}
   </head>
   <body>
@@ -15,7 +15,7 @@
         <div class="col col-md-auto">
           ${isOwner ? `
             <a href="#" class="btn btn-sm btn-secondary">Rename</a>
-            <a href="#" class="btn btn-sm btn-secondary">Delete</a>
+            <a href="#" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#delete-modal">Delete</a>
           ` : ''}
         </div>
       </div>
@@ -24,6 +24,27 @@
           <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <small>Upload Progress: ${progress}% (refresh page to check latest)</small>
+      </div>
+    </div>
+
+    <div class="modal" id="delete-modal">
+      <div class="modal-dialog" role="document">
+        <form class="modal-content" action="/v1/dats/remove" method="POST">
+          <input type="hidden" name="key" value="${key}">
+          <div class="modal-header">
+            <h5 class="modal-title">Remove Dat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Remove this dat from ${appInfo.brandname}?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Remove</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
 
