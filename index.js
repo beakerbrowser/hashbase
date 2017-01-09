@@ -93,6 +93,8 @@ module.exports = function (config) {
   // =
 
   app.use((err, req, res, next) => {
+    var contentType = req.accepts(['html', 'json'])
+
     // validation errors
     if ('isEmpty' in err) {
       return res.status(422).json({
@@ -104,15 +106,24 @@ module.exports = function (config) {
 
     // common errors
     if ('status' in err) {
-      return res.status(err.status).json(err.body)
+      res.status(err.status)
+      if (contentType === 'html') {
+        res.render('error', { error: err })
+      } else {
+        res.json(err.body)
+      }
+      return
     }
 
     // general uncaught error
     console.error('[ERROR]', err)
-    res.status(500).json({
+    res.status(500)
+    var error = {
       message: 'Internal server error',
       internalError: true
-    })
+    }
+    if (contentType === 'html') res.render('error', {error})
+    else res.json(error)
   })
 
   process.on('unhandledRejection', (reason, p) => {
