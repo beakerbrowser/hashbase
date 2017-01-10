@@ -34,7 +34,7 @@
     "deep-extend": "^0.4.1",
     "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
-    "express-es6-template-engine": "https://github.com/pfrazee/express-es6-template-enginenpm",
+    "express-es6-template-engine": "https://github.com/pfrazee/express-es6-template-engine",
     "express-validator": "^3.1.2",
     "hypercore-archiver": "^3.2.0",
     "js-yaml": "^3.7.0",
