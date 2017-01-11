@@ -4,7 +4,7 @@ var createTestServer = require('./lib/server.js')
 var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
 
 var app
-var sessionToken, auth
+var sessionToken, auth, authUser
 var testDat, testDatKey
 
 test.cb('start test server', t => {
@@ -25,6 +25,45 @@ test.cb('start test server', t => {
 
     t.end()
   })
+})
+
+test('register and login bob', async t => {
+  // register bob
+  var res = await app.req.post({
+    uri: '/v1/register',
+    json: {
+      email: 'bob@example.com',
+      username: 'bob',
+      password: 'foobar'
+    }
+  })
+  if (res.statusCode !== 201) throw new Error('Failed to register bob user')
+
+  // check sent mail and extract the verification nonce
+  var lastMail = app.cloud.mailer.transport.sentMail.pop()
+  var emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+
+  // verify via GET
+  res = await app.req.get({
+    uri: '/v1/verify',
+    qs: {
+      username: 'bob',
+      nonce: emailVerificationNonce
+    }
+  })
+  if (res.statusCode !== 200) throw new Error('Failed to verify bob user')
+
+  // login bob
+  res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      'username': 'bob',
+      'password': 'foobar'
+    }
+  })
+  if (res.statusCode !== 200) throw new Error('Failed to login as bob')
+  sessionToken = res.body.sessionToken
+  authUser = { bearer: sessionToken }
 })
 
 test.cb('share test-dat', t => {
@@ -52,6 +91,29 @@ test('add archive', async t => {
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     user: 'admin',
+    key: testDatKey,
+    name: null,
+    title: null,
+    description: null
+  })
+})
+
+test('add duplicate archive as another user', async t => {
+  var json = {key: testDatKey}
+  var res = await app.req.post({uri: '/v1/dats/add', json, auth: authUser})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  res = await app.req.get({url: '/bob?view=dats', json: true, auth: authUser})
+  t.is(res.statusCode, 200, '200 got user data')
+  t.deepEqual(res.body.dats[0], {
+    key: testDatKey,
+    name: null
+  })
+
+  res = await app.req.get({url: '/bob/' + testDatKey, json: true, auth: authUser})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body, {
+    user: 'bob',
     key: testDatKey,
     name: null,
     title: null,
@@ -194,6 +256,17 @@ test.cb('archive is accessable via dat swarm', t => {
 test('remove archive', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/dats/remove', json, auth})
+  t.is(res.statusCode, 200, '200 removed dat')
+})
+
+test('check archive status after removed by one user, not all', async t => {
+  var res = await app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, auth})
+  t.is(res.statusCode, 200, '200 got dat')
+})
+
+test('remove archive as other user', async t => {
+  var json = {key: testDatKey}
+  var res = await app.req.post({uri: '/v1/dats/remove', json, auth: authUser})
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
