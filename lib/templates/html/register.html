@@ -35,11 +35,17 @@
           </div>
           <div class="col-5">
             <div class="card" style="width: 250px">
-              <div class="card-block">
-                <h5 class="card-title mb-3"><%= appInfo.brandname %> gives you</h5>
-                <p class="card-text"><strong>10 GB</strong> free hosting</p>
-                <p class="card-text"><strong>100 GB</strong> free bandwidth</p>
-              </div>
+              <% if (isOpen) { %>
+                <div class="card-block">
+                  <h5 class="card-title mb-3"><%= appInfo.brandname %> gives you</h5>
+                  <p class="card-text"><strong>10 GB</strong> free hosting</p>
+                  <p class="card-text"><strong>100 GB</strong> free bandwidth</p>
+                </div>
+              <% } else { %>
+                <div class="card-block">
+                  <p class="card-text"><strong>This is a closed server.</strong> You must be given access by the administrator to register.</p>                  
+                </div>
+              <% } %>
             </div>
             <div class="text-muted pt-5" style="font-weight: 100; font-size: 90%">
               <p>

@@ -37,6 +37,7 @@ function createLocalApp (cb) {
     admin: {
       password: 'foobar'
     },
+    registration: { open: true },
     email: {
       transport: 'mock',
       sender: '"Test Server" <noreply@test.local>'

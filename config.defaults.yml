@@ -2,16 +2,24 @@ dir: ./.hypercloud
 brandname: Hypercloud
 hostname: hypercloud.local
 port: 8080
+
+# user settings
+registration:
+  open: false
+  allowed:
+    - alice@mail.com
+    - bob@mail.com
 admin:
   email: ''
   password: ''
+
+# email settings
 email:
   transport: stub
   sender: '"Hypercloud" <noreply@hypercloud.local>'
+
+# login sessions
 sessions:
   algorithm: HS256
   secret: THIS MUST BE REPLACED!
   expiresIn: 1h
-proofs:
-  algorithm: HS256
-  secret: THIS MUST BE REPLACED!
