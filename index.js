@@ -84,6 +84,7 @@ module.exports = function (config) {
   app.get('/v1/privacy', cloud.api.service.privacy)
   app.get('/v1/terms', cloud.api.service.terms)
   app.get('/v1/support', cloud.api.service.support)
+  app.get('/v1/contributors', cloud.api.service.contributors)
   app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
   app.get('/:username([^/]{3,})', cloud.api.users.get)
   app.get('/:username([^/]{3,})/:datname', cloud.api.archives.getByName)
