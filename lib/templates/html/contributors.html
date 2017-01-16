@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Contributors - ${appInfo.brandname}</title>
+    ${partials.stdhead}
+  </head>
+  <body>
+    ${partials.nav}
+
+    <div class="container pt-4 pb-5">
+      <div class="text-center">
+        <h4 class="diplay-4">Contributors</h4>
+        <p>This service was built with contributions by:</p>
+      </div>
+      <div class="card-columns">
+        ${contributors.map(c => `<div class="card p-3">
+          <blockquote class="card-block card-blockquote">
+            <a href="${c.website}">${c.name}</a>
+            <footer><small class="text-muted">"${c.catchphrase}"</small></footer>
+          </blockquote>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    ${partials.footer}
+    ${partials.stdjs}
+  </body>
+</html>
