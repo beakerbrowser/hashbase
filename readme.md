@@ -48,6 +48,18 @@ admin:
   password: myverysecretpassword
 ```
 
+#### Closed Registration
+
+For a private instance, use closed registration with a whitelist of allowed emails:
+
+```yaml
+registration:
+  open: false
+  allowed:
+    - alice@mail.com
+    - bob@mail.com
+```
+
 #### Session Tokens
 
 Hypercloud uses Json Web Tokens to manage sessions. You absolutely *must* replace the `secret` with a random string before deployment.
