@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${username}/${datname} - ${appInfo.brandname}</title>
-    ${partials.stdhead}
+    <title><%= username %>/<%= datname %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
+    <% include com/nav.html %>
 
     <div class="container pt-4 pb-5">
       <div class="row">
         <div class="col">
-          <h4 class="diplay-4"><a href=".">${username}</a> / <a href="">${datname}</a></h4>
+          <h4 class="diplay-4"><a href="."><%= username %></a> / <a href=""><%= datname %></a></h4>
         </div>
         <div class="col col-md-auto">
-          ${isOwner ? `
+          <% if (isOwner) { %>
             <a href="#" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#delete-modal">Delete</a>
-          ` : ''}
+          <% } %>
         </div>
       </div>
       <div class="text-muted">
         <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
+          <div class="progress-bar" role="progressbar" style="width: <%= progress %>%" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <small>Upload Progress: ${progress}% (refresh page to check latest)</small>
+        <small>Upload Progress: <%= progress %>% (refresh page to check latest)</small>
       </div>
     </div>
 
     <div class="modal" id="delete-modal">
       <div class="modal-dialog" role="document">
         <form class="modal-content" action="/v1/dats/remove" method="POST">
-          <input type="hidden" name="key" value="${key}">
+          <input type="hidden" name="key" value="<%= key %>">
           <div class="modal-header">
             <h5 class="modal-title">Remove Dat</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -37,7 +37,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Remove this dat from ${appInfo.brandname}?</p>
+            <p>Remove this dat from <%= appInfo.brandname %>?</p>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Remove</button>
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    ${partials.footer}
-    ${partials.stdjs}
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>

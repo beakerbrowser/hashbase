@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${appInfo.brandname} - Check your email</title>
-    ${partials.stdhead}
+    <title>Check your email - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
+    <% include com/nav.html %>
     
     <div class="container">
       <div class="mx-auto pt-5 pb-5" style="width: 300px;">
         <h2 class="text-muted">Ok!</h2>
         <div class="card mb-3">
           <div class="card-block">
-            We've sent a confirmation email to <strong>${values.email}</strong>.
+            We've sent a confirmation email to <strong><%= values.email %></strong>.
           </div>
         </div>
         <div class="card bg-faded text-center text-muted" style="font-weight: 100;">
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    ${partials.footer}
-    ${partials.stdjs}
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>

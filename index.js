@@ -1,9 +1,9 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
-var es6Renderer = require('express-es6-template-engine')
 var expressValidator = require('express-validator')
 var lessExpress = require('less-express')
+var ejs = require('ejs')
 
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
@@ -19,14 +19,6 @@ module.exports = function (config) {
   app.config = config
 
   app.locals = {
-    partialPaths: {
-      stdhead: './lib/templates/html/com/stdhead.html',
-      stdjs: './lib/templates/html/com/stdjs.html',
-      nav: './lib/templates/html/com/nav.html',
-      footer: './lib/templates/html/com/footer.html',
-      footerLight: './lib/templates/html/com/footer-light.html',
-      homeCTA: './lib/templates/html/com/home-cta.html'
-    },
     session: false, // default session value
     errors: false, // common default value
     appInfo: {
@@ -37,9 +29,9 @@ module.exports = function (config) {
     }
   }
 
-  app.engine('html', es6Renderer)
-  app.set('views', './lib/templates/html')
+  app.engine('html', ejs.renderFile)
   app.set('view engine', 'html')
+  app.set('views', './lib/templates/html')
 
   app.use(cookieParser())
   app.use(bodyParser.json())

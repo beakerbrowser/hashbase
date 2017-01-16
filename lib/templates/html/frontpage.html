@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${appInfo.brandname}</title>
-    ${partials.stdhead}
+    <title><%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
-    ${session ? `
+    <% include com/nav.html %>
+
+    <% if (session) { %>
       <div class="container pt-4 pb-5">
-        ${verified ? `
+        <% if (verified) { %>
           <div class="alert alert-success" role="alert">
             <strong>Welcome!</strong> Your email is verified and your account is now active.
           </div>
-        ` : ''}
-        ${userRecord.archives.length === 0 ? `
+        <% } %>
+
+        <% if (userRecord.archives.length > 0) { %>
+          <div class="list-group my-3">
+            <% userRecord.archives.forEach(a => { %>
+              <a href="/<%= userRecord.username %>/<%= a.name || a.key %>" class="list-group-item list-group-item-action"><%= userRecord.username %> / <%= a.name || a.key %></a>
+            <% }) %>
+          </div>
+        <% } else { %>
           <p class="text-muted text-center">You have no dats uploaded. <a href="/v1/dats/add">New Dat</a>.</p>
-        ` : ''}
-        <div class="list-group my-3">
-          ${userRecord.archives.map(a => `<a href="/${userRecord.username}/${a.name || a.key}" class="list-group-item list-group-item-action">${userRecord.username} / ${a.name || a.key}</a>`).join('')}
-        </div>
+        <% } %>
       </div>
-    ` : partials.homeCTA}
-    ${partials.footer}
-    ${partials.stdjs}
+     <% } else { %>
+      <% include com/home-cta.html %>
+     <% } %>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>

@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${appInfo.brandname} - Explore</title>
-    ${partials.stdhead}
+    <title>Explore - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
+    <% include com/nav.html %>
 
     <div class="container pt-4 pb-5">
       <h4 class="diplay-4">Explore Users</h4>
       <div class="list-group mt-3">
-        ${users.map(u => `<a href="/${u.username}" class="list-group-item list-group-item-action">${u.username}</a>`).join('')}
+        <% users.forEach(u => { %>
+          <a href="/<%= u.username %>" class="list-group-item list-group-item-action"><%= u.username %></a>
+        <% }) %>
       </div>
     </div>
 
-    ${partials.footer}
-    ${partials.stdjs}
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>
