@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Contributors - ${appInfo.brandname}</title>
-    ${partials.stdhead}
+    <title>Contributors - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
+    <% include com/nav.html %>
 
     <div class="container pt-4 pb-5">
       <div class="text-center">
@@ -13,16 +13,18 @@
         <p>This service was built with contributions by:</p>
       </div>
       <div class="card-columns">
-        ${contributors.map(c => `<div class="card p-3">
-          <blockquote class="card-block card-blockquote">
-            <a href="${c.website}">${c.name}</a>
-            <footer><small class="text-muted">"${c.catchphrase}"</small></footer>
-          </blockquote>
-        </div>`).join('')}
+        <% contributors.forEach(c => { %>
+          <div class="card p-3">
+            <blockquote class="card-block card-blockquote">
+              <a href="<%= c.website %>"><%= c.name %></a>
+              <footer><small class="text-muted">"<%= c.catchphrase %>"</small></footer>
+            </blockquote>
+          </div>
+        <% }) %>
       </div>
     </div>
 
-    ${partials.footer}
-    ${partials.stdjs}
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>

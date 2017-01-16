@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${appInfo.brandname} - Page not found</title>
-    ${partials.stdhead}
+    <title>Page not found - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
+    <% include com/nav.html %>
 
     <div class="container pt-5 text-center">
       <h2 class="display-2">404</h2>
@@ -13,7 +13,7 @@
       <p class="text-muted">Lost? <a href="/v1/support">Contact Support</a></p>
     </div>
 
-    ${partials.footer}
-    ${partials.stdjs}
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>

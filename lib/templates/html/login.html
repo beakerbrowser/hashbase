@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html class="bg-faded" lang="en">
   <head>
-    <title>${appInfo.brandname} - Login</title>
-    ${partials.stdhead}
+    <title>Login - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body class="bg-faded">
     <div class="container">
       <form class="form-login" action="/v1/login" method="POST">
-        <h2 class="form-login-heading text-muted">Sign in to<br>${appInfo.brandname}</h2>
-        ${!!errors.general ? `<div class="alert alert-warning" role="alert">${errors.general.message}</div>` : ''}
+        <h2 class="form-login-heading text-muted">Sign in to<br><%= appInfo.brandname %></h2>
+        <% if (errors.general) { %><div class="alert alert-warning" role="alert"><%= errors.general.message %></div><% } %>
         <div class="card mb-3">
           <div class="card-block">
-            <div class="form-group ${!!errors.username ? 'has-warning' : ''}">
+            <div class="form-group <%= !!errors.username ? 'has-warning' : '' %>">
               <label for="input-username">Username</label>
-              <input type="text" name="username" value="${values.username}" class="form-control" id="input-username">
-               ${!!errors.username ? `<div class="form-control-feedback">${errors.username.msg}</div>` : ''}
+              <input type="text" name="username" value="<%= values.username %>" class="form-control" id="input-username">
+              <% if (errors.username) { %><div class="form-control-feedback"><%= errors.username.msg %></div><% } %>
             </div>
-            <div class="form-group ${!!errors.password ? 'has-warning' : ''}">
+            <div class="form-group <%= !!errors.password ? 'has-warning' : '' %>">
               <label for="input-password">Password</label>
-              <input type="password" name="password" value="${values.password}" class="form-control" id="input-password">
-               ${!!errors.password ? `<div class="form-control-feedback">${errors.password.msg}</div>` : ''}
+              <input type="password" name="password" value="<%= values.password %>" class="form-control" id="input-password">
+              <% if (errors.password) { %><div class="form-control-feedback"><%= errors.password.msg %></div><% } %>
             </div>
             <button class="btn btn-primary btn-block" type="submit">Sign in</button>
           </div>
@@ -32,7 +32,7 @@
       </form>
     </div>
 
-    ${partials.footerLight}
-    ${partials.stdjs}
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>

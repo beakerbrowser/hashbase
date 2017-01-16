@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>${appInfo.brandname} - About</title>
-    ${partials.stdhead}
+    <title>About - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
   </head>
   <body>
-    ${partials.nav}
+    <% include com/nav.html %>
 
     <div class="container">
       <h2 class="display-2">TODO</h2>
       <h3 class="display-3">about page</h3>
     </div>
 
-    ${partials.footer}
-    ${partials.stdjs}
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
   </body>
 </html>
