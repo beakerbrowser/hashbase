@@ -9,6 +9,7 @@ Layout and schemas of the data in the LevelDB.
    - `accounts`: Map of `id => Account object`.
    - `accounts-index`: Index of `username => id`, `email => id`, `profileUrl => id`.
    - `added-keys`: Keys of dats actively swarming. (hypercore-archiver)
+   - `global-activity`: Map of `timestamp => Event object`.
    - `misc`: Various book-keeping, stores info such as the key of the changes feed. (hypercore-archiver)
    - `dead-archives`: Map of `key => undefined`. A listing of archives with no hosting users, and which need to be deleted.
 
@@ -53,5 +54,19 @@ Schema:
 
   isProfileDatVerified: Boolean
   profileVerifyToken: String, the profile verification token (stored so the user can refetch it)
+}
+```
+
+## Event object
+
+Schema:
+
+```
+{
+  ts: Number, the timestamp of the event
+  userid: String, the user who made the change
+  username: String, the name of the user who made the change
+  action: String, the label for the action
+  params: Object, a set of arbitrary KVs relevant to the action
 }
 ```

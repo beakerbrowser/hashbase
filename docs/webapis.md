@@ -1,11 +1,12 @@
 # Web APIs Overview
 
-Main APIs
+Service APIs
 
 ```
 GET / - front page
 GET /:username - get a user's profile
 GET /:username/:datname - get info about a user's dat
+GET /v1/explore - get info about activity on the server
 ```
 
 Archive APIs
@@ -37,7 +38,7 @@ POST /v1/admin/users/:id/suspend - suspend a user account
 POST /v1/admin/users/:id/unsuspend - unsuspend a user account
 ```
 
-## Main APIs
+## Service APIs
 
 ### GET /
 
@@ -92,6 +93,26 @@ Response (json):
 ```
 
 Response (html): TODO
+
+### GET /v1/explore
+
+Response body (json) when `?view=activity`:
+
+```
+{
+  activity: [{
+    key: String, event's id
+    userid: String, the user who made the change
+    username: String, the name of the user who made the change
+    action: String, the label for the action
+    params: Object, a set of arbitrary KVs relevant to the action
+  }, ...]
+}
+```
+
+Additional query params when `?view=activity`:
+ 
+ - start: For pagination. The key of the event to start after.
 
 ## Archive APIs
 

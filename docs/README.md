@@ -20,4 +20,4 @@
 ### Schemas
 
  - [Access Scopes](./schemas/access-scopes.md). The different permissions available to users.
- - [Database](./schemas/database.md). LevelDB layout and objects.
+ - [LevelDB](./schemas/leveldb.md). LevelDB layout and objects.
