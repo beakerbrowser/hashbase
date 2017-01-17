@@ -20,5 +20,4 @@
 ### Schemas
 
  - [Access Scopes](./schemas/access-scopes.md). The different permissions available to users.
- - [Archives Schema](./schemas/archives.md). Archive record layout and objects.
- - [Users Schema](./schemas/users.md). User record layout and objects.
+ - [LevelDB](./schemas/leveldb.md). LevelDB layout and objects.
