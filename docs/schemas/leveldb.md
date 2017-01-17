@@ -1,10 +1,31 @@
-# Users Schema
+# Level Database Schema
+
+Layout and schemas of the data in the LevelDB.
 
 ## Layout
 
  - `main`
+   - `archives`: Map of `key => Archive object`.
    - `accounts`: Map of `id => Account object`.
    - `accounts-index`: Index of `username => id`, `email => id`, `profileUrl => id`.
+   - `added-keys`: Keys of dats actively swarming. (hypercore-archiver)
+   - `misc`: Various book-keeping, stores info such as the key of the changes feed. (hypercore-archiver)
+   - `dead-archives`: Map of `key => undefined`. A listing of archives with no hosting users, and which need to be deleted.
+
+## Archive object
+
+Schema:
+
+```
+{
+  key: String, the archive key
+
+  hostingUsers: Array(String), list of user-ids hosting the archive
+
+  updatedAt: Number, the timestamp of the last update
+  createdAt: Number, the timestamp of creation time
+}
+```
 
 ## Account object
 
