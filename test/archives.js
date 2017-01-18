@@ -291,18 +291,17 @@ test('check archive status after removed', async t => {
   t.is(res.statusCode, 404, '404 not found')
 })
 
-// test('archive status will timeout on archive that fails to sync', async t => {
-//   // add a fake archive
-//   var fakeKey = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-//   var json = {key: fakeKey}
-//   var res = await app.req({uri: '/v1/dats/add', method: 'POST', json, auth})
-//   t.same(res.statusCode, 200, '200 status')
+test('archive status wont stall on archive that fails to sync', async t => {
+  // add a fake archive
+  var fakeKey = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+  var json = {key: fakeKey}
+  var res = await app.req({uri: '/v1/dats/add', method: 'POST', json, auth})
+  t.same(res.statusCode, 200, '200 status')
 
-//   // now ask for the status. since the archive is never found, this should timeout
-//   console.log('waiting for timeout, this should take 5 seconds...')
-//   res = await app.req({uri: `/${fakeKey}`, qs: {view: 'status'}})
-//   t.same(res.statusCode, 504, '504 status')
-// })
+  // now ask for the status. since the archive is never found, this should timeout
+  res = await app.req({uri: `/${fakeKey}`, qs: {view: 'status'}})
+  t.same(res.statusCode, 200, '200 status')
+})
 
 test.cb('stop test server', t => {
   app.close(() => {
