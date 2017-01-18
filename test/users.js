@@ -44,11 +44,6 @@ test('register and POST verify', async t => {
     }
   })
   t.is(res.statusCode, 200, '200 verified user')
-
-  // check sent mail
-  lastMail = app.cloud.mailer.transport.sentMail.pop()
-  t.truthy(lastMail)
-  t.is(lastMail.data.subject, 'Welcome to test.local')
 })
 
 test('register and GET verify', async t => {
@@ -80,11 +75,6 @@ test('register and GET verify', async t => {
     }
   })
   t.is(res.statusCode, 200, '200 verified user')
-
-  // check sent mail
-  lastMail = app.cloud.mailer.transport.sentMail.pop()
-  t.truthy(lastMail)
-  t.is(lastMail.data.subject, 'Welcome to test.local')
 })
 
 test('register validation', async t => {
