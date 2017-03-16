@@ -37,7 +37,7 @@ Server responds 200 with the body:
 
 User writes the `proof` to the `/proofs/:hostname` file of their profile dat. User then syncs the updated dat to the service.
 
-User GETS `/:key?view=proofs` periodically to watch for successful sync.
+User GETS `/v1/archives/:key?view=proofs` periodically to watch for successful sync.
 
 ## Step 3. Validate claim
 

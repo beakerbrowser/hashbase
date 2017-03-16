@@ -22,9 +22,9 @@ Server sends an email to the user with the `emailVerifyNonce`.
 
 Server responds 200 with HTML/JSON indicating to check email.
 
-## Step 2. Verify (POST /v1/verify)
+## Step 2. Verify (GET or POST /v1/verify)
 
-User POSTS `/v1/verify` with body:
+User GETS or POSTS `/v1/verify` with query-params or body:
 
 ```
 {
