@@ -4,9 +4,9 @@ This describes a process for asserting ownership of a Dat by writing a pre-defin
 
 > This spec was originally part of the registration flow. It's now being preserved, as a general-purpose flow, until we have a deployment plan for it.
 
-## Step 1. Claim ownership (POST /v1/dats/claim)
+## Step 1. Claim ownership (POST /v1/archives/claim)
 
-User POSTS `/v1/dats/claim` while authenticated with body (JSON):
+User POSTS `/v1/archives/claim` while authenticated with body (JSON):
 
 ```
 {

@@ -13,8 +13,8 @@ Archive APIs
 
 ```
 GET /:archiveKey
-POST /v1/dats/add
-POST /v1/dats/remove
+POST /v1/archives/add
+POST /v1/archives/remove
 ```
 
 User APIs
@@ -126,7 +126,7 @@ Response (json) when `?view=status`:
 }
 ```
 
-### POST /v1/dats/add
+### POST /v1/archives/add
 
 Request body (json). Can supply `key` or `url`:
 
@@ -140,7 +140,7 @@ Request body (json). Can supply `key` or `url`:
 
 Adds the archive to the user's account. If the archive already exists, the request will update the settings (eg the name).
 
-### POST /v1/dats/remove
+### POST /v1/archives/remove
 
 Request body (json). Can supply `key` or `url`:
 

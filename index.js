@@ -49,9 +49,9 @@ module.exports = function (config) {
   // archives apis
   // =
 
-  app.post('/v1/dats/add', cloud.api.archives.add)
-  app.post('/v1/dats/remove', cloud.api.archives.remove)
-  app.get('/v1/dats/:key([0-9a-f]{64})', cloud.api.archives.get)
+  app.post('/v1/archives/add', cloud.api.archives.add)
+  app.post('/v1/archives/remove', cloud.api.archives.remove)
+  app.get('/v1/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
   app.get('/v1/users/:username([^/]{3,})/:datname', cloud.api.archives.getByName)
 
   // service apis
