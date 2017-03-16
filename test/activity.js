@@ -48,7 +48,8 @@ test('register and login bob', async t => {
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
-    }
+    },
+    json: true
   })
   if (res.statusCode !== 200) throw new Error('Failed to verify bob user')
 

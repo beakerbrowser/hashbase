@@ -72,7 +72,8 @@ test('register and GET verify', async t => {
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
-    }
+    },
+    json: true
   })
   t.is(res.statusCode, 200, '200 verified user')
 })
