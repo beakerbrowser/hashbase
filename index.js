@@ -2,8 +2,6 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var expressValidator = require('express-validator')
-var lessExpress = require('less-express')
-var ejs = require('ejs')
 
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
@@ -29,10 +27,6 @@ module.exports = function (config) {
     }
   }
 
-  app.engine('html', ejs.renderFile)
-  app.set('view engine', 'html')
-  app.set('views', './lib/templates/html')
-
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded())
@@ -42,51 +36,36 @@ module.exports = function (config) {
   // user & auth apis
   // =
 
-  app.get('/v1/register', cloud.api.users.getRegister)
   app.post('/v1/register', cloud.api.users.doRegister)
   app.get('/v1/verify', cloud.api.users.verify)
   app.post('/v1/verify', cloud.api.users.verify)
   app.get('/v1/account', cloud.api.users.getAccount)
   app.post('/v1/account', cloud.api.users.updateAccount)
-  app.get('/v1/login', cloud.api.users.getLogin)
   app.post('/v1/login', cloud.api.users.doLogin)
-  app.get('/v1/logout', cloud.api.users.doLogout)
-  app.post('/v1/logout', cloud.api.users.doLogout)
+  app.get('/v1/users/:username([^/]{3,})', cloud.api.users.get)
 
   // archives apis
   // =
 
-  app.get('/v1/dats/add', cloud.api.archives.getAddPage)
   app.post('/v1/dats/add', cloud.api.archives.add)
   app.post('/v1/dats/remove', cloud.api.archives.remove)
+  app.get('/v1/dats/:key([0-9a-f]{64})', cloud.api.archives.get)
+  app.get('/v1/users/:username([^/]{3,})/:datname', cloud.api.archives.getByName)
 
-  // assets
-  // =
-
-  app.get('/assets/css/main.css', lessExpress('./lib/templates/css/main.less'))
-  app.use('/assets/css', express.static('./lib/templates/css'))
-  app.use('/assets/js', express.static('./lib/templates/js'))
-
-  // 'frontend'
+  // service apis
   // =
 
   app.get('/', cloud.api.service.frontpage)
   app.get('/v1/explore', cloud.api.service.explore)
-  app.get('/v1/about', cloud.api.service.about)
-  app.get('/v1/privacy', cloud.api.service.privacy)
-  app.get('/v1/terms', cloud.api.service.terms)
-  app.get('/v1/support', cloud.api.service.support)
-  app.get('/v1/contributors', cloud.api.service.contributors)
-  app.get(/^\/[0-9a-f]{64}\/?$/, cloud.api.archives.get)
-  app.get('/:username([^/]{3,})', cloud.api.users.get)
-  app.get('/:username([^/]{3,})/:datname', cloud.api.archives.getByName)
-  app.get('*', cloud.api.service.notfound)
 
   // error-handling fallback
   // =
 
   app.use((err, req, res, next) => {
-    var contentType = req.accepts(['html', 'json'])
+    var contentType = req.accepts('json')
+    if (!contentType) {
+      return next()
+    }
 
     // validation errors
     if ('isEmpty' in err) {
@@ -100,11 +79,7 @@ module.exports = function (config) {
     // common errors
     if ('status' in err) {
       res.status(err.status)
-      if (contentType === 'html') {
-        res.render('error', { error: err })
-      } else {
-        res.json(err.body)
-      }
+      res.json(err.body)
       return
     }
 
@@ -115,8 +90,7 @@ module.exports = function (config) {
       message: 'Internal server error',
       internalError: true
     }
-    if (contentType === 'html') res.render('error', {error})
-    else res.json(error)
+    res.json(error)
   })
 
   process.on('unhandledRejection', (reason, p) => {

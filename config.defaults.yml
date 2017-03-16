@@ -2,6 +2,7 @@ dir: ./.hypercloud
 brandname: Hypercloud
 hostname: hypercloud.local
 port: 8080
+ui: hypercloud-ui-vanilla
 
 # user settings
 registration:

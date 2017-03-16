@@ -80,14 +80,14 @@ test('add archive', async t => {
   var res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.dats[0], {
     key: testDatKey,
     name: null
   })
 
-  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -103,14 +103,14 @@ test('add duplicate archive as another user', async t => {
   var res = await app.req.post({uri: '/v1/dats/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/bob?view=dats', json: true, auth: authUser})
+  res = await app.req.get({url: '/v1/users/bob?view=dats', json: true, auth: authUser})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.dats[0], {
     key: testDatKey,
     name: null
   })
 
-  res = await app.req.get({url: '/bob/' + testDatKey, json: true, auth: authUser})
+  res = await app.req.get({url: '/v1/users/bob/' + testDatKey, json: true, auth: authUser})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     user: 'bob',
@@ -126,14 +126,14 @@ test('add archive that was already added', async t => {
   var res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.dats[0], {
     key: testDatKey,
     name: null
   })
 
-  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -150,14 +150,14 @@ test('change archive name', async t => {
   var res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.dats[0], {
     key: testDatKey,
     name: 'test-archive'
   })
 
-  res = await app.req.get({url: '/admin/test-archive', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/test-archive', json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by name')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -167,7 +167,7 @@ test('change archive name', async t => {
     description: null
   })
 
-  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by key')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -187,14 +187,14 @@ test('change archive name', async t => {
   res = await app.req.post({uri: '/v1/dats/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.dats[0], {
     key: testDatKey,
     name: 'test.dat'
   })
 
-  res = await app.req.get({url: '/admin/test.dat', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/test.dat', json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by name')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -204,7 +204,7 @@ test('change archive name', async t => {
     description: null
   })
 
-  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by key')
   t.deepEqual(res.body, {
     user: 'admin',
@@ -214,7 +214,7 @@ test('change archive name', async t => {
     description: null
   })
 
-  res = await app.req.get({url: '/admin/test-archive', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/test-archive', json: true, auth})
   t.is(res.statusCode, 404, '404 old name not found')
 })
 
@@ -225,7 +225,7 @@ test.cb('check archive status and wait till synced', t => {
 
   checkStatus()
   async function checkStatus () {
-    var res = await app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
+    var res = await app.req({uri: `/v1/dats/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
     if (!res.body || !('progress' in res.body)) {
       console.log('progress not returned', res.statusCode, res.body)
       return t.end()
@@ -260,7 +260,7 @@ test('remove archive', async t => {
 })
 
 test('check archive status after removed by one user, not all', async t => {
-  var res = await app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, auth})
+  var res = await app.req({uri: `/v1/dats/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 200, '200 got dat')
 })
 
@@ -277,17 +277,17 @@ test('remove archive that was already removed', async t => {
 })
 
 test('check archive status after removed', async t => {
-  var res = await app.req({uri: `/${testDatKey}`, qs: {view: 'status'}, auth})
+  var res = await app.req({uri: `/v1/dats/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 404, '404 not found')
 
-  res = await app.req.get({url: '/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.is(res.body.dats.length, 0)
 
-  res = await app.req.get({url: '/admin/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 404, '404 not found')
 
-  res = await app.req.get({url: '/admin/testdat', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/testdat', json: true, auth})
   t.is(res.statusCode, 404, '404 not found')
 })
 
@@ -299,7 +299,7 @@ test('archive status wont stall on archive that fails to sync', async t => {
   t.same(res.statusCode, 200, '200 status')
 
   // now ask for the status. since the archive is never found, this should timeout
-  res = await app.req({uri: `/${fakeKey}`, qs: {view: 'status'}})
+  res = await app.req({uri: `/v1/dats/${fakeKey}`, qs: {view: 'status'}})
   t.same(res.statusCode, 200, '200 status')
 })
 
