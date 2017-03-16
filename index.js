@@ -58,7 +58,7 @@ module.exports = function (config) {
   app.get('/', cloud.api.service.frontpage)
   app.get('/v1/explore', cloud.api.service.explore)
 
-  // error-handling fallback
+  // (json) error-handling fallback
   // =
 
   app.use((err, req, res, next) => {
@@ -92,6 +92,16 @@ module.exports = function (config) {
     }
     res.json(error)
   })
+
+  // ui module handlers
+  // =
+
+  if (config.ui) {
+    app.use(require(config.ui)({cloud, config}))
+  }
+
+  // error handling
+  // =
 
   process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
