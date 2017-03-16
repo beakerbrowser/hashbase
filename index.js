@@ -72,9 +72,9 @@ module.exports = function (config) {
     // validation errors
     if ('isEmpty' in err) {
       return res.status(422).json({
-        message: 'Invalid inputs',
+        message: 'There were errors in your submission',
         invalidInputs: true,
-        details: err.array()
+        details: err.mapped()
       })
     }
 
