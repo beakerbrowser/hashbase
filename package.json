@@ -63,10 +63,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joehand/hypercloud.git"
+    "url": "git+https://github.com/datprotocol/hypercloud.git"
   },
   "bugs": {
-    "url": "https://github.com/joehand/hypercloud/issues"
+    "url": "https://github.com/datprotocol/hypercloud/issues"
   },
-  "homepage": "https://github.com/joehand/hypercloud#readme"
+  "homepage": "https://github.com/datprotocol/hypercloud#readme"
 }
