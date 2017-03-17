@@ -81,9 +81,9 @@ test('add archive', async t => {
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
-  t.deepEqual(res.body.dats[0], {
+  t.deepEqual(res.body.archives[0], {
     key: testDatKey,
     name: null
   })
@@ -104,9 +104,9 @@ test('add duplicate archive as another user', async t => {
   var res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/v1/users/bob?view=dats', json: true, auth: authUser})
+  res = await app.req.get({url: '/v1/users/bob?view=archives', json: true, auth: authUser})
   t.is(res.statusCode, 200, '200 got user data')
-  t.deepEqual(res.body.dats[0], {
+  t.deepEqual(res.body.archives[0], {
     key: testDatKey,
     name: null
   })
@@ -127,9 +127,9 @@ test('add archive that was already added', async t => {
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
-  t.deepEqual(res.body.dats[0], {
+  t.deepEqual(res.body.archives[0], {
     key: testDatKey,
     name: null
   })
@@ -151,9 +151,9 @@ test('change archive name', async t => {
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
-  t.deepEqual(res.body.dats[0], {
+  t.deepEqual(res.body.archives[0], {
     key: testDatKey,
     name: 'test-archive'
   })
@@ -188,9 +188,9 @@ test('change archive name', async t => {
   res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
-  t.deepEqual(res.body.dats[0], {
+  t.deepEqual(res.body.archives[0], {
     key: testDatKey,
     name: 'test.dat'
   })
@@ -281,9 +281,9 @@ test('check archive status after removed', async t => {
   var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 404, '404 not found')
 
-  res = await app.req.get({url: '/v1/users/admin?view=dats', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
-  t.is(res.body.dats.length, 0)
+  t.is(res.body.archives.length, 0)
 
   res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 404, '404 not found')
