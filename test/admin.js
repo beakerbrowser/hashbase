@@ -257,6 +257,50 @@ test('get user', async t => {
   t.is(res.body.username, testUser.username)
 })
 
+test('fully update carla', async t => {
+  var res = await app.req.post({
+    uri: '/v1/admin/users/carla',
+    json: {
+      username: 'carlita',
+      email: 'carlita@example.com',
+      scopes: ['user', 'admin:users']
+    },
+    auth
+  })
+  t.is(res.statusCode, 200, '200 updated')
+
+  res = await app.req.get({
+    uri: '/v1/admin/users/carlita',
+    json: true,
+    auth
+  })
+  t.is(res.statusCode, 200, '200 got')
+  t.is(res.body.username, 'carlita', 'is updated')
+  t.is(res.body.email, 'carlita@example.com', 'is updated')
+  t.deepEqual(res.body.scopes, ['user', 'admin:users'], 'is updated')
+})
+
+test('partially update carlita', async t => {
+  var res = await app.req.post({
+    uri: '/v1/admin/users/carlita',
+    json: {
+      scopes: ['user']
+    },
+    auth
+  })
+  t.is(res.statusCode, 200, '200 updated')
+
+  res = await app.req.get({
+    uri: '/v1/admin/users/carlita',
+    json: true,
+    auth
+  })
+  t.is(res.statusCode, 200, '200 got')
+  t.is(res.body.username, 'carlita', 'is updated')
+  t.is(res.body.email, 'carlita@example.com', 'is updated')
+  t.deepEqual(res.body.scopes, ['user'], 'is updated')
+})
+
 test('suspend bob', async t => {
   var res = await app.req.post({
     uri: '/v1/admin/users/bob/suspend',
