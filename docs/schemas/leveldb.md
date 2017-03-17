@@ -46,6 +46,7 @@ Schema:
     name: String, optional shortname for the archive
   }, ..]
   scopes: Array(String), the user's access scopes
+  suspension: String, if suspended, will be set to an explanation
   updatedAt: Number, the timestamp of the last update
   createdAt: Number, the timestamp of creation time
   

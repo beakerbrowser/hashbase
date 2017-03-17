@@ -257,6 +257,46 @@ test('get user', async t => {
   t.is(res.body.username, testUser.username)
 })
 
+test('suspend bob', async t => {
+  var res = await app.req.post({
+    uri: '/v1/admin/users/bob/suspend',
+    json: {reason: 'A total jerk'},
+    auth
+  })
+  t.is(res.statusCode, 200, '200 suspended')
+})
+
+test('bob cant login when suspended', async t => {
+  var res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'bob',
+      password: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 403, '403 cant login when suspended')
+})
+
+test('unsuspend bob', async t => {
+  var res = await app.req.post({
+    uri: '/v1/admin/users/bob/unsuspend',
+    json: true,
+    auth
+  })
+  t.is(res.statusCode, 200, '200 suspended')
+})
+
+test('bob can login when unsuspended', async t => {
+  var res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'bob',
+      password: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 200, '200 can login when unsuspended')
+})
+
 test.cb('stop test server', t => {
   app.close(() => {
     t.pass('closed')
