@@ -34,7 +34,7 @@ Schema:
 
 ```
 {
-  id: String, the assigned uuid
+  id: String, the assigned id
   username: String, the chosen username
   passwordHash: String, hashed password
   passwordSalt: String, salt used on hashed password
