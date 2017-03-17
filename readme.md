@@ -48,6 +48,14 @@ admin:
   password: myverysecretpassword
 ```
 
+#### UI Module
+
+The frontend can be replaced with a custom npm module. The default is [hypercloud-ui-vanilla](https://npm.im/hypercloud-ui-vanilla).
+
+```yaml
+ui: hypercloud-ui-vanilla
+```
+
 #### Closed Registration
 
 For a private instance, use closed registration with a whitelist of allowed emails:

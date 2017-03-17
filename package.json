@@ -33,14 +33,13 @@
     "cookie-parser": "^1.4.3",
     "datland-swarm-defaults": "^1.0.2",
     "deep-extend": "^0.4.1",
-    "ejs": "^2.5.5",
     "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
     "express-validator": "^3.1.2",
+    "hypercloud-ui-vanilla": "^1.0.0",
     "hypercore-archiver": "^3.3.4",
     "js-yaml": "^3.7.0",
     "jsonwebtoken": "^7.2.1",
-    "less-express": "^1.0.1",
     "level": "^1.5.0",
     "level-promise": "^2.1.1",
     "level-simple-indexes": "^2.0.0",
@@ -64,10 +63,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joehand/hypercloud.git"
+    "url": "git+https://github.com/datprotocol/hypercloud.git"
   },
   "bugs": {
-    "url": "https://github.com/joehand/hypercloud/issues"
+    "url": "https://github.com/datprotocol/hypercloud/issues"
   },
-  "homepage": "https://github.com/joehand/hypercloud#readme"
+  "homepage": "https://github.com/datprotocol/hypercloud#readme"
 }

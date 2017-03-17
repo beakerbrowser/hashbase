@@ -1,4 +1,5 @@
-if (+(/^v([\d]+)/.exec(process.version)[1]) < 6) {
+var vMajor = +(/^v([\d]+)/.exec(process.version)[1])
+if (vMajor < 6) {
   console.log('Detected node version <6, transpiling es2015 features')
   try {
     require('babel-register')({ presets: ['es2015', 'transform-async-to-generator'] })
@@ -6,7 +7,7 @@ if (+(/^v([\d]+)/.exec(process.version)[1]) < 6) {
     console.log('Call `npm run install-transpiler` first. You\'re on node <6, so we need extra deps.')
     process.exit(1)
   }
-} else {
+} else if (vMajor === 6) {
   console.log('Detected node version 6, transpiling async to generators')
   require('babel-register')({ plugins: ['transform-async-to-generator'] })
 }

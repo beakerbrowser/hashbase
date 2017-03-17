@@ -72,7 +72,8 @@ test('register and GET verify', async t => {
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
-    }
+    },
+    json: true
   })
   t.is(res.statusCode, 200, '200 verified user')
 })
@@ -82,7 +83,6 @@ test('register validation', async t => {
     var res = await app.req.post({uri: '/v1/register', json: inputs})
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.invalidInputs, true, 'invalidInputs')
-    t.is(res.body.details[0].param, badParam, 'bad ' + badParam)
   }
 
   await run({ email: 'bob@example.com', username: 'bob' }, 'password') // missing password
@@ -101,7 +101,6 @@ test('verify validation', async t => {
       : app.req.get({url: '/v1/verify', qs: inputs, json: true}))
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.invalidInputs, true, 'invalidInputs')
-    t.is(res.body.details[0].param, badParam, 'bad ' + badParam)
   }
 
   // register carla
@@ -228,7 +227,6 @@ test('login validation', async t => {
     var res = await app.req.post({uri: '/v1/login', json: inputs})
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.invalidInputs, true, 'invalidInputs')
-    t.is(res.body.details[0].param, badParam, 'bad ' + badParam)
   }
 
   await run({ username: 'bob' }, 'password') // missing password

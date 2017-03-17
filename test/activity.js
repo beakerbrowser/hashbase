@@ -48,7 +48,8 @@ test('register and login bob', async t => {
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
-    }
+    },
+    json: true
   })
   if (res.statusCode !== 200) throw new Error('Failed to verify bob user')
 
@@ -71,17 +72,17 @@ test('do some activity', async t => {
 
   // add an archive as admin
   json = {key: fakeDatKey1}
-  res = await app.req.post({uri: '/v1/dats/add', json, auth})
+  res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   // add an archive as bob
   json = {key: fakeDatKey2}
-  res = await app.req.post({uri: '/v1/dats/add', json, auth: authUser})
+  res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
   // remove an archive as admin
   json = {key: fakeDatKey1}
-  res = await app.req.post({uri: '/v1/dats/remove', json, auth})
+  res = await app.req.post({uri: '/v1/archives/remove', json, auth})
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
