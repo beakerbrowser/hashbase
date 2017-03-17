@@ -226,7 +226,10 @@ Run queries against the users DB.
 
 Query params:
 
- - `?sort=`. Values: `createdBy` `email`
+ - `cursor`. Key value to start listing from.
+ - `limit`. How many records to fetch.
+ - `sort`. Values: `id` `username` `email`. Default `id` (which is also ordered by creation time)
+ - `reverse`. Reverse the sort. (1 means true.)
 
 Response body:
 
