@@ -3,6 +3,7 @@ brandname: Hypercloud
 hostname: hypercloud.local
 port: 8080
 ui: hypercloud-ui-vanilla
+sites: false
 
 # user settings
 registration:

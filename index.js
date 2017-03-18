@@ -2,6 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var expressValidator = require('express-validator')
+var vhost = require('vhost')
 
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
@@ -33,6 +34,22 @@ module.exports = function (config) {
   app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
+
+  // http gateway
+  // =
+
+  if (config.sites) {
+    var httpGatewayApp = express()
+    httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
+    if (config.sites === 'per-archive') {
+      httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
+      app.use(vhost('*.*.' + config.hostname, httpGatewayApp))
+      app.use(vhost('*.' + config.hostname, httpGatewayApp))
+    } else {
+      httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
+      app.use(vhost('*.' + config.hostname, httpGatewayApp))
+    }
+  }
 
   // service apis
   // =
