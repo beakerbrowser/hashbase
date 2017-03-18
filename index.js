@@ -39,7 +39,7 @@ module.exports = function (config) {
   // =
 
   var httpGatewayApp = express()
-  // httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile) TODO
+  httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
   httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
   app.use(vhost('*.*.' + config.hostname, httpGatewayApp))
 
