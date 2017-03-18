@@ -56,6 +56,26 @@ The frontend can be replaced with a custom npm module. The default is [hyperclou
 ui: hypercloud-ui-vanilla
 ```
 
+#### HTTP Sites
+
+Hypercloud can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](npm.im/dat-dns) for the archives. There are two possible schemes:
+
+```yaml
+sites: per-user
+```
+
+Per-user will host archives at `username.hostname/archivename`, in a scheme similar to GitHub Pages. If the archive-name is == to the username, it will be hosted at `username.hostname`.
+
+Note that, in this scheme, a DNS shortname is only provided for the user archive (`username.hostname`).
+
+```yaml
+sites: per-archive
+```
+
+Per-archive will host archives at `archivename.username.hostname`. If the archive-name is == to the username, it will be hosted at `username.hostname`.
+
+By default, HTTP Sites are disabled.
+
 #### Closed Registration
 
 For a private instance, use closed registration with a whitelist of allowed emails:
