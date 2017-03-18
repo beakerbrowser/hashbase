@@ -34,6 +34,12 @@ module.exports = function (config) {
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
 
+  // service apis
+  // =
+
+  app.get('/', cloud.api.service.frontpage)
+  app.get('/v1/explore', cloud.api.service.explore)
+
   // user & auth apis
   // =
 
@@ -54,11 +60,14 @@ module.exports = function (config) {
   app.get('/v1/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
   app.get('/v1/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 
-  // service apis
+  // admin apis
   // =
 
-  app.get('/', cloud.api.service.frontpage)
-  app.get('/v1/explore', cloud.api.service.explore)
+  app.get('/v1/admin/users', cloud.api.admin.listUsers)
+  app.get('/v1/admin/users/:id', cloud.api.admin.getUser)
+  app.post('/v1/admin/users/:id', cloud.api.admin.updateUser)
+  app.post('/v1/admin/users/:id/suspend', cloud.api.admin.suspendUser)
+  app.post('/v1/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
 
   // (json) error-handling fallback
   // =
