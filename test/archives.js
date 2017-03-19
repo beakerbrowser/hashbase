@@ -184,7 +184,7 @@ test('change archive name', async t => {
   t.is(res.statusCode, 422, '422 invalid name')
 
   // change name the second time
-  json = {key: testDatKey, name: 'test.dat'}
+  json = {key: testDatKey, name: 'test--dat'}
   res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
@@ -192,15 +192,15 @@ test('change archive name', async t => {
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.archives[0], {
     key: testDatKey,
-    name: 'test.dat'
+    name: 'test--dat'
   })
 
-  res = await app.req.get({url: '/v1/users/admin/test.dat', json: true, auth})
+  res = await app.req.get({url: '/v1/users/admin/test--dat', json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data by name')
   t.deepEqual(res.body, {
     user: 'admin',
     key: testDatKey,
-    name: 'test.dat',
+    name: 'test--dat',
     title: null,
     description: null
   })
@@ -210,7 +210,7 @@ test('change archive name', async t => {
   t.deepEqual(res.body, {
     user: 'admin',
     key: testDatKey,
-    name: 'test.dat',
+    name: 'test--dat',
     title: null,
     description: null
   })
