@@ -11,6 +11,13 @@ registration:
   allowed:
     - alice@mail.com
     - bob@mail.com
+  reservedNames:
+    - admin
+    - root
+    - support
+    - noreply
+    - users
+    - archives
 admin:
   email: ''
   password: ''

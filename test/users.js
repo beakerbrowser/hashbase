@@ -94,6 +94,18 @@ test('register validation', async t => {
   await run({ email: 'asdf', username: 'bob', password: 'foobar' }, 'email') // invalid email
 })
 
+test('register blocks reserved usernames', async t => {
+  async function run (inputs) {
+    var res = await app.req.post({uri: '/v1/register', json: inputs})
+    t.is(res.statusCode, 422, '422 bad input')
+    t.is(res.body.reservedName, true, 'reservedName')
+  }
+
+  await run({ email: 'bob@example.com', username: 'blacklisted', password: 'foobar' })
+  await run({ email: 'bob@example.com', username: 'reserved', password: 'foobar' })
+  await run({ email: 'bob@example.com', username: 'RESERVED', password: 'foobar' })
+})
+
 test('verify validation', async t => {
   async function run (type, inputs, badParam) {
     var res = await (type === 'post'
