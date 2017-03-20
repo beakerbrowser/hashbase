@@ -21,3 +21,4 @@
 
  - [Access Scopes](./schemas/access-scopes.md). The different permissions available to users.
  - [LevelDB](./schemas/leveldb.md). LevelDB layout and objects.
+ - [Events](./schemas/events.md). Events emitted by various components.
