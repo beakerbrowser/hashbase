@@ -70,8 +70,10 @@ module.exports = function (config) {
   app.all('/v1/verify', cloud.api.users.verify)
   app.get('/v1/account', cloud.api.users.getAccount)
   app.post('/v1/account', cloud.api.users.updateAccount)
+  app.post('/v1/account/password', cloud.api.users.updateAccountPassword)
   app.post('/v1/login', cloud.api.users.doLogin)
   app.get('/v1/logout', cloud.api.users.doLogout)
+  app.post('/v1/forgot-password', cloud.api.users.doForgotPassword)
   app.get('/v1/users/:username([^/]{3,})', cloud.api.users.get)
 
   // archives apis

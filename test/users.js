@@ -288,6 +288,98 @@ test('login and get profile', async t => {
   t.is(res.body.username, 'bob', 'username is included')
 })
 
+test('login and change password', async t => {
+  // login
+  var res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'bob',
+      password: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
+
+  // change password
+  var auth = {bearer: res.body.sessionToken}
+  res = await app.req.post({
+    url: '/v1/account/password',
+    auth,
+    json: {
+      oldPassword: 'foobar',
+      newPassword: 'foobaz'
+    }
+  })
+  t.is(res.statusCode, 200, '200 password changed')
+
+  // login with new password
+  res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'bob',
+      password: 'foobaz'
+    }
+  })
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
+})
+
+test('forgot password flow', async t => {
+  var res, lastMail
+
+  // start the flow
+  res = await app.req.post({
+    uri: '/v1/forgot-password',
+    json: {
+      email: 'bob@example.com'
+    }
+  })
+  t.is(res.statusCode, 200, '200 started forgot password flow')
+
+  // check sent mail and extract the verification nonce
+  lastMail = app.cloud.mailer.transport.sentMail.pop()
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Forgotten password reset')
+  var forgotPasswordNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+
+  // update password
+  res = await app.req.post({
+    uri: '/v1/account/password',
+    json: {
+      username: 'bob',
+      nonce: forgotPasswordNonce,
+      newPassword: 'fooblah'
+    }
+  })
+  t.is(res.statusCode, 200, '200 updated password')
+
+  // login with new password
+  res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'bob',
+      password: 'fooblah'
+    }
+  })
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
+})
+
+test('forgot password flow rejects bad nonces', async t => {
+  var res
+
+  // update password
+  res = await app.req.post({
+    uri: '/v1/account/password',
+    json: {
+      username: 'bob',
+      nonce: 'bs',
+      newPassword: 'fooblah'
+    }
+  })
+  t.is(res.statusCode, 422, '422 bad nonce')
+})
+
 test.cb('stop test server', t => {
   app.close(() => {
     t.pass('closed')

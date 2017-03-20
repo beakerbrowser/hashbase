@@ -9,6 +9,7 @@
 ### Flows
 
  - [Registration Flow](./flows/registration.md). User-registration and verification.
+ - [Forgot Password Flow](./flows/forgot-password.md). User password reset.
  - [Dat Ownership Proof Flow](./flows/dat-ownership-proof.md). How ownership of a dat by a specific user is verified.
 
 ### Components

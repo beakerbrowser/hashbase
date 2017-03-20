@@ -51,7 +51,9 @@ Schema:
   createdAt: Number, the timestamp of creation time
   
   isEmailVerified: Boolean
-  emailVerifyNonce: String, the random verification nonce
+  emailVerifyNonce: String, the random verification nonce (register flow)
+
+  forgotPasswordNonce: String, the random verification nonce (forgot password flow)
 
   isProfileDatVerified: Boolean
   profileVerifyToken: String, the profile verification token (stored so the user can refetch it)
