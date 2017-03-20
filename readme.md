@@ -88,6 +88,21 @@ registration:
     - bob@mail.com
 ```
 
+#### Reserved Usernames
+
+Use reserved usernames to blacklist usernames which collide with frontend routes, or which might be used maliciously.
+
+```yaml
+registration:
+  reservedNames:
+    - admin
+    - root
+    - support
+    - noreply
+    - users
+    - archives
+```
+
 #### Session Tokens
 
 Hypercloud uses Json Web Tokens to manage sessions. You absolutely *must* replace the `secret` with a random string before deployment.

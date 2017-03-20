@@ -37,7 +37,10 @@ function createLocalApp (cb) {
     admin: {
       password: 'foobar'
     },
-    registration: { open: true },
+    registration: {
+      open: true,
+      reservedNames: ['reserved', 'blacklisted']
+    },
     email: {
       transport: 'mock',
       sender: '"Test Server" <noreply@test.local>'
