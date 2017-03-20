@@ -36,6 +36,7 @@ dir: ./.hypercloud          # where to store the data
 brandname: Hypercloud       # the title of your service
 hostname: hypercloud.local  # the hostname of your service
 port: 8080                  # the port to run the service on
+rateLimiting: true          # rate limit the HTTP requests?
 ```
 
 #### Admin Account
