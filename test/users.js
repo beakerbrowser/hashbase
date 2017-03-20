@@ -92,6 +92,7 @@ test('register validation', async t => {
   await run({ email: 'bob@example.com', username: 'a', password: 'foobar' }, 'username') // username too short
   await run({ email: 'bob@example.com', username: 'bob.boy', password: 'foobar' }, 'username') // username has invalid chars
   await run({ email: 'asdf', username: 'bob', password: 'foobar' }, 'email') // invalid email
+  await run({ email: 'bob+foo@example.com', username: 'bob', password: 'foobar' }, 'email') // invalid email
 })
 
 test('register blocks reserved usernames', async t => {
