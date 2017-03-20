@@ -2,6 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var expressValidator = require('express-validator')
+var RateLimit = require('express-rate-limit')
 var vhost = require('vhost')
 
 var Hypercloud = require('./lib')
@@ -34,6 +35,11 @@ module.exports = function (config) {
   app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
+  if (config.rateLimiting) {
+    app.use(new RateLimit({windowMs: 1e3, max: 100, delayMs: 0})) // general rate limit
+    app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
+    app.use('/v1/login', actionLimiter(1, 'Too many login attempts from this IP, please try again after an hour'))
+  }
 
   // http gateway
   // =
@@ -61,8 +67,7 @@ module.exports = function (config) {
   // =
 
   app.post('/v1/register', cloud.api.users.doRegister)
-  app.get('/v1/verify', cloud.api.users.verify)
-  app.post('/v1/verify', cloud.api.users.verify)
+  app.all('/v1/verify', cloud.api.users.verify)
   app.get('/v1/account', cloud.api.users.getAccount)
   app.post('/v1/account', cloud.api.users.updateAccount)
   app.post('/v1/login', cloud.api.users.doLogin)
@@ -141,4 +146,13 @@ module.exports = function (config) {
   app.close = cloud.close.bind(cloud)
 
   return app
+}
+
+function actionLimiter (perHour, message) {
+  return new RateLimit({
+    windowMs: perHour * 60 * 60 * 1000,
+    delayMs: 0,
+    max: 5, // start blocking after 5 requests
+    message
+  })
 }

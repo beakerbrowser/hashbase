@@ -4,6 +4,7 @@ hostname: hypercloud.local
 port: 8080
 ui: hypercloud-ui-vanilla
 sites: false
+rateLimiting: true
 
 # user settings
 registration:
