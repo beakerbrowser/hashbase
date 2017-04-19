@@ -1,9 +1,8 @@
 const Dat = require('dat-node')
-const memdb = require('memdb')
 const util = require('./util')
 
 exports.makeDatFromFolder = function (dir, cb) {
-  Dat(dir, { db: memdb() }, (err, dat) => {
+  Dat(dir, (err, dat) => {
     if (err) return cb(err)
 
     dat.importFiles(() => {
@@ -18,31 +17,28 @@ exports.makeDatFromFolder = function (dir, cb) {
 
 exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
   var dir = util.mktmpdir()
-  Dat(dir, { key, db: memdb() }, (err, dat) => {
+  Dat(dir, {key}, (err, dat) => {
     if (err) return cb(err)
 
     dat.joinNetwork()
-    dat.network.swarm.once('connection', (...args) => {
+    dat.network.once('connection', (...args) => {
       console.log('got connection')
     })
-
-    var stats = dat.trackStats()
-    stats.on('update', () => console.log('stats', stats.get()))
 
     dat.archive.metadata.on('download', (index, block) => {
       console.log('meta download event', index)
     })
 
     var to = setTimeout(() => cb(new Error('timed out waiting for download')), timeout)
-    dat.archive.metadata.on('download-finished', () => {
+    dat.archive.metadata.on('sync', () => {
       console.log('meta download finished')
     })
-    dat.archive.open(() => {
+    dat.archive.once('content', () => {
       console.log('opened')
       dat.archive.content.on('download', (index, block) => {
         console.log('content download event', index)
       })
-      dat.archive.content.on('download-finished', () => {
+      dat.archive.content.on('sync', () => {
         console.log('content download finished')
         clearTimeout(to)
         dat.close()

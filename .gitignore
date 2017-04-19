@@ -3,3 +3,4 @@ npm-debug.log
 .hypercloud
 config.*.yml
 !config.defaults.yml
+test/scaffold/testdat1/.dat
