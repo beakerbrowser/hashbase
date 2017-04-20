@@ -8,9 +8,7 @@ Layout and schemas of the data in the LevelDB.
    - `archives`: Map of `key => Archive object`.
    - `accounts`: Map of `id => Account object`.
    - `accounts-index`: Index of `username => id`, `email => id`, `profileUrl => id`.
-   - `added-keys`: Keys of dats actively swarming. (hypercore-archiver)
    - `global-activity`: Map of `timestamp => Event object`.
-   - `misc`: Various book-keeping, stores info such as the key of the changes feed. (hypercore-archiver)
    - `dead-archives`: Map of `key => undefined`. A listing of archives with no hosting users, and which need to be deleted.
 
 ## Archive object
