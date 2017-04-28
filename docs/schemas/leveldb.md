@@ -9,6 +9,7 @@ Layout and schemas of the data in the LevelDB.
    - `accounts`: Map of `id => Account object`.
    - `accounts-index`: Index of `username => id`, `email => id`, `profileUrl => id`.
    - `global-activity`: Map of `timestamp => Event object`.
+   - `global-activity-users-index`: Set of `username:timestamp => null` for doing user filtering.
    - `dead-archives`: Map of `key => undefined`. A listing of archives with no hosting users, and which need to be deleted.
 
 ## Archive object
