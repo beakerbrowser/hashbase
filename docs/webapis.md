@@ -59,6 +59,7 @@ Response:
   createdAt: Number, the timestamp of creation time
 }
 ```
+
 Response when `?view=archives`:
 
 ```
@@ -71,6 +72,24 @@ Response when `?view=archives`:
   }]
 }
 ```
+
+Response when `?view=activity`:
+
+```
+{
+  activity: [{
+    key: String, event's id
+    userid: String, the user who made the change
+    username: String, the name of the user who made the change
+    action: String, the label for the action
+    params: Object, a set of arbitrary KVs relevant to the action
+  }, ...]
+}
+```
+
+Additional query params when `?view=activity`:
+ 
+ - start: For pagination. The key of the event to start after.
 
 ### GET /v1/users/:username/:archivename
 

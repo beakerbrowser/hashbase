@@ -86,7 +86,7 @@ test('do some activity', async t => {
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
-test('get activity', async t => {
+test('get global activity', async t => {
   // no offset
   var res = await app.req.get({url: '/v1/explore?view=activity', json: true})
   t.is(res.statusCode, 200, '200 got activity')
@@ -112,6 +112,42 @@ test('get activity', async t => {
   t.is(res.body.activity[1].username, 'admin')
   t.is(res.body.activity[1].action, 'add-archive')
   t.is(res.body.activity[1].params.key, fakeDatKey1)
+})
+
+test('get user activity', async t => {
+  // no offset
+  var res = await app.req.get({url: '/v1/users/admin?view=activity', json: true})
+  t.is(res.statusCode, 200, '200 got activity')
+  t.is(res.body.activity.length, 2)
+  t.is(res.body.activity[0].username, 'admin')
+  t.is(res.body.activity[0].action, 'del-archive')
+  t.is(res.body.activity[0].params.key, fakeDatKey1)
+  t.is(res.body.activity[1].username, 'admin')
+  t.is(res.body.activity[1].action, 'add-archive')
+  t.is(res.body.activity[1].params.key, fakeDatKey1)
+  var start = res.body.activity[0].key
+
+  var res = await app.req.get({url: '/v1/users/bob?view=activity', json: true})
+  t.is(res.statusCode, 200, '200 got activity')
+  t.is(res.body.activity.length, 1)
+  t.is(res.body.activity[0].username, 'bob')
+  t.is(res.body.activity[0].action, 'add-archive')
+  t.is(res.body.activity[0].params.key, fakeDatKey2)
+
+  // with offset
+  res = await app.req.get({url: '/v1/users/admin', qs: {view: 'activity', start}, json: true})
+  t.is(res.statusCode, 200, '200 got activity')
+  t.is(res.body.activity.length, 1)
+  t.is(res.body.activity[0].username, 'admin')
+  t.is(res.body.activity[0].action, 'add-archive')
+  t.is(res.body.activity[0].params.key, fakeDatKey1)
+
+  res = await app.req.get({url: '/v1/users/bob', qs: {view: 'activity', start}, json: true})
+  t.is(res.statusCode, 200, '200 got activity')
+  t.is(res.body.activity.length, 1)
+  t.is(res.body.activity[0].username, 'bob')
+  t.is(res.body.activity[0].action, 'add-archive')
+  t.is(res.body.activity[0].params.key, fakeDatKey2)
 })
 
 test.cb('stop test server', t => {
