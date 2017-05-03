@@ -131,7 +131,12 @@ Additional query params when `?view=activity`:
 
 ### GET /v1/archives/:archiveKey
 
-Response when `?view=status`:
+Response when `?view=status` and `Accept: text/event-stream`:
+
+ - Data event is emitted every 1000ms
+ - Event contains a number, percentage (from 0 to 1) of upload progress
+
+Response when `?view=status` and `Accept: application/json`:
 
 ```
 {

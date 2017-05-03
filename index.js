@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser')
 var expressValidator = require('express-validator')
 var RateLimit = require('express-rate-limit')
 var vhost = require('vhost')
+var sse = require('express-server-sent-events')
 
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
@@ -81,7 +82,7 @@ module.exports = function (config) {
 
   app.post('/v1/archives/add', cloud.api.archives.add)
   app.post('/v1/archives/remove', cloud.api.archives.remove)
-  app.get('/v1/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
+  app.get('/v1/archives/:key([0-9a-f]{64})', sse, cloud.api.archives.get)
   app.get('/v1/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 
   // admin apis

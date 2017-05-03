@@ -37,6 +37,7 @@
     "es6-promisify": "^5.0.0",
     "express": "^4.14.0",
     "express-rate-limit": "^2.6.0",
+    "express-server-sent-events": "^1.1.0",
     "express-validator": "^3.1.2",
     "hypercloud-ui-vanilla": "^1.0.0",
     "hyperdrive": "^9.2.0",
