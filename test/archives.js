@@ -219,6 +219,17 @@ test('change archive name', async t => {
   t.is(res.statusCode, 404, '404 old name not found')
 })
 
+test('dont allow two archives with same name for given user', async t => {
+  // add archive
+  var json = {key: testDatKey, name: 'test-duplicate-archive'}
+  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  // add the archive again
+  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  t.is(res.statusCode, 422, '422 name already in use')
+})
+
 test.cb('check archive status and wait till synced', t => {
   var to = setTimeout(() => {
     throw new Error('Archive did not sync')
