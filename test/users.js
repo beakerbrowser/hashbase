@@ -338,7 +338,9 @@ test('forgot password flow', async t => {
   t.is(res.statusCode, 200, '200 started forgot password flow')
 
   // check sent mail and extract the verification nonce
-  lastMail = app.cloud.mailer.transport.sentMail.pop()
+  var sentMail = app.cloud.mailer.transport.sentMail
+  await waitUntil(() => sentMail[sentMail.length - 1].data.subject === 'Forgotten password reset')
+  lastMail = sentMail.pop()
   t.truthy(lastMail)
   t.is(lastMail.data.subject, 'Forgotten password reset')
   var forgotPasswordNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
@@ -387,3 +389,14 @@ test.cb('stop test server', t => {
     t.end()
   })
 })
+
+function waitUntil (pred) {
+  return new Promise(resolve => {
+    var i = setInterval(() => {
+      if (pred()) {
+        clearInterval(i)
+        resolve()
+      }
+    }, 50)
+  })
+}
