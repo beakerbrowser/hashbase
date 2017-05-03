@@ -127,6 +127,42 @@ Additional query params when `?view=activity`:
  
  - start: For pagination. The key of the event to start after.
 
+Response body when `?view=popular`:
+
+```
+{
+  popular: [{
+    key: String, the archive's key
+    numPeers: Number, the number of peers replicating the archive
+    name: String, the name given to the archive by its owner
+    owner: String, the username of the owning author
+    createdAt: Number, the timestamp of the archive's upload
+  }, ...]
+}
+```
+
+Additional query params when `?view=popular`:
+ 
+ - start: For pagination. Should be an offset.
+
+Response body when `?view=recent`:
+
+```
+{
+  recent: [{
+    key: String, the archive's key
+    numPeers: Number, the number of peers replicating the archive
+    name: String, the name given to the archive by its owner
+    owner: String, the username of the owning author
+    createdAt: Number, the timestamp of the archive's upload
+  }, ...]
+}
+```
+
+Additional query params when `?view=recent`:
+ 
+ - start: For pagination. Should be a timestamp.
+
 ## Archive APIs
 
 ### GET /v1/archives/:archiveKey
