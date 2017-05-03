@@ -6,6 +6,10 @@ ui: hypercloud-ui-vanilla
 sites: false
 rateLimiting: true
 
+# processing jobs
+jobs:
+  popularArchivesIndex: 30s
+
 # user settings
 registration:
   open: false
