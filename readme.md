@@ -115,6 +115,16 @@ sessions:
   expiresIn: 1h                   # how long do sessions live?
 ```
 
+#### Jobs
+
+Hypercloud runs some jobs periodically. You can configure how frequently they run.
+
+```yaml
+# processing jobs
+jobs:
+  popularArchivesIndex: 30s  # compute the index of archives sorted by num peers
+```
+
 #### Emailer
 
 *Todo, sorry*

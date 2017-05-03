@@ -6,6 +6,7 @@ Layout and schemas of the data in the LevelDB.
 
  - `main`
    - `archives`: Map of `key => Archive object`.
+   - `archives-index`: Index of `createdAt => key`
    - `accounts`: Map of `id => Account object`.
    - `accounts-index`: Index of `username => id`, `email => id`, `profileUrl => id`.
    - `global-activity`: Map of `timestamp => Event object`.

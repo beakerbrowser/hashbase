@@ -37,6 +37,9 @@ function createLocalApp (cb) {
     admin: {
       password: 'foobar'
     },
+    jobs: {
+      popularArchivesIndex: '15m'
+    },
     registration: {
       open: true,
       reservedNames: ['reserved', 'blacklisted']

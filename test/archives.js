@@ -265,6 +265,37 @@ test.cb('archive is accessable via dat swarm', t => {
   })
 })
 
+test('list archives by popularity', async t => {
+  // manually compute popular index
+  app.cloud.archiver.computePopularIndex()
+
+  var res = await app.req.get({uri: '/v1/explore?view=popular', json: true})
+  t.is(res.statusCode, 200, '200 got popular')
+  t.is(res.body.popular.length, 1, 'got 1 archive')
+  for (var i = 0; i < 1; i++) {
+    let archive = res.body.popular[i]
+    t.truthy(typeof archive.key === 'string', 'has key')
+    t.truthy(typeof archive.numPeers === 'number', 'has numPeers')
+    t.truthy(typeof archive.name === 'string', 'has name')
+    t.truthy(typeof archive.owner === 'string', 'has owner')
+    t.truthy(typeof archive.createdAt === 'number', 'has createdAt')
+  }
+})
+
+test('list archives by recency', async t => {
+  var res = await app.req.get({uri: '/v1/explore?view=recent', json: true})
+  t.is(res.statusCode, 200, '200 got recent')
+  t.is(res.body.recent.length, 1, 'got 1 archive')
+  for (var i = 0; i < 1; i++) {
+    let archive = res.body.recent[i]
+    t.truthy(typeof archive.key === 'string', 'has key')
+    t.truthy(typeof archive.numPeers === 'number', 'has numPeers')
+    t.truthy(typeof archive.name === 'string', 'has name')
+    t.truthy(typeof archive.owner === 'string', 'has owner')
+    t.truthy(typeof archive.createdAt === 'number', 'has createdAt')
+  }
+})
+
 test('remove archive', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/archives/remove', json, auth})
