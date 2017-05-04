@@ -135,6 +135,8 @@ Response body when `?view=popular`:
     key: String, the archive's key
     numPeers: Number, the number of peers replicating the archive
     name: String, the name given to the archive by its owner
+    title: String, optional title extracted from the dat's manifest file
+    description: String, optional description extracted from the dat's manifest file
     owner: String, the username of the owning author
     createdAt: Number, the timestamp of the archive's upload
   }, ...]
@@ -153,6 +155,8 @@ Response body when `?view=recent`:
     key: String, the archive's key
     numPeers: Number, the number of peers replicating the archive
     name: String, the name given to the archive by its owner
+    title: String, optional title extracted from the dat's manifest file
+    description: String, optional description extracted from the dat's manifest file
     owner: String, the username of the owning author
     createdAt: Number, the timestamp of the archive's upload
   }, ...]

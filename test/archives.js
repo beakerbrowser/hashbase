@@ -80,12 +80,36 @@ test('add archive', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
+})
 
-  res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
+test.cb('check archive status and wait till synced', t => {
+  var to = setTimeout(() => {
+    throw new Error('Archive did not sync')
+  }, 15e3)
+
+  checkStatus()
+  async function checkStatus () {
+    var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
+    var progress = res.body && res.body.progress ? res.body.progress : 0
+    if (progress === 1) {
+      clearTimeout(to)
+      console.log('synced!')
+      t.end()
+    } else {
+      console.log('progress', progress * 100, '%')
+      setTimeout(checkStatus, 300)
+    }
+  }
+})
+
+test('read back archive', async t => {
+  var res = await app.req.get({url: '/v1/users/admin?view=archives', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.archives[0], {
     key: testDatKey,
-    name: null
+    name: null,
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
@@ -94,8 +118,8 @@ test('add archive', async t => {
     user: 'admin',
     key: testDatKey,
     name: null,
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 })
 
@@ -108,7 +132,9 @@ test('add duplicate archive as another user', async t => {
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.archives[0], {
     key: testDatKey,
-    name: null
+    name: null,
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/bob/' + testDatKey, json: true, auth: authUser})
@@ -117,8 +143,8 @@ test('add duplicate archive as another user', async t => {
     user: 'bob',
     key: testDatKey,
     name: null,
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 })
 
@@ -131,7 +157,9 @@ test('add archive that was already added', async t => {
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.archives[0], {
     key: testDatKey,
-    name: null
+    name: null,
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
@@ -140,8 +168,8 @@ test('add archive that was already added', async t => {
     user: 'admin',
     key: testDatKey,
     name: null,
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 })
 
@@ -155,7 +183,9 @@ test('change archive name', async t => {
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.archives[0], {
     key: testDatKey,
-    name: 'test-archive'
+    name: 'test-archive',
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/test-archive', json: true, auth})
@@ -164,8 +194,8 @@ test('change archive name', async t => {
     user: 'admin',
     key: testDatKey,
     name: 'test-archive',
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
@@ -174,8 +204,8 @@ test('change archive name', async t => {
     user: 'admin',
     key: testDatKey,
     name: 'test-archive',
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   // change to invalid names
@@ -192,7 +222,9 @@ test('change archive name', async t => {
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.archives[0], {
     key: testDatKey,
-    name: 'test--dat'
+    name: 'test--dat',
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/test--dat', json: true, auth})
@@ -201,8 +233,8 @@ test('change archive name', async t => {
     user: 'admin',
     key: testDatKey,
     name: 'test--dat',
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/' + testDatKey, json: true, auth})
@@ -211,8 +243,8 @@ test('change archive name', async t => {
     user: 'admin',
     key: testDatKey,
     name: 'test--dat',
-    title: null,
-    description: null
+    title: 'Test Dat 1',
+    description: 'The first test dat'
   })
 
   res = await app.req.get({url: '/v1/users/admin/test-archive', json: true, auth})
@@ -226,31 +258,8 @@ test('dont allow two archives with same name for given user', async t => {
   t.is(res.statusCode, 200, '200 added dat')
 
   // add the archive again
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 422, '422 name already in use')
-})
-
-test.cb('check archive status and wait till synced', t => {
-  var to = setTimeout(() => {
-    throw new Error('Archive did not sync')
-  }, 15e3)
-
-  checkStatus()
-  async function checkStatus () {
-    var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
-    if (!res.body || !('progress' in res.body)) {
-      console.log('progress not returned', res.statusCode, res.body)
-      return t.end()
-    }
-    if (res.body.progress === 1) {
-      clearTimeout(to)
-      console.log('synced!')
-      t.end()
-    } else {
-      console.log('progress', res.body.progress * 100, '%')
-      setTimeout(checkStatus, 300)
-    }
-  }
 })
 
 test.cb('archive is accessable via dat swarm', t => {
@@ -277,6 +286,8 @@ test('list archives by popularity', async t => {
     t.truthy(typeof archive.key === 'string', 'has key')
     t.truthy(typeof archive.numPeers === 'number', 'has numPeers')
     t.truthy(typeof archive.name === 'string', 'has name')
+    t.truthy(typeof archive.title === 'string', 'has title')
+    t.truthy(typeof archive.description === 'string', 'has description')
     t.truthy(typeof archive.owner === 'string', 'has owner')
     t.truthy(typeof archive.createdAt === 'number', 'has createdAt')
   }
@@ -291,6 +302,8 @@ test('list archives by recency', async t => {
     t.truthy(typeof archive.key === 'string', 'has key')
     t.truthy(typeof archive.numPeers === 'number', 'has numPeers')
     t.truthy(typeof archive.name === 'string', 'has name')
+    t.truthy(typeof archive.title === 'string', 'has title')
+    t.truthy(typeof archive.description === 'string', 'has description')
     t.truthy(typeof archive.owner === 'string', 'has owner')
     t.truthy(typeof archive.createdAt === 'number', 'has createdAt')
   }
