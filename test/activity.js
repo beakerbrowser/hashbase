@@ -127,7 +127,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[1].params.key, fakeDatKey1)
   var start = res.body.activity[0].key
 
-  var res = await app.req.get({url: '/v1/users/bob?view=activity', json: true})
+  res = await app.req.get({url: '/v1/users/bob?view=activity', json: true})
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 1)
   t.is(res.body.activity[0].username, 'bob')
