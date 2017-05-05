@@ -123,29 +123,35 @@ test('read back archive', async t => {
   })
 })
 
-test('add duplicate archive as another user', async t => {
+// TEMPORARY - hypercloud only allows one hosting user per archive
+// test('add duplicate archive as another user', async t => {
+//   var json = {key: testDatKey}
+//   var res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
+//   t.is(res.statusCode, 200, '200 added dat')
+
+//   res = await app.req.get({url: '/v1/users/bob?view=archives', json: true, auth: authUser})
+//   t.is(res.statusCode, 200, '200 got user data')
+//   t.deepEqual(res.body.archives[0], {
+//     key: testDatKey,
+//     name: null,
+//     title: 'Test Dat 1',
+//     description: 'The first test dat'
+//   })
+
+//   res = await app.req.get({url: '/v1/users/bob/' + testDatKey, json: true, auth: authUser})
+//   t.is(res.statusCode, 200, '200 got dat data')
+//   t.deepEqual(res.body, {
+//     user: 'bob',
+//     key: testDatKey,
+//     name: null,
+//     title: 'Test Dat 1',
+//     description: 'The first test dat'
+//   })
+// })
+test('dont allow duplicate archives as another user', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
-  t.is(res.statusCode, 200, '200 added dat')
-
-  res = await app.req.get({url: '/v1/users/bob?view=archives', json: true, auth: authUser})
-  t.is(res.statusCode, 200, '200 got user data')
-  t.deepEqual(res.body.archives[0], {
-    key: testDatKey,
-    name: null,
-    title: 'Test Dat 1',
-    description: 'The first test dat'
-  })
-
-  res = await app.req.get({url: '/v1/users/bob/' + testDatKey, json: true, auth: authUser})
-  t.is(res.statusCode, 200, '200 got dat data')
-  t.deepEqual(res.body, {
-    user: 'bob',
-    key: testDatKey,
-    name: null,
-    title: 'Test Dat 1',
-    description: 'The first test dat'
-  })
+  t.is(res.statusCode, 422, '422 rejected')
 })
 
 test('add archive that was already added', async t => {
@@ -315,16 +321,17 @@ test('remove archive', async t => {
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
-test('check archive status after removed by one user, not all', async t => {
-  var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, auth})
-  t.is(res.statusCode, 200, '200 got dat')
-})
+// TEMPORARY only 1 owner per archive allowed
+// test('check archive status after removed by one user, not all', async t => {
+//   var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, auth})
+//   t.is(res.statusCode, 200, '200 got dat')
+// })
 
-test('remove archive as other user', async t => {
-  var json = {key: testDatKey}
-  var res = await app.req.post({uri: '/v1/archives/remove', json, auth: authUser})
-  t.is(res.statusCode, 200, '200 removed dat')
-})
+// test('remove archive as other user', async t => {
+//   var json = {key: testDatKey}
+//   var res = await app.req.post({uri: '/v1/archives/remove', json, auth: authUser})
+//   t.is(res.statusCode, 200, '200 removed dat')
+// })
 
 test('remove archive that was already removed', async t => {
   var json = {key: testDatKey}
