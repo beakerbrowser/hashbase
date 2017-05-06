@@ -34,6 +34,7 @@ function createLocalApp (cb) {
     hostname: 'test.local',
     dir: tmpdir,
     port: portCounter++,
+    defaultDiskUsageLimit: '100mb',
     admin: {
       password: 'foobar'
     },

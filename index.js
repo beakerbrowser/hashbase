@@ -164,7 +164,7 @@ function actionLimiter (perHour, message) {
 
 function addConfigHelpers (config) {
   config.getUserDiskQuota = (userRecord) => {
-    return bytes(userRecord.diskQuota || config.defaultDiskUsageLimit)
+    return userRecord.diskQuota || bytes(config.defaultDiskUsageLimit)
   }
   config.getUserDiskQuotaPct = (userRecord) => {
     return userRecord.diskUsage / config.getUserDiskQuota(userRecord)
