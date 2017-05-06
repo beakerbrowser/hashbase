@@ -38,7 +38,8 @@ function createLocalApp (cb) {
       password: 'foobar'
     },
     jobs: {
-      popularArchivesIndex: '15m'
+      popularArchivesIndex: '15m',
+      userQuotaUsage: '30m'
     },
     registration: {
       open: true,

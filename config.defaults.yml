@@ -9,6 +9,7 @@ rateLimiting: true
 # processing jobs
 jobs:
   popularArchivesIndex: 30s
+  userQuotaUsage: 5m
 
 # user settings
 registration:

@@ -257,7 +257,7 @@ Like `/v1/login`, generates a session JWT and provides it in response headers.
 
 ### GET /v1/account
 
-Responds with the authenticated user's [account object](https://github.com/joehand/hypercloud/wiki/Users-Schema#account-object).
+Responds with the authenticated user's [account object](https://github.com/datprotocol/hypercloud/wiki/Users-Schema#account-object).
 
 Response body:
 
@@ -265,12 +265,15 @@ Response body:
 {
   email: String, the user's email address
   username: String, the chosen username
+  diskUsage: Number, the number of bytes currently used by this account's archives
+  updatedAt: Number, the timestamp of the last update to the account
+  createdAt: Number, the timestamp of when the account was created
 }
 ```
 
 ### POST /v1/account
 
-Updates the authenticated user's [account object](https://github.com/joehand/hypercloud/wiki/Users-Schema#account-object)
+Updates the authenticated user's [account object](https://github.com/datprotocol/hypercloud/wiki/Users-Schema#account-object)
 
 Request body:
 
