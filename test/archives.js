@@ -131,7 +131,7 @@ test('read back archive', async t => {
 
 test('user disk usage is now non-zero', async t => {
   // run usage-compute job
-  await app.cloud.archiver.computeUserQuotaUsage()
+  await app.cloud.archiver.computeUserDiskUsageAndSwarm()
 
   // check data
   var res = await app.req.get({url: '/v1/account', json: true, auth})

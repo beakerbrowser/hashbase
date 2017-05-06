@@ -10,7 +10,7 @@ defaultDiskUsageLimit: 100mb
 # processing jobs
 jobs:
   popularArchivesIndex: 30s
-  userQuotaUsage: 5m
+  userDiskUsage: 5m
 
 # user settings
 registration:

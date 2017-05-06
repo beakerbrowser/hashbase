@@ -1,7 +1,7 @@
 var test = require('ava')
 var path = require('path')
 var createTestServer = require('./lib/server.js')
-var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
+var { makeDatFromFolder } = require('./lib/dat.js')
 
 var app
 var sessionToken, auth, authUser
@@ -120,7 +120,7 @@ test.cb('check archive status and wait till synced', t => {
 
 test('user disk usage now exceeds the disk quota', async t => {
   // run usage-compute job
-  await app.cloud.archiver.computeUserQuotaUsage()
+  await app.cloud.archiver.computeUserDiskUsageAndSwarm()
 
   // check data
   var res = await app.req.get({url: '/v1/admin/users/bob', json: true, auth})

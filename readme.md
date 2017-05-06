@@ -124,7 +124,7 @@ Hypercloud runs some jobs periodically. You can configure how frequently they ru
 # processing jobs
 jobs:
   popularArchivesIndex: 30s  # compute the index of archives sorted by num peers
-  userQuotaUsage: 5m         # compute how much disk space each user is using
+  userDiskUsage: 5m          # compute how much disk space each user is using
 ```
 
 #### Emailer
