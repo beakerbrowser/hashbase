@@ -266,6 +266,7 @@ Response body:
   email: String, the user's email address
   username: String, the chosen username
   diskUsage: Number, the number of bytes currently used by this account's archives
+  diskQuota: Number, the number of bytes allowed to be used by this account's archives
   updatedAt: Number, the timestamp of the last update to the account
   createdAt: Number, the timestamp of when the account was created
 }
@@ -307,6 +308,8 @@ Response body:
     username: String, the chosen username
     isEmailVerified: Boolean
     scopes: Array of strings, what is this user's perms?
+    diskUsage: Number, how many bytes the user is using
+    diskQuota: Number, how many bytes the user is allowed
     updatedAt: Number, the timestamp of the last update
     createdAt: Number, the timestamp of creation time
   }, ...]
@@ -326,6 +329,8 @@ Response body:
   isEmailVerified: Boolean
   emailVerifyNonce: String, the random verification nonce
   scopes: Array of strings, what is this user's perms?
+  diskUsage: Number, how many bytes the user is using
+  diskQuota: Number, how many bytes the user is allowed
   updatedAt: Number, the timestamp of the last update
   createdAt: Number, the timestamp of creation time
 }
@@ -344,6 +349,7 @@ All fields are optional. If a field is omitted, no change is made.
   email: String, the user's email address
   username: String, the chosen username
   scopes: Array of strings, what is this user's perms?
+  diskQuota: String, a description of how many bytes the user is allowed (eg '5mb')
 }
 ```
 

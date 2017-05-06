@@ -1,4 +1,5 @@
 var test = require('ava')
+var bytes = require('bytes')
 var createTestServer = require('./lib/server.js')
 
 var app
@@ -263,7 +264,8 @@ test('fully update carla', async t => {
     json: {
       username: 'carlita',
       email: 'carlita@example.com',
-      scopes: ['user', 'admin:users']
+      scopes: ['user', 'admin:users'],
+      diskQuota: '5mb'
     },
     auth
   })
@@ -278,6 +280,7 @@ test('fully update carla', async t => {
   t.is(res.body.username, 'carlita', 'is updated')
   t.is(res.body.email, 'carlita@example.com', 'is updated')
   t.deepEqual(res.body.scopes, ['user', 'admin:users'], 'is updated')
+  t.deepEqual(res.body.diskQuota, bytes('5mb'), 'is updated')
 })
 
 test('partially update carlita', async t => {
@@ -299,6 +302,7 @@ test('partially update carlita', async t => {
   t.is(res.body.username, 'carlita', 'is updated')
   t.is(res.body.email, 'carlita@example.com', 'is updated')
   t.deepEqual(res.body.scopes, ['user'], 'is updated')
+  t.deepEqual(res.body.diskQuota, bytes('5mb'), 'is updated')
 })
 
 test('suspend bob', async t => {
