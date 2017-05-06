@@ -68,7 +68,6 @@ test('register and login bob', async t => {
 })
 
 test('set bobs quota to something really small', async t => {
-  console.log('setting bob')
   var res = await app.req.post({
     uri: '/v1/admin/users/bob',
     json: {diskQuota: '5b'},
@@ -118,14 +117,28 @@ test.cb('check archive status and wait till synced', t => {
   }
 })
 
-test('user disk usage now exceeds the disk quota', async t => {
+test('archive is still downloading', async t => {
+  // check archive record
+  var res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
+  t.is(res.statusCode, 200, '200 got archive data')
+  t.deepEqual(res.body.swarmOpts, {upload: true, download: true}, 'is still downloading')
+})
+
+test('compute disk usage', async t => {
   // run usage-compute job
   await app.cloud.archiver.computeUserDiskUsageAndSwarm()
+})
 
-  // check data
+test('user disk usage now exceeds the disk quota', async t => {
+  // check user record
   var res = await app.req.get({url: '/v1/admin/users/bob', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.truthy(res.body.diskUsage > res.body.diskQuota, 'disk quota is exceeded')
+
+  // check archive record
+  var res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
+  t.is(res.statusCode, 200, '200 got archive data')
+  t.deepEqual(res.body.swarmOpts, {upload: true, download: false}, 'no longer downloading')
 })
 
 test('add archive now fails', async t => {

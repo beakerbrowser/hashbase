@@ -37,6 +37,7 @@ GET  /v1/admin/users/:id - get user info & settings
 POST /v1/admin/users/:id - update user settings
 POST /v1/admin/users/:id/suspend - suspend a user account
 POST /v1/admin/users/:id/unsuspend - unsuspend a user account
+GET /v1/admin/archives/:key - get archive information
 ```
 
 ## Service APIs
@@ -362,3 +363,19 @@ Scope: `admin:users`
 ### POST /v1/admin/users/:id/unsuspend
 
 Scope: `admin:users`
+
+### GET /v1/admin/archives/:key
+
+Response body:
+
+```
+{
+  key: String, archive key
+  numPeers: Number, number of active peers
+  manifest: Object, the archive's manifest object (dat.json)
+  swarmOpts: {
+    download: Boolean, is it downloading?
+    upload: Boolean, is it uploading?
+  }
+}
+```
