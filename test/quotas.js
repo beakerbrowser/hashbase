@@ -139,6 +139,7 @@ test('user disk usage now exceeds the disk quota', async t => {
   var res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
   t.is(res.statusCode, 200, '200 got archive data')
   t.deepEqual(res.body.swarmOpts, {upload: true, download: false}, 'no longer downloading')
+  t.truthy(res.body.diskUsage > 0, 'response has disk usage')
 })
 
 test('add archive now fails', async t => {
