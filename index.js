@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser')
 var expressValidator = require('express-validator')
 var RateLimit = require('express-rate-limit')
 var vhost = require('vhost')
+var bytes = require('bytes')
 var sse = require('express-server-sent-events')
 
 var Hypercloud = require('./lib')
@@ -12,6 +13,7 @@ var customSanitizers = require('./lib/sanitizers')
 var packageJson = require('./package.json')
 
 module.exports = function (config) {
+  addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version
   cloud.setupAdminUser()
@@ -93,6 +95,7 @@ module.exports = function (config) {
   app.post('/v1/admin/users/:id', cloud.api.admin.updateUser)
   app.post('/v1/admin/users/:id/suspend', cloud.api.admin.suspendUser)
   app.post('/v1/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
+  app.get('/v1/admin/archives/:key', cloud.api.admin.getArchive)
 
   // (json) error-handling fallback
   // =
@@ -158,4 +161,13 @@ function actionLimiter (perHour, message) {
     max: 5, // start blocking after 5 requests
     message
   })
+}
+
+function addConfigHelpers (config) {
+  config.getUserDiskQuota = (userRecord) => {
+    return userRecord.diskQuota || bytes(config.defaultDiskUsageLimit)
+  }
+  config.getUserDiskQuotaPct = (userRecord) => {
+    return userRecord.diskUsage / config.getUserDiskQuota(userRecord)
+  }
 }

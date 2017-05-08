@@ -34,11 +34,13 @@ function createLocalApp (cb) {
     hostname: 'test.local',
     dir: tmpdir,
     port: portCounter++,
+    defaultDiskUsageLimit: '100mb',
     admin: {
       password: 'foobar'
     },
     jobs: {
-      popularArchivesIndex: '15m'
+      popularArchivesIndex: '15m',
+      userDiskUsage: '30m'
     },
     registration: {
       open: true,

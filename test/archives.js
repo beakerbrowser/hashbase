@@ -76,6 +76,12 @@ test.cb('share test-dat', t => {
   })
 })
 
+test('user disk usage is zero', async t => {
+  var res = await app.req.get({url: '/v1/account', json: true, auth})
+  t.is(res.statusCode, 200, '200 got account data')
+  t.deepEqual(res.body.diskUsage, 0, 'disk usage is zero')
+})
+
 test('add archive', async t => {
   var json = {key: testDatKey}
   var res = await app.req.post({uri: '/v1/archives/add', json, auth})
@@ -121,6 +127,16 @@ test('read back archive', async t => {
     title: 'Test Dat 1',
     description: 'The first test dat'
   })
+})
+
+test('user disk usage is now non-zero', async t => {
+  // run usage-compute job
+  await app.cloud.archiver.computeUserDiskUsageAndSwarm()
+
+  // check data
+  var res = await app.req.get({url: '/v1/account', json: true, auth})
+  t.is(res.statusCode, 200, '200 got account data')
+  t.truthy(res.body.diskUsage > 0, 'disk usage is greater than zero')
 })
 
 // TEMPORARY - hypercloud only allows one hosting user per archive

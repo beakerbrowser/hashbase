@@ -37,6 +37,7 @@ GET  /v1/admin/users/:id - get user info & settings
 POST /v1/admin/users/:id - update user settings
 POST /v1/admin/users/:id/suspend - suspend a user account
 POST /v1/admin/users/:id/unsuspend - unsuspend a user account
+GET /v1/admin/archives/:key - get archive information
 ```
 
 ## Service APIs
@@ -257,7 +258,7 @@ Like `/v1/login`, generates a session JWT and provides it in response headers.
 
 ### GET /v1/account
 
-Responds with the authenticated user's [account object](https://github.com/joehand/hypercloud/wiki/Users-Schema#account-object).
+Responds with the authenticated user's [account object](https://github.com/datprotocol/hypercloud/wiki/Users-Schema#account-object).
 
 Response body:
 
@@ -265,12 +266,16 @@ Response body:
 {
   email: String, the user's email address
   username: String, the chosen username
+  diskUsage: Number, the number of bytes currently used by this account's archives
+  diskQuota: Number, the number of bytes allowed to be used by this account's archives
+  updatedAt: Number, the timestamp of the last update to the account
+  createdAt: Number, the timestamp of when the account was created
 }
 ```
 
 ### POST /v1/account
 
-Updates the authenticated user's [account object](https://github.com/joehand/hypercloud/wiki/Users-Schema#account-object)
+Updates the authenticated user's [account object](https://github.com/datprotocol/hypercloud/wiki/Users-Schema#account-object)
 
 Request body:
 
@@ -304,6 +309,8 @@ Response body:
     username: String, the chosen username
     isEmailVerified: Boolean
     scopes: Array of strings, what is this user's perms?
+    diskUsage: Number, how many bytes the user is using
+    diskQuota: Number, how many bytes the user is allowed
     updatedAt: Number, the timestamp of the last update
     createdAt: Number, the timestamp of creation time
   }, ...]
@@ -323,6 +330,8 @@ Response body:
   isEmailVerified: Boolean
   emailVerifyNonce: String, the random verification nonce
   scopes: Array of strings, what is this user's perms?
+  diskUsage: Number, how many bytes the user is using
+  diskQuota: Number, how many bytes the user is allowed
   updatedAt: Number, the timestamp of the last update
   createdAt: Number, the timestamp of creation time
 }
@@ -341,6 +350,7 @@ All fields are optional. If a field is omitted, no change is made.
   email: String, the user's email address
   username: String, the chosen username
   scopes: Array of strings, what is this user's perms?
+  diskQuota: String, a description of how many bytes the user is allowed (eg '5mb')
 }
 ```
 
@@ -353,3 +363,19 @@ Scope: `admin:users`
 ### POST /v1/admin/users/:id/unsuspend
 
 Scope: `admin:users`
+
+### GET /v1/admin/archives/:key
+
+Response body:
+
+```
+{
+  key: String, archive key
+  numPeers: Number, number of active peers
+  manifest: Object, the archive's manifest object (dat.json)
+  swarmOpts: {
+    download: Boolean, is it downloading?
+    upload: Boolean, is it uploading?
+  }
+}
+```

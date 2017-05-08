@@ -5,10 +5,12 @@ port: 8080
 ui: hypercloud-ui-vanilla
 sites: false
 rateLimiting: true
+defaultDiskUsageLimit: 100mb
 
 # processing jobs
 jobs:
   popularArchivesIndex: 30s
+  userDiskUsage: 5m
 
 # user settings
 registration:
