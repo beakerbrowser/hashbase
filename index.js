@@ -190,15 +190,23 @@ function approveDomains (config, cloud) {
       var userName
       var domainParts = domain.split('.')
       if (config.sites === 'per-user') {
-        archiveName = userName = domainParts[0]
-      } else if (config.sites === 'per-archive') {
-        archiveName = domainParts[0]
-        userName = domainParts[1]
-      }
-      var userRecord = await cloud.usersDB.getByUsername(userName)
-      var archiveRecord = userRecord.archives.find(a => a.name === archiveName)
-      if (archiveRecord) {
+        // make sure the user record exists
+        userName = domainParts[0]
+        let userRecord = await cloud.usersDB.getByUsername(userName)
         return cb(null, {options, certs})
+      } else if (config.sites === 'per-archive') {
+        // make sure the user and archive records exists
+        if (domainParts.length === 3) {
+          userName = archiveName = domainParts[0]
+        } else {
+          archiveName = domainParts[0]
+          userName = domainParts[1]          
+        }
+        let userRecord = await cloud.usersDB.getByUsername(userName)
+        let archiveRecord = userRecord.archives.find(a => a.name === archiveName)
+        if (archiveRecord) {
+          return cb(null, {options, certs})
+        }
       }
     } catch (e) {}
     cb(new Error('Invalid domain'))
