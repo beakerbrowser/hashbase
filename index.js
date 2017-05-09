@@ -21,7 +21,7 @@ module.exports = function (config) {
   var app = express()
   app.cloud = cloud
   app.config = config
-  app.approveDomains = approveDomains(cloud, config)
+  app.approveDomains = approveDomains(config, cloud)
 
   app.locals = {
     session: false, // default session value
