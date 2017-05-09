@@ -10,6 +10,7 @@ var sse = require('express-server-sent-events')
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
 var customSanitizers = require('./lib/sanitizers')
+var letsEncrypt = require('./lib/lets-encrypt')
 var packageJson = require('./package.json')
 
 module.exports = function (config) {
@@ -49,6 +50,7 @@ module.exports = function (config) {
 
   if (config.sites) {
     var httpGatewayApp = express()
+    httpGatewayApp.use('/', letsEncrypt(config))
     httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
     if (config.sites === 'per-archive') {
       httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
