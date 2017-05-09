@@ -75,6 +75,7 @@ module.exports = function (config) {
   app.get('/v1/account', cloud.api.users.getAccount)
   app.post('/v1/account', cloud.api.users.updateAccount)
   app.post('/v1/account/password', cloud.api.users.updateAccountPassword)
+  app.post('/v1/account/email', cloud.api.users.updateAccountEmail)
   app.post('/v1/login', cloud.api.users.doLogin)
   app.get('/v1/logout', cloud.api.users.doLogout)
   app.post('/v1/forgot-password', cloud.api.users.doForgotPassword)
