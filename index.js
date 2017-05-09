@@ -21,6 +21,7 @@ module.exports = function (config) {
   var app = express()
   app.cloud = cloud
   app.config = config
+  app.approveDomains = approveDomains(config, cloud)
 
   app.locals = {
     session: false, // default session value
@@ -169,5 +170,45 @@ function addConfigHelpers (config) {
   }
   config.getUserDiskQuotaPct = (userRecord) => {
     return userRecord.diskUsage / config.getUserDiskQuota(userRecord)
+  }
+}
+
+function approveDomains (config, cloud) {
+  return async (options, certs, cb) => {
+    var {domain} = options
+    options.agreeTos = true
+    options.email = config.letsencrypt.email
+
+    // toplevel domain?
+    if (domain === config.hostname) {
+      return cb(null, {options, certs})
+    }
+
+    // try looking up the site
+    try {
+      var archiveName
+      var userName
+      var domainParts = domain.split('.')
+      if (config.sites === 'per-user') {
+        // make sure the user record exists
+        userName = domainParts[0]
+        let userRecord = await cloud.usersDB.getByUsername(userName)
+        return cb(null, {options, certs})
+      } else if (config.sites === 'per-archive') {
+        // make sure the user and archive records exists
+        if (domainParts.length === 3) {
+          userName = archiveName = domainParts[0]
+        } else {
+          archiveName = domainParts[0]
+          userName = domainParts[1]          
+        }
+        let userRecord = await cloud.usersDB.getByUsername(userName)
+        let archiveRecord = userRecord.archives.find(a => a.name === archiveName)
+        if (archiveRecord) {
+          return cb(null, {options, certs})
+        }
+      }
+    } catch (e) {}
+    cb(new Error('Invalid domain'))
   }
 }

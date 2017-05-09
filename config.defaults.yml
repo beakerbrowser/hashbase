@@ -2,6 +2,7 @@ dir: ./.hypercloud
 brandname: Hypercloud
 hostname: hypercloud.local
 port: 8080
+letsencrypt: false
 ui: hypercloud-ui-vanilla
 sites: false
 rateLimiting: true

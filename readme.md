@@ -40,6 +40,18 @@ rateLimiting: true            # rate limit the HTTP requests?
 defaultDiskUsageLimit: 100mb  # default maximum disk usage for each user
 ```
 
+#### Lets Encrypt
+
+You can enable lets-encrypt to automatically provision TLS certs using this config:
+
+```yaml
+letsencrypt:
+  debug: false          # debug mode? must be set to 'false' to use live config
+  email: 'foo@bar.com'  # email to register domains under
+```
+
+If enabled, `port` will be ignored and the server will register at ports 80 and 443.
+
 #### Admin Account
 
 The admin user has its credentials set by the config yaml at load. If you change the password while the server is running, then restart the server, the password will be reset to whatever is in the config.
