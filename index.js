@@ -10,7 +10,6 @@ var sse = require('express-server-sent-events')
 var Hypercloud = require('./lib')
 var customValidators = require('./lib/validators')
 var customSanitizers = require('./lib/sanitizers')
-var letsEncrypt = require('./lib/lets-encrypt')
 var packageJson = require('./package.json')
 
 module.exports = function (config) {
@@ -22,6 +21,7 @@ module.exports = function (config) {
   var app = express()
   app.cloud = cloud
   app.config = config
+  app.approveDomains = approveDomains(cloud, config)
 
   app.locals = {
     session: false, // default session value
@@ -50,7 +50,6 @@ module.exports = function (config) {
 
   if (config.sites) {
     var httpGatewayApp = express()
-    httpGatewayApp.use('/', letsEncrypt(config))
     httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
     if (config.sites === 'per-archive') {
       httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
@@ -171,5 +170,37 @@ function addConfigHelpers (config) {
   }
   config.getUserDiskQuotaPct = (userRecord) => {
     return userRecord.diskUsage / config.getUserDiskQuota(userRecord)
+  }
+}
+
+function approveDomains (config, cloud) {
+  return async (options, certs, cb) => {
+    var {domain} = options
+    options.agreeTos = true
+    options.email = config.letsencrypt.email
+
+    // toplevel domain?
+    if (domain === config.hostname) {
+      return cb(null, {options, certs})
+    }
+
+    // try looking up the site
+    try {
+      var archiveName
+      var userName
+      var domainParts = domain.split('.')
+      if (config.sites === 'per-user') {
+        archiveName = userName = domainParts[0]
+      } else if (config.sites === 'per-archive') {
+        archiveName = domainParts[0]
+        userName = domainParts[1]
+      }
+      var userRecord = await cloud.usersDB.getByUsername(userName)
+      var archiveRecord = userRecord.archives.find(a => a.name === archiveName)
+      if (archiveRecord) {
+        return cb(null, {options, certs})
+      }
+    } catch (e) {}
+    cb(new Error('Invalid domain'))
   }
 }

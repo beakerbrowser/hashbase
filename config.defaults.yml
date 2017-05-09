@@ -2,6 +2,7 @@ dir: ./.hypercloud
 brandname: Hypercloud
 hostname: hypercloud.local
 port: 8080
+letsencrypt: false
 ui: hypercloud-ui-vanilla
 sites: false
 rateLimiting: true
@@ -39,8 +40,3 @@ sessions:
   algorithm: HS256
   secret: THIS MUST BE REPLACED!
   expiresIn: 1h
-
-# lets encrypt
-letsencrypt:
-  debug: true
-  configDir: ./.letsencrypt
