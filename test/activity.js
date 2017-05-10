@@ -71,12 +71,12 @@ test('do some activity', async t => {
   var json
 
   // add an archive as admin
-  json = {key: fakeDatKey1}
+  json = {key: fakeDatKey1, name: 'fakedat1'}
   res = await app.req.post({uri: '/v1/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   // add an archive as bob
-  json = {key: fakeDatKey2}
+  json = {key: fakeDatKey2, name: 'fakedat2'}
   res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
@@ -93,12 +93,15 @@ test('get global activity', async t => {
   t.is(res.body.activity.length, 3)
   t.is(res.body.activity[0].username, 'admin')
   t.is(res.body.activity[0].action, 'del-archive')
+  t.is(res.body.activity[0].params.name, 'fakedat1')
   t.is(res.body.activity[0].params.key, fakeDatKey1)
   t.is(res.body.activity[1].username, 'bob')
   t.is(res.body.activity[1].action, 'add-archive')
+  t.is(res.body.activity[1].params.name, 'fakedat2')
   t.is(res.body.activity[1].params.key, fakeDatKey2)
   t.is(res.body.activity[2].username, 'admin')
   t.is(res.body.activity[2].action, 'add-archive')
+  t.is(res.body.activity[2].params.name, 'fakedat1')
   t.is(res.body.activity[2].params.key, fakeDatKey1)
 
   // with offset
@@ -108,9 +111,11 @@ test('get global activity', async t => {
   t.is(res.body.activity.length, 2)
   t.is(res.body.activity[0].username, 'bob')
   t.is(res.body.activity[0].action, 'add-archive')
+  t.is(res.body.activity[0].params.name, 'fakedat2')
   t.is(res.body.activity[0].params.key, fakeDatKey2)
   t.is(res.body.activity[1].username, 'admin')
   t.is(res.body.activity[1].action, 'add-archive')
+  t.is(res.body.activity[1].params.name, 'fakedat1')
   t.is(res.body.activity[1].params.key, fakeDatKey1)
 })
 
@@ -122,9 +127,11 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].username, 'admin')
   t.is(res.body.activity[0].action, 'del-archive')
   t.is(res.body.activity[0].params.key, fakeDatKey1)
+  t.is(res.body.activity[0].params.name, 'fakedat1')
   t.is(res.body.activity[1].username, 'admin')
   t.is(res.body.activity[1].action, 'add-archive')
   t.is(res.body.activity[1].params.key, fakeDatKey1)
+  t.is(res.body.activity[1].params.name, 'fakedat1')
   var start = res.body.activity[0].key
 
   res = await app.req.get({url: '/v1/users/bob?view=activity', json: true})
@@ -133,6 +140,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].username, 'bob')
   t.is(res.body.activity[0].action, 'add-archive')
   t.is(res.body.activity[0].params.key, fakeDatKey2)
+  t.is(res.body.activity[0].params.name, 'fakedat2')
 
   // with offset
   res = await app.req.get({url: '/v1/users/admin', qs: {view: 'activity', start}, json: true})
@@ -141,6 +149,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].username, 'admin')
   t.is(res.body.activity[0].action, 'add-archive')
   t.is(res.body.activity[0].params.key, fakeDatKey1)
+  t.is(res.body.activity[0].params.name, 'fakedat1')
 
   res = await app.req.get({url: '/v1/users/bob', qs: {view: 'activity', start}, json: true})
   t.is(res.statusCode, 200, '200 got activity')
@@ -148,6 +157,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].username, 'bob')
   t.is(res.body.activity[0].action, 'add-archive')
   t.is(res.body.activity[0].params.key, fakeDatKey2)
+  t.is(res.body.activity[0].params.name, 'fakedat2')
 })
 
 test.cb('stop test server', t => {
