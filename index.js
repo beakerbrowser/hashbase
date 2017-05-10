@@ -201,7 +201,7 @@ function approveDomains (config, cloud) {
           userName = archiveName = domainParts[0]
         } else {
           archiveName = domainParts[0]
-          userName = domainParts[1]          
+          userName = domainParts[1]
         }
         let userRecord = await cloud.usersDB.getByUsername(userName)
         let archiveRecord = userRecord.archives.find(a => a.name === archiveName)

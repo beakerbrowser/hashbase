@@ -297,7 +297,7 @@ test('login and change email', async t => {
     uri: '/v1/login',
     json: {
       username: 'bob',
-      password: 'foobar',
+      password: 'foobar'
     }
   })
 
