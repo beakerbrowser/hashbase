@@ -137,6 +137,7 @@ Hypercloud runs some jobs periodically. You can configure how frequently they ru
 jobs:
   popularArchivesIndex: 30s  # compute the index of archives sorted by num peers
   userDiskUsage: 5m          # compute how much disk space each user is using
+  deleteDeadArchives: 5m     # delete removed archives from disk
 ```
 
 #### Emailer
