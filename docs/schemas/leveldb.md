@@ -40,6 +40,7 @@ Schema:
   passwordSalt: String, salt used on hashed password
 
   email: String
+  pendingEmail: String, the user's new email address pending verification
   profileURL: String, the url of the profile dat
   archives: [{
     key: String, uploaded archive's key

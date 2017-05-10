@@ -289,6 +289,81 @@ test('login and get profile', async t => {
   t.is(res.body.username, 'bob', 'username is included')
 })
 
+test('login and change email', async t => {
+  var res, lastMail
+
+  // login
+  res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'bob',
+      password: 'foobar',
+    }
+  })
+
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
+
+  var auth = {bearer: res.body.sessionToken}
+
+  // try to change email to a duplicate email address
+  res = await app.req.post({
+    url: '/v1/account/email',
+    auth,
+    json: {
+      newEmail: 'bob@example.com',
+      password: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 422)
+
+  // try to change email with invalid password
+  res = await app.req.post({
+    url: '/v1/account/email',
+    auth,
+    json: {
+      newEmail: 'bob@example.com',
+      password: 'barfoo'
+    }
+  })
+  t.is(res.statusCode, 422)
+
+  // change the email address
+  res = await app.req.post({
+    url: '/v1/account/email',
+    auth,
+    json: {
+      newEmail: 'bob2@example.com',
+      password: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 200)
+
+  // verify that the user's email address does not change until it's verified
+  res = await app.req.get({url: '/v1/account', auth, json: true})
+  t.is(res.body.email, 'bob@example.com')
+
+  // check sent mail and extract the verification nonce
+  lastMail = app.cloud.mailer.transport.sentMail.pop()
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Verify your email address')
+  var emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+
+  // verify via POST
+  res = await app.req.post({
+    uri: '/v1/verify',
+    json: {
+      username: 'bob',
+      nonce: emailVerificationNonce
+    }
+  })
+  t.is(res.statusCode, 200, '200 verified user')
+
+  // verify that the user's email was updated
+  res = await app.req.get({url: '/v1/account', auth, json: true})
+  t.is(res.body.email, 'bob2@example.com')
+})
+
 test('login and change password', async t => {
   // login
   var res = await app.req.post({
