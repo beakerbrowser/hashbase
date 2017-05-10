@@ -64,6 +64,7 @@
     "pretty-bytes": "^4.0.2",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
+    "rimraf": "^2.6.1",
     "stream-collector": "^1.0.1",
     "subleveldown": "^2.1.0",
     "through2": "^2.0.3",

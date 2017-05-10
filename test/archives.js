@@ -1,11 +1,14 @@
 var test = require('ava')
 var path = require('path')
+var fs = require('fs')
+var promisify = require('es6-promisify')
 var createTestServer = require('./lib/server.js')
 var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
 
 var app
 var sessionToken, auth, authUser
 var testDat, testDatKey
+var fsstat = promisify(fs.stat, fs)
 
 test.cb('start test server', t => {
   app = createTestServer(async err => {
@@ -368,6 +371,18 @@ test('check archive status after removed', async t => {
 
   res = await app.req.get({url: '/v1/users/admin/testdat', json: true, auth})
   t.is(res.statusCode, 404, '404 not found')
+})
+
+test('delete dead archives job', async t => {
+  // folder exists
+  var stat = await fsstat(app.cloud.archiver._getArchiveFilesPath(testDatKey))
+  t.truthy(stat)
+
+  // run job
+  await app.cloud.archiver.deleteDeadArchives()
+
+  // folder does not exist
+  await t.throws(fsstat(app.cloud.archiver._getArchiveFilesPath(testDatKey)))
 })
 
 test('archive status wont stall on archive that fails to sync', async t => {

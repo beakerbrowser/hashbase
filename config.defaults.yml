@@ -12,6 +12,7 @@ defaultDiskUsageLimit: 100mb
 jobs:
   popularArchivesIndex: 30s
   userDiskUsage: 5m
+  deleteDeadArchives: 5m
 
 # user settings
 registration:
