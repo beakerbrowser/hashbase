@@ -7,7 +7,7 @@ var app = createApp(config)
 if (config.letsencrypt) {
   var greenlockExpress = require('greenlock-express')
   var debug = config.letsencrypt.debug !== false
-  server = greenlockExpress.create({
+  greenlockExpress.create({
     server: debug ? 'staging' : 'https://acme-v01.api.letsencrypt.org/directory',
     debug,
     approveDomains: app.approveDomains,
