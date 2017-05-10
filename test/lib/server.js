@@ -40,7 +40,8 @@ function createLocalApp (cb) {
     },
     jobs: {
       popularArchivesIndex: '15m',
-      userDiskUsage: '30m'
+      userDiskUsage: '30m',
+      deleteDeadArchives: '30m'
     },
     registration: {
       open: true,
