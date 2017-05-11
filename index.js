@@ -51,14 +51,8 @@ module.exports = function (config) {
   if (config.sites) {
     var httpGatewayApp = express()
     httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
-    if (config.sites === 'per-archive') {
-      httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
-      app.use(vhost('*.*.' + config.hostname, httpGatewayApp))
-      app.use(vhost('*.' + config.hostname, httpGatewayApp))
-    } else {
-      httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
-      app.use(vhost('*.' + config.hostname, httpGatewayApp))
-    }
+    httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
+    app.use(vhost('*.' + config.hostname, httpGatewayApp))
   }
 
   // service apis
