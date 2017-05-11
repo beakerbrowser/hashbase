@@ -86,7 +86,7 @@ Note that, in this scheme, a DNS shortname is only provided for the user archive
 sites: per-archive
 ```
 
-Per-archive will host archives at `archivename.username.hostname`. If the archive-name is == to the username, it will be hosted at `username.hostname`.
+Per-archive will host archives at `archivename-username.hostname`. If the archive-name is == to the username, it will be hosted at `username.hostname`.
 
 By default, HTTP Sites are disabled.
 
