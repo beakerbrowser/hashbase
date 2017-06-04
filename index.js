@@ -187,7 +187,7 @@ function approveDomains (config, cloud) {
       if (config.sites === 'per-user') {
         // make sure the user record exists
         userName = domainParts[0]
-        let userRecord = await cloud.usersDB.getByUsername(userName)
+        await cloud.usersDB.getByUsername(userName)
         return cb(null, {options, certs})
       } else if (config.sites === 'per-archive') {
         // make sure the user and archive records exists

@@ -20,3 +20,9 @@ async function foo () {
 ```
 
 Be sure to always use a try/finally block.
+
+## Locks in use
+
+ - `users`. Must be used any time updates are made to the users DB.
+ - `archives`. Must be used any time an update is made to the archives DB.
+ - `archiver-job`. Used to make sure only one job runs at once (to avoid overloading the thread).
