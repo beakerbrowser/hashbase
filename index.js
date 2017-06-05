@@ -12,6 +12,17 @@ var customSanitizers = require('./lib/sanitizers')
 var packageJson = require('./package.json')
 
 module.exports = function (config) {
+  if (config.pm2) {
+    var pmx = require('pmx').init({
+      http          : true, // HTTP routes logging (default: true)
+      ignore_routes : [], // Ignore http routes with this pattern (Default: [])
+      errors        : true, // Exceptions logging (default: true)
+      custom_probes : true, // Auto expose JS Loop Latency and HTTP req/s as custom metrics
+      network       : true, // Network monitoring at the application level
+      ports         : true  // Shows which ports your app is listening on (default: false)
+    });
+  }
+
   addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version

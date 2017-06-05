@@ -7,6 +7,7 @@ ui: hypercloud-ui-vanilla
 sites: false
 rateLimiting: true
 defaultDiskUsageLimit: 100mb
+pm2: false
 
 # processing jobs
 jobs:
