@@ -101,6 +101,7 @@ module.exports = function (config) {
   app.post('/v1/admin/users/:id', cloud.api.admin.updateUser)
   app.post('/v1/admin/users/:id/suspend', cloud.api.admin.suspendUser)
   app.post('/v1/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
+  app.post('/v1/admin/users/:username/send-email', cloud.api.admin.sendEmail)
   app.get('/v1/admin/archives/:key', cloud.api.admin.getArchive)
 
   // (json) error-handling fallback
