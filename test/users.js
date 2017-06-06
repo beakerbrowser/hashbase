@@ -28,6 +28,8 @@ test('register and POST verify', async t => {
     }
   })
   t.is(res.statusCode, 201, '201 created user')
+  t.truthy(res.body.id)
+  t.is(res.body.email, 'alice@example.com')
 
   // check sent mail and extract the verification nonce
   lastMail = app.cloud.mailer.transport.sentMail.pop()
