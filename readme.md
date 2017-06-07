@@ -63,14 +63,6 @@ admin:
   password: myverysecretpassword
 ```
 
-#### UI Module
-
-The frontend can be replaced with a custom npm module. The default is [hypercloud-ui-vanilla](https://npm.im/hypercloud-ui-vanilla).
-
-```yaml
-ui: hypercloud-ui-vanilla
-```
-
 #### HTTP Sites
 
 Hypercloud can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](npm.im/dat-dns) for the archives. There are two possible schemes:

@@ -138,14 +138,7 @@ module.exports = function (config) {
     }
     res.json(error)
   })
-
-  // ui module handlers
-  // =
-
-  if (config.ui) {
-    app.use(require(config.ui)({cloud, config}))
-  }
-
+  
   // error handling
   // =
 
