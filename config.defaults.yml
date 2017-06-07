@@ -1,6 +1,6 @@
-dir: ./.hypercloud
-brandname: Hypercloud
-hostname: hypercloud.local
+dir: ./.hashbase
+brandname: Hashbase
+hostname: hashbase.local
 port: 8080
 letsencrypt: false
 sites: false
@@ -34,7 +34,7 @@ admin:
 # email settings
 email:
   transport: stub
-  sender: '"Hypercloud" <noreply@hypercloud.local>'
+  sender: '"Hashbase" <noreply@hashbase.local>'
 
 # login sessions
 sessions:
