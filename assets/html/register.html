@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Join - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <p class="container">
+      <form id="register" class="form modal-form" action="/v1/register" method="POST">
+        <h1 class="heading">
+          Join <%= appInfo.brandname %>
+          <% if (isProSignup) { %>
+            <p class="pro-tag">Pro</p>
+          <% } %>
+        </h1>
+        <div class="alert primary">
+          <strong>Closed Beta</strong>. Registration is only open to users who have been invited.
+        </div>
+        <div id="error-general" class="alert warning" role="alert"></div>
+
+        <p class="form-group">
+          <label for="input-username">Username</label>
+          <input autofocus required type="text" name="username" class="form-control" id="input-username"/>
+          <span id="error-username" class="form-control-feedback"></span>
+          <span id="emailHelp" class="form-control-feedback">
+            Your profile URL will be
+            <span id="output-username">username</span><span>.<%= appInfo.hostname %></span>
+          </span>
+        </p>
+
+        <p class="form-group">
+          <label for="input-email">Email address</label>
+          <input required type="email" name="email" class="form-control"
+          id="input-email" />
+          <span id="error-email" class="form-control-feedback"></span>
+        </p>
+
+        <p class="form-group">
+          <label for="input-password">Password</label>
+          <input required type="password" name="password" class="form-control" id="input-password" />
+          <span id="error-password" class="form-control-feedback">
+            Must be at least 6 characters
+          </span>
+        </p>
+
+        <div class="actions">
+          <% if (isProSignup) { %>
+            <button id="submit-btn" class="btn success" type="submit">Next</button>
+          <% } else { %>
+            <button id="submit-btn" class="btn success" type="submit">Create your account</button>
+          <% } %>
+        </div>
+        <div class="form-footer">
+          By clicking on "Create your account", you are agreeing to the <a href="/terms">Terms of Service</a> and the <a href="/privacy">Privacy Policy</a>.
+        </div>
+      </form>
+    </div>
+    </main>
+
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/register.js"></script>
+  </body>
+</html>

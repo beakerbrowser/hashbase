@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Page not found - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+    <main>
+    <div class="container">
+      <h1>404 - Page not found</h1>
+    </div>
+    </main>
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

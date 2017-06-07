@@ -1,0 +1,15 @@
+#card-element {
+  &:extend(.rounded);
+  border: 1px solid @color-border--light-gray;
+  padding: .5rem;
+  margin-bottom: 1rem;
+
+  + .form-control-feedback {
+    margin-top: -.75rem;
+    color: @color-text--form-warning;
+
+    &:empty {
+      display: none;
+    }
+  }
+}

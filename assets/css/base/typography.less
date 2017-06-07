@@ -1,0 +1,56 @@
+// only use on white text and logo
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  src: url(/assets/fonts/Catamaran-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  src: url(/assets/fonts/Catamaran-Medium.ttf);
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  src: url(/assets/fonts/Catamaran-Bold.ttf);
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Catamaran';
+  src: url(/assets/fonts/Catamaran-ExtraBold.ttf);
+  font-weight: 900;
+}
+
+body {
+  font-family: Catamaran, 'Helvetica Neue', sans-serfif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+  color: @color-text;
+  background: @color-bg;
+}
+
+strong {
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+}
+
+code {
+  font-family: Consolas, 'Lucida Console', Monaco, monospace;
+}
+
+.monospace-font {
+  font-family: Consolas, 'Lucida Console', Monaco, monospace;
+  font-size: .85rem;
+}

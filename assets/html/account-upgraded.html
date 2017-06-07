@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>You've been upgraded - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <div class="card modal">
+        <h1>You've upgraded to Pro!</h1>
+        <p>
+          You will receive a receipt via email.
+        </p>
+
+        <ul>
+          <li><a href="/new-archive">Upload an archive</a></li>
+          <li><a href="/account">Manage your account</a></li>
+          <li><a href="/profile">View your profile</a></li>
+        </ul>
+      </div>
+
+      <p class="card modal">Problem? <a href="/support">Contact Support</a></p>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

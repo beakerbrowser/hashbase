@@ -1,0 +1,32 @@
+<ul class="activity-feed">
+  <% activity.forEach(event => { %>
+  <li class="event">
+    <a href="/<%= event.username %>" class="username">
+      <%= event.username %>
+    </a>
+    
+    <% if (event.action === 'add-archive') { %>
+      <span>added</span>
+    <% } else if (event.action === 'del-archive') { %>
+      <span>removed</span>
+    <% } %>
+
+    <a href="/<%= event.username %>/<%= event.params.name %>" class="archive-name">
+      <%= event.params.name %>
+    </a>
+
+    <span class="time">
+      <% var date = nicedate(event.ts) %>
+      <%= date %>
+      <% if (date !== 'yesterday' && date !== 'just now') { %>
+        <span> ago</span>
+      <% } %>
+    </span>
+  <% }) %>
+  </li>
+</ul>
+
+<% if (activity.length >= activityLimit) { %>
+  <a href="/explore?view=activity&start=<%= activity[activityLimit-1].key %>"
+     class="more">View more</a>
+<% } %>

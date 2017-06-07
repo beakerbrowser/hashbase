@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <form class="form modal-form form-login" action="/login" method="POST">
+        <% if (reset) { %>
+          <div class="alert success" role="alert">
+            Your password has been updated.
+          </div>
+        <% } %>
+        <h1 class="form-heading">Sign in to <%= appInfo.brandname %></h1>
+        <div id="error-general" class="alert warning" role="alert"></div>
+        <p class="form-group">
+          <label for="input-username">Username</label>
+          <input required autofocus type="text" name="username"
+          class="form-control" id="input-username" />
+          <span id="error-username" class="form-control-feedback"></span>
+        </p>
+        <p class="form-group">
+          <label for="input-password">Password</label>
+          <input required type="password" name="password" class="form-control"
+          id="input-password"/>
+          <span id="error-password" class="form-control-feedback"></span>
+        </p>
+        <div class="actions">
+          <a class="alternate-link" href="/forgot-password">Forgot password &raquo;</a>
+          <button class="btn primary" type="submit">Sign in</button>
+        </div>
+      </form>
+      <p class="form-followup">
+        New? <a href="/register">Create an account</a>
+      </p>
+    </div>
+    </main>
+
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/login.js"></script>
+  </body>
+</html>

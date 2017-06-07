@@ -1,0 +1,42 @@
+<nav class="nav <%- navClass %>"> 
+  <div class="container">
+    <a class="hashbase-logo" href="/" title="<%= appInfo.brandname %>">
+      #_hashbase
+    </a>
+
+    <ul class="links">
+      <li class="nav-item">
+        <a href="/about">About</a>
+      </li>
+      <% if (sessionUser) { %>
+        <li class="nav-item">
+          <div class="dropdown-menu-link">
+            <span>Hi, <%= sessionUser.username %></span>
+            <i class="fa fa-caret-down"></i>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/new-archive">New archive</a>
+              <hr>
+              <a class="dropdown-item" href="/profile">View profile</a>
+              <a class="dropdown-item" href="/account">Manage account</a>
+              <% if (sessionAccount.plan === 'basic') { %>
+                <a class="dropdown-item" href="/account/upgrade">
+                  <span>Upgrade to pro</span>
+                  <span class="pro-tag">pro</span>
+                </a>
+              <% } %>
+              <hr>
+              <a class="dropdown-item" href="/v1/logout">Logout</a>
+            </div>
+          </div>
+        </li>
+      <% } else { %>
+        <li class="nav-item">
+          <a href="/login">Login</a>
+        </li>
+        <li class="nav-item btn primary register">
+          <a href="/register">Sign up</a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,58 @@
+<div class="mobile-nav-links container">
+  <a class="hashbase-logo" href="/" title="<%= appInfo.brandname %>">
+    #_hashbase
+  </a>
+  <button class="btn mobile-nav-toggle">
+    <i class="fa fa-bars"></i>
+  </button>
+</div>
+<nav class="mobile-nav">
+  <div class="container">
+    <ul class="links">
+      <% if (sessionUser) { %>
+        <li class="greeting nav-item">
+          <a href="/profile">Hi, <%= sessionUser.username %></a>
+          <button class="btn mobile-nav-toggle">
+            <i class="fa fa-close"></i>
+          </button>
+        </li>
+        <li class="nav-item">
+          <a href="/profile">View profile</a>
+        </li>
+        <li class="nav-item">
+          <a href="/account">Manage account</a>
+        </li>
+        <% if (sessionAccount.plan === 'basic') { %>
+          <li class="nav-item">
+            <a href="/account/upgrade">
+              Upgrade to pro
+              <span class="pro-tag">pro</span>
+            </a>
+          </li>
+        <% } %>
+        <li class="nav-item">
+          <a href="/v1/logout">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a href="/new-archive">New archive</a>
+        </li>
+      <% } else { %>
+        <li class="nav-item greeting">
+          Welcome to Hashbase!
+          <button class="btn mobile-nav-toggle">
+            <i class="fa fa-close"></i>
+          </button>
+        </li>
+        <li class="nav-item">
+          <a href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a href="/login">Login</a>
+        </li>
+        <li class="nav-item btn primary register">
+          <a href="/register">Sign up</a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</nav>

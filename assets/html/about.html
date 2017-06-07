@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>About - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="about">
+    <div class="container large">
+      <h1>About Hashbase</h1>
+      <nav class="subnav">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#team">Team</a>
+      </nav>
+
+      <div id="overview" class="section overview">
+        <p>
+          Hashbase is a public peer for files published with the
+          <a href="https://github.com/datprotocol/dat">Dat protocol</a>.
+          We keep your files online while your computer is off.
+        </p>
+
+        <p>
+          <a href="https://github.com/datprotocol/dat">Dat</a> is a peer-to-peer
+          protocol for sharing datasets and files. When you use Dat, your files
+          are distributed across the network of peers who you've shared your
+          files with.
+        </p>
+
+        <p>
+          <a href="https://github.com/datproject/docs/blob/master/papers">
+            Read the Dat white paper
+          </a>
+        </p>
+      </div>
+
+      <div class="card section">
+        <h3>Why use Hashbase? Reliability and discovery!</h3>
+
+        <p>
+          Publishing with Dat means that peers
+          will contribute bandwidth, but only if they're online and sharing
+          your files. If nobody's hosting your files, then they
+          won't be accessible.
+        </p>
+
+        <p>
+          That's where Hashbase comes in. We act as a "super peer" that makes
+          sure your content is always available.
+        </p>
+
+        <p>
+          <a href="/getting-started">Get started</a>
+        </p>
+      </div>
+
+      <div class="section features">
+        <% include com/features.html %>
+      </div>
+
+      <div class="section team">
+      <h2 id="team">Team</h2>
+      <div class="member">
+        <img src="/assets/images/paul.jpg" />
+        <h3 class="title">Paul Frazee</h3>
+        <div class="links">
+          <a href="https://twitter.com/pfrazee">
+            <i class="fa fa-twitter"></i>
+          </a>
+          <a href="https://github.com/pfrazee">
+            <i class="fa fa-github"></i>
+          </a>
+          <a href="https://pfrazee.github.io">
+            <i class="fa fa-link"></i>
+          </a>
+        </div>
+      </div>
+      <div class="member">
+        <img src="/assets/images/tara.jpg" />
+        <h3 class="title">Tara Vancil</h3>
+        <div class="links">
+          <a href="https://twitter.com/taravancil">
+            <i class="fa fa-twitter"></i>
+          </a>
+          <a href="https://github.com/taravancil">
+            <i class="fa fa-github"></i>
+          </a>
+          <a href="https://taravancil.com">
+            <i class="fa fa-link"></i>
+          </a>
+        </div>
+      </div>
+
+      <p class="dat">
+        We also partner closely with the <a href="https://datproject.org">
+        Dat Project</a>. Hashbase would not be possible without their hard
+        work and innovation.
+      </p>
+    </div>
+    </div>
+
+    </main>
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

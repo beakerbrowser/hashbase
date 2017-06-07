@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Activity - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <h1>Recent activity</h1>
+      <% include com/activity.html %>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+@import "./base";
+
+main.account {
+
+  a:not(.username-link) {
+    &:extend(.link);
+  }
+
+  .actions {
+    vertical-align: bottom;
+
+    > * {
+      margin-right: .5rem;
+    }
+  }
+
+  .section.plan {
+
+    .card-number {
+      &:extend(.monospace-font);
+      font-size: .85rem;
+      display: inline-block;
+      line-height: 100%;
+      vertical-align: bottom;
+    }
+
+    img.card-type {
+      width: 27px;
+      margin-left: 5px;
+      vertical-align: bottom;
+      line-height: 100%;
+    }
+  }
+
+  #form-card-update {
+    display: none;
+
+    &.open {
+      display: block;
+    }
+  }
+}

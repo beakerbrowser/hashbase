@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= userRecord.username %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="profile">
+    <div class="container">
+      <p id="general-feeback" class="alert primary"></p>
+      <h1 class="breadcrumbs">
+        <a href="/<%= userRecord.username %>"><%= userRecord.username %></a>
+      </h1>
+
+      <div class="content">
+      <% if (archives.length) { %>
+        <div class="archives">
+          <div class="heading">
+            <% if (session && session.id === userRecord.id) { %>
+              <h2>Your archives</h2>
+              <a href="/new-archive" class="new-archive btn success small">New archive</a>
+            <% } else { %>
+              <h2><%= userRecord.username %>'s archives</h2>
+            <% } %>
+          </div>
+
+          <ul class="archive-list">
+            <% archives.forEach(archive => { %>
+              <%- include('com/archive-list-item', {archive: archive}) %>
+            <% }) %>
+          </ul>
+        </div>
+      <% } else { %>
+        <p class="archives">
+          <%= userRecord.username %> hasn't uploaded any archives.
+        </p>
+      <% } %>
+
+      <div class="activity">
+        <h2 class="heading">Recent activity</h2>
+        <div class="content">
+          <% if (activity.length) { %>
+            <%- include('com/activity.html', {activity}) %>
+          <% } else { %>
+            <p>No recent activity</p>
+          <% } %>
+        </div>
+      </div>
+      </div>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+.alert {
+  &:extend(.rounded);
+  padding: .3rem .5rem;
+  margin: .5rem 0;
+  background: @color-bg--light-gray;
+  color: mix(@color-text, @color-bg--light-gray, 40%);
+  font-size: .9em;
+  max-width: 500px;
+  margin: auto;
+
+  &:empty {
+    display: none;
+  }
+
+  &.success {
+    background: tint(@green, 65%);
+    color: mix(@color-text, @green, 35%);
+  }
+
+  &.primary {
+    background: tint(@blue, 85%);
+    color: mix(@color-text, @blue, 30%);
+  }
+
+  &.warning {
+    background: tint(@pink, 85%);
+    color: mix(@color-text, @pink, 25%);
+  }
+}
+
+.session-alerts {
+  .alert {
+    display: block;
+    margin: 0.5rem auto;
+    text-align: center;
+  }
+}

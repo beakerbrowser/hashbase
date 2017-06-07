@@ -1,0 +1,57 @@
+<% if (archive.owner) { %>
+  <li class="archive">
+    <span class="peer-count">
+      <i class="fa fa-share-alt"></i>
+      <%= archive.numPeers %><br>
+      <div>peers</div>
+    </span>
+
+    <div class="info">
+      <div class="archive-heading">
+        <a href="/<%= archive.owner.username %>/<%= archive.name %>" class="title">
+          <% if (archive.manifest) { %>
+            <%= archive.manifest.title || archive.name %>
+          <% } else { %>
+            <%= archive.name %>
+          <% } %>
+        </a>
+        <span>by <a href="/<%= archive.owner.username %>"><%= archive.owner.username %></a></span>
+      </div>
+
+      <% if (archive.manifest && archive.manifest.description) { %>
+        <p class="description">
+          <%= archive.manifest.description %>
+        </p>
+      <% } %>
+
+      <span class="time">
+        <% var date = nicedate(archive.createdAt) %>
+        <%= date %>
+        <% if (date !== 'yesterday' && date !== 'just now') { %>
+          <span> ago</span>
+        <% } %>
+      </span>
+
+      <div class="metadata">
+        <code><%= archive.niceUrl %></code>
+        <a href="https://<%= archive.niceUrl %>">web</a> &bull;
+        <a href="dat://<%= archive.niceUrl %>">p2p</a>
+      </div>
+    </div>
+
+    <div class="archive-footer">
+      <span class="peer-count">
+        <i class="fa fa-share-alt"></i>
+        <%= archive.numPeers %> peers
+      </span>
+
+      <span class="time">
+        <% var date = nicedate(archive.createdAt) %>
+        <%= date %>
+        <% if (date !== 'yesterday' && date !== 'just now') { %>
+          <span> ago</span>
+        <% } %>
+      </span>
+    </div>
+  </li>
+<% } %>

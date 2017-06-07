@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <main class="home">
+      <%- include('com/nav.html', {navClass: ''}) %>
+
+      <% if (verified) { %>
+        <div class="alert success" role="alert">
+          <strong>Welcome!</strong> Your email is verified and your account is now active.
+        </div>
+      <% } %>
+
+      <div class="hero-container container">
+        <% include com/home-cta.html %>
+      </div>
+
+      <div class="highlighted-content">
+        <div class="container">
+
+          <div class="tabbed-archive-list">
+            <div class="heading">
+              <a class="active archives-view-link" data-view=".archives-view.popular">Popular</a>
+              <span class="divider"> | </span>
+              <a class="archives-view-link" data-view=".archives-view.recent">Recent</a>
+            </div>
+
+            <div class="archives-view popular active">
+              <% include com/popular-archives.html %>
+            </div>
+
+            <div class="archives-view recent">
+              <% include com/recent-archives.html %>
+            </div>
+          </div>
+
+          <div class="sidebar">
+            <% if (session && sessionUser) { %>
+              <% include com/your-archives.html %>
+            <% } %>
+              <% include com/tools-cta.html %>
+
+            <p class="callout">
+              This is a callout of some sort. "A callout to what?" you might ask. Oh, don't worry yourself with such concerns. <a href="/">Download Beaker</a> instead.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/frontpage.js"></script>
+  </body>
+</html>

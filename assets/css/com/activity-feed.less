@@ -1,0 +1,32 @@
+.activity-feed {
+  font-size: .9rem;
+
+  .event {
+    display: block;
+    color: @color-text--muted;
+    margin-bottom: .25rem;
+
+    * {
+      display: inline-block;
+    }
+  }
+
+  a {
+    color: @blue;
+
+    &:hover {
+      &:extend(.link);
+    }
+  }
+
+  .more {
+    display: block;
+    margin-top: 1rem;
+
+    &:after {
+      display: inline-block;
+      content: '\00bb';
+      margin-left: 5px;
+    }
+  }
+}

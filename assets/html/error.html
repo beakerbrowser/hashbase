@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= error.status || 500 %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="error">
+    <div class="container">
+      <h1><%= error.status || 500 %> - Error</h1>
+      <p><%= error.message || error.body.message %></p>
+      <p>Lost? <a href="/support">Contact Support</a></p>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

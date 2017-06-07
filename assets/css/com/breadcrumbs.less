@@ -1,0 +1,23 @@
+.breadcrumbs {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: @blue;
+
+  > *:not(:last-child) {
+
+    &:after {
+      display: inline-block;
+      content: '\203A';
+      margin-left: 9px;
+      margin-right: 3px;
+    }
+
+    &:hover {
+      &:extend(.link);
+    }
+  }
+
+  > *:last-child {
+    color: @color-text;
+  }
+}

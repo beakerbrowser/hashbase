@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Upgrade: <%= sessionUser.username %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <form id="form-account-upgrade" method="POST" class="form modal-form">
+        <h1 class="form-heading">
+          10 GB of storage
+        </h1>
+        <p class="form-desc bordered">
+        Upgrade to Hashbase Pro for $9.99/month.
+        </p>
+
+        <div class="alert primary">
+          <strong>Closed Beta</strong>. Upgrades are disabled for now.
+        </div>
+<% /*
+        <p class="form-group">
+        <label for="card-element">
+          Credit or debit card number
+        </label>
+        </p>
+        <div id="card-element">
+          <!-- a Stripe Element will be inserted here. -->
+        </div>
+
+        <!-- Used to display form errors -->
+        <div id="card-errors" class="form-control-feedback"></div>
+        <div class="actions">
+          <button id="submit-btn" type="submit" class="btn success" disabled>
+            <span>Upgrade</span>
+            <i class="fa fa-arrow-circle-up"></i>
+          </button>
+        </div>
+*/ %>
+      </form>
+    </div>
+    </main>
+
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+    window.params = {
+      stripePK: "<%= stripePK %>"
+    }
+    </script>
+    <script src="/assets/js/account-upgrade.js"></script>
+  </body>
+</html>

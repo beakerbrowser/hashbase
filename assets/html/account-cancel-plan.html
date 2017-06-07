@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cancel Pro Plan: <%= sessionUser.username %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <form method="post" class="form modal-form form-account-cancel-plan">
+        <h1 class="form-heading">Cancel Pro Plan</h1>
+        <p class="form-desc">
+          This will drop your storage limit to 100 MB. Are you sure?
+        </p>
+
+        <div class="actions">
+          <a class="alternate-link" href="/account">
+            &laquo; Nevermind, I want to keep my plan
+          </a>
+          <button id="submit-btn" type="submit" class="btn cancel">
+            Yes, cancel it
+          </button>
+        </div>
+      </form>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/account-cancel-plan.js"></script>
+  </body>
+</html>
