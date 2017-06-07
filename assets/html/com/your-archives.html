@@ -1,0 +1,33 @@
+<div class="your-archives">
+  <div class="heading">
+    <h2>Your archives</h2>
+    <a href="/new-archive" class="btn success">
+      New archive
+    </a>
+  </div>
+
+  <% if (!sessionUser.archives.length) { %>
+    <p class="no-archives">
+      You haven't uploaded any archives.
+    </p>
+  <% } %>
+
+  <ul class="archives">
+    <% userArchives.forEach(archive => { %>
+      <a class="archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
+        <span class="name">
+          <%= archive.title || archive.name %>
+        </span>
+        <span class="peer-count">
+          <i class="fa fa-share-alt"></i>
+          <%= archive.numPeers %>
+        </span>
+      </a>
+    <% }) %>
+  </ul>
+  <% if (sessionUser.archives.length > 10) { %>
+    <a href="/<%= sessionUser.username %>">
+      View <%= sessionUser.archives.length - 10 %> more archives...
+    </a>
+  <% } %>
+</div>

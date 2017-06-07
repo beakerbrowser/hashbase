@@ -1,0 +1,5 @@
+<ul class="archive-list">
+  <% recent.forEach(archive => { %>
+    <%- include('com/archive-list-item', {archive: archive}) %>
+  <% }) %>
+</ul>

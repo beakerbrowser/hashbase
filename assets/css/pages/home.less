@@ -1,0 +1,133 @@
+main.home {
+  padding-top: 0;
+
+  .nav,
+  .mobile-nav-links,
+  .mobile-nav-links .mobile-nav-toggle i {
+    &:extend(.text-shadow);
+    color: @color-text--white-transparent;
+
+    .nav-item:not(.register):hover {
+      &:extend(.rounded);
+      background: @color-bg--white-transparent;
+      overflow: initial !important; // .rounded has overflow: hidden which messes up dropdown
+    }
+  }
+
+  .nav,
+  .mobile-nav-links {
+    background: @color-text;
+  }
+
+  .highlighted-content {
+    vertical-align: top;
+    padding: 1rem 0;
+  }
+
+  .tabbed-archive-list, .sidebar {
+    width: 100%;
+  }
+
+  .sidebar {
+    margin-top: 1.5em;
+  }
+
+  .sidebar .callout {
+    &:extend(.rounded);
+    background: @color-bg--light-gray;
+    border: 1px solid @color-border--lightest-gray;
+    padding: 1em;
+    font-size: .85rem;
+
+    a {
+      &:extend(.link);
+      color: @blue;
+    }
+  }
+
+  .your-archives {
+    border-radius: 3px; // TODO: why the f isn't &:extend(.rounded) working?
+    border: 1px solid @color-border--light-gray;
+    margin-bottom: 2rem;
+
+    .archive {
+      display: block;
+      padding: .5rem 0.8rem;
+      font-size: .85rem;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid @color-border--light-gray;
+      }
+
+      &:hover {
+        background: @color-bg--light-blue;
+      }
+
+      .name {
+        color: @blue;
+        font-weight: 500;
+      }
+
+      .peer-count {
+        float: right;
+      }
+    }
+
+    .heading {
+      display: flex; // TODO: why isn't &:extend isn't working
+      align-items: center;
+      justify-content: space-between;
+      padding: .5rem 0.8rem;
+      border-bottom: 1px solid @color-border--light-gray;
+      font-size: .9rem;
+
+      h2 {
+        display: inline-block;
+        margin: 0;
+        font-size: .9rem;
+      }
+    }
+
+    .no-archives {
+      font-size: .85rem;
+      padding: .5rem .8rem;
+    }
+  }
+
+  .highlighted-content .container {
+    &:extend(.flex);
+  }
+
+  @media (min-width: @tablet-horizontal) {
+
+    .tabbed-archive-list {
+      flex: 2;
+      padding-right: 4rem;
+    }
+
+    .sidebar {
+      flex: 1;
+      margin-top: 0;
+
+      // pull to top when hero is not full width
+      @media (min-width: @desktop-wide) {
+        margin-top: -117px;
+      }
+    }
+  }
+
+  @media (max-width: @tablet-horizontal) {
+    .your-archives {
+      margin: 2rem 0;
+
+      .archive {
+        padding: 1rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.session-alerts:not(:blank) {
+  margin-top: 1rem;
+}

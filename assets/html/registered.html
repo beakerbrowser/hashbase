@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Check your email - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container small">
+      <div class="card modal">
+        <p>
+        We've sent a confirmation email to <strong><%= email %></strong>.
+        </p>
+
+        <p>
+        No email? <a href="/support">Contact Support</a>
+        </p>
+      </div>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

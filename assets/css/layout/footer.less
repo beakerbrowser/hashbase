@@ -1,0 +1,76 @@
+.footer {
+  &:extend(.antialiased);
+  background: @blue;
+  color: @color-text--white-transparent;
+  font-weight: 500;
+  padding: 1rem 0;
+  margin-top: 1rem;
+
+  h2 {
+    font-size: 1rem;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+  }
+
+  .hashbase-logo {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .about {
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    a {
+      &:extend(.link);
+    }
+  }
+
+  .about, .footer-links {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+
+    li {
+      margin-bottom: .25rem;
+    }
+  }
+
+  @media (min-width: @desktop) {
+    padding: 3em 0;
+
+    .about, .footer-links {
+      display: inline-block;
+      margin-bottom: 0;
+      vertical-align: top;
+      width: 48%;
+    }
+
+    .about {
+      margin-right: 1.5rem;
+    }
+
+    .footer-links {
+      display: inline-flex;
+      justify-content: flex-end;
+    }
+
+    .footer-links .hashbase,
+    .footer-links .external {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 4rem;
+    }
+  }
+
+  &.light {
+    padding-top: .5rem;
+    margin-top: 0;
+    background: none;
+    color: @color-text;
+  }
+}

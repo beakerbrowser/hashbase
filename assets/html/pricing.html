@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pricing - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="pricing">
+    <iv class="container large">
+
+      <div class="tiers">
+        <a href="/register" class="tier free">
+          <div class="heading">
+            <div class="title">Free</div>
+          </div>
+
+          <div class="space">
+            <span>100MB</span>
+            storage
+          </div>
+        <a/>
+
+        <a href="/register?pro=true" class="tier pro">
+          <div class="heading">
+            <div class="title">Pro</div>
+            <div class="price">$10/month</div>
+          </div>
+
+          <div class="space">
+            <span><%= appInfo.proDiskUsageLimit.toUpperCase() %></span>
+            storage
+          </div>
+        </a>
+      </div>
+
+      <% include com/features.html %>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

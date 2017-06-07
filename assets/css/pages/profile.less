@@ -1,0 +1,62 @@
+@import "./base";
+
+main.profile {
+
+  .content {
+    display: block;
+  }
+
+  .breadcrumbs {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .breadcrumbs + .btn.new-archive {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+
+  .archives .heading {
+    margin: .25rem .75rem;
+
+    * {
+      display: inline-block;
+    }
+
+    h2 {
+      text-transform: uppercase;
+      font-size: .75rem;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .btn.new-archive {
+      float: right;
+    }
+  }
+
+  .activity {
+    display: none;
+  }
+
+  @media (min-width: @tablet-horizontal) {
+    .content {
+      display: flex;
+    }
+
+    .archives {
+      flex: 2;
+      padding-right: 4rem;
+    }
+
+    .activity {
+      display: block;
+      flex: 1;
+
+      h2 {
+        margin-top: 0;
+        font-size: 1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Account: <%= sessionUser.username %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="account">
+    <div class="container medium">
+      <% if (updated) { %>
+        <p class="alert success" role="alert">
+          Your account has been updated.
+        </p>
+      <% } %>
+
+      <h1>Account settings</h1>
+
+      <nav class="subnav">
+        <a href="#storage">Storage</a>
+        <a href="#settings">Settings</a>
+        <a href="#plan">Plan</a>
+      </nav>
+
+      <div class="section usage">
+        <h2 id="storage">Storage</h2>
+        <div class="progress-bar-container">
+          <span class="label"><%= diskUsage %>/<%= diskQuota %> MB</span>
+          <div class="progress-bar"
+               role="progressbar"
+               data-value="<%= diskUsage %>"
+               data-min="0"
+               data-max="<%= diskQuota %>"
+               data-label="MB"
+               aria-valuenow="<%= diskUsage %>"
+               aria-valuemin="0"
+               aria-valuemax="<%= diskQuota %>">
+            <div class="progress" style="width: <%= diskUsagePct %>%"></div>
+          </div>
+        </div>
+
+        <p>
+          <%= sessionUser.archives.length %> <%=
+          pluralize(sessionUser.archives.length, 'archive') %>
+          <a href="/profile">View your profile</a>
+        </p>
+
+        <% if (diskUsage > diskQuota) { %>
+          <div class="card">
+            <p>
+              <strong>You are out of disk space!</strong> <span class="text-muted">Your archives will still be hosted, but you can't add any new archives or upload any new files.</span>
+            </p>
+            <p>
+              Upgrade to Pro to get more space.
+            </p>
+            <p>
+              <a href="/account/upgrade" class="btn outline">
+                <span>Upgrade</span>
+                <span class="pro-tag">Pro</span>
+              </a>
+            </p>
+          </div>
+        <% } %>
+      </div>
+
+      <div class="section settings">
+        <h2 id="password">Settings</h2>
+
+        <div class="actions">
+          <p>
+            <a href="/account/change-password">Change password</a>
+          </p>
+
+          <p>
+            <a href="/account/update-email">Update email address</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="section plan">
+        <h2 id="plan">Plan</h2>
+
+        <% if (sessionUser.plan === 'basic') { %>
+        <p>You are signed up for Hashbase's free account.
+          <a href="/account/upgrade" class="btn outline">
+            <span>Upgrade</span>
+            <span class="pro-tag">Pro</span>
+          </a>
+        </p>
+        <% } else { %>
+        <p>You are signed up for Hashbase Pro.
+          <a href="/account/cancel-plan">
+            Downgrade to a free plan
+          </a>
+        </p>
+        <% } %>
+
+        <p id="billing-alert-success" class="alert success"></p>
+        <% if (sessionUser.stripeCardLast4) { %>
+          <h3>Payment information</h3>
+          <p class="active-card">
+            <span class="card-number">XXXX-XXXX-XXXX-<span id="last-4"><%= sessionUser.stripeCardLast4 %></span></span>
+            <img class="card-type" src="/assets/images/cc-<%= sessionUser.stripeCardBrand.toLowerCase().replace(' ', '') %>.png"/>
+          </p>
+
+          <a id="show-update-card-form">Update payment information</a>
+          
+          <form id="form-card-update" method="POST" class="form">
+            <p class="form-group">
+              <label for="card-element">Credit or debit card number</label>
+            </p>
+
+            <div id="card-element">
+              <!-- a Stripe Element will be inserted here. -->
+            </div>
+
+            <!-- Used to display form errors -->
+            <div id="card-errors" class="alert warning"></div>
+            <div class="actions">
+              <button id="submit-btn" type="submit" class="btn primary" disabled>
+                Submit
+              </button>
+            </div>
+          </form>
+        <% } %>
+
+      </div>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      window.params = {
+        stripePK: "<%= stripePK %>"
+      }
+    </script>
+    <script src="/assets/js/account.js"></script>
+
+  </body>
+</html>

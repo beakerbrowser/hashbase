@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="bg-faded" lang="en">
+  <head>
+    <title>Update Email Address- <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <form class="form modal-form form-update-email" method="POST">
+        <h1 class="form-heading">Update your email address</h1>
+        <div id="success-msg" class="alert success" role="alert"></div>
+        <div id="error-general" class="alert warning" role="alert"></div>
+
+        <p class="form-desc">
+          The email address associated with your Hashbase account is
+          <em><%= sessionUser.email %></em>
+        </p>
+
+        <p class="form-group">
+          <label for="input-newEmail">New email address</label>
+          <input required type="email" name="newEmail" class="form-control" id="input-newEmail"/>
+          <span id="error-newEmail" class="form-control-feedback"></span>
+        </p>
+
+        <p class="form-group">
+          <label for="input-password">Your password</label>
+          <input type="password" name="password" class="form-control" id="input-password">
+          <span id="error-password" class="form-control-feedback"></span>
+        </p>
+
+        <div class="actions">
+          <a href="/account" class="alternate-link">&laquo; Back to account</a>
+          <button class="btn primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    </main>
+
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/account-update-email.js"></script>
+  </body>
+</html>

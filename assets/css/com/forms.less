@@ -1,0 +1,98 @@
+.form.modal-form,
+.form + .form-followup {
+  &:extend(.card);
+  max-width: 400px;
+
+  &:extend(.rounded-extra);
+  background: @color-bg--modal-form;
+  display: block;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid @color-border--light-gray;
+}
+
+.form input,
+.form textarea {
+  outline: none;
+  border: 1px solid @color-border--input;
+  &:extend(.rounded);
+  width: 100%;
+  padding: .5rem;
+  font-size: .85rem;
+
+  &:focus {
+    outline: 1px solid fadeout(@blue, 25%);
+  }
+}
+
+.form-heading {
+  margin-bottom: 1rem;
+}
+
+.form-desc,
+.form-help {
+  margin-bottom: 1.5rem;
+}
+
+.form-footer {
+  font-size: .85rem;
+  padding: 1rem;
+  margin: 1rem -1rem -1rem -1rem;
+  background: shade(@color-bg--modal-form, 2%);
+  border-top: 1px solid @color-border--light-gray;
+
+  a {
+    color: @blue;
+    &:extend(.link);
+  }
+}
+
+.form-desc.bordered {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid @color-border--light-gray;
+}
+
+.form label {
+  font-weight: 500;
+  margin-bottom: .5rem;
+}
+
+.form-group {
+  margin: 1rem 0;
+
+  &.warning {
+
+    input,
+    textarea {
+      border: 1px solid @color-text--form-warning;
+    }
+
+    .form-control-feedback {
+      color: @color-text--form-warning;
+    }
+  }
+}
+
+.form-control-feedback {
+  font-size: .8rem;
+}
+
+.form .actions {
+  &:extend(.flex);
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: .5rem;
+
+  button[type="submit"],
+  .submit {
+    margin-left: auto;
+  }
+
+  .alternate-link {
+    color: @blue;
+  }
+}
+
+.form + .form-followup a {
+  color: @blue;
+}

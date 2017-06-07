@@ -27,6 +27,12 @@ POST /v1/login
 POST /v1/logout
 GET  /v1/account - get my info & settings
 POST /v1/account - update my settings
+POST /v1/account/password - change my password
+POST /v1/account/email - change my email
+POST /v1/account/upgrade - upgrade my plan
+POST /v1/account/register/pro - upgrade my plan (in the register flow)
+POST /v1/account/update-card - update my card details
+POST /v1/account/cancel-plan - cancel my plan
 ```
 
 Admin APIs
@@ -287,6 +293,87 @@ All fields are optional. If a field is omitted, no change is made.
   username: String, the chosen username
 }
 ```
+
+### POST /v1/account/password
+
+Updates the authenticated user's password.
+
+The request body depends on whether the user authenticated.
+
+Request body if authenticated:
+
+```
+{
+  oldPassword: String
+  newPassword: String
+}
+```
+
+Request body if using the forgotten-password flow:
+
+```
+{
+  username: String
+  nonce: String
+  newPassword: String
+}
+```
+
+### POST /v1/account/email
+
+Initiates a flow to update the authenticated user's email.
+
+Request body:
+
+```
+{
+  newEmail: string
+  password: string
+}
+```
+
+### POST /v1/account/upgrade
+
+Validates the given payment information, starts a subscription plan with Stripe, and upgrades the authenticated user's plan.
+
+Request body:
+
+```
+{
+  token: Object, the token from Stripe
+}
+```
+
+### POST /v1/account/register/pro - upgrade my plan (in the register flow)
+
+Validates the given payment information, starts a subscription plan with Stripe, and upgrades the given user's plan. Used as part of the registration flow.
+
+Request body:
+
+```
+{
+  id: String, the user-id
+  token: Object, the token from Stripe
+}
+```
+
+The id may be given through the query string instead of the body.
+
+### POST /v1/account/update-card - update my card details
+
+Validates the given payment information and updates the subscription plan with Stripe for authenticated user.
+
+Request body:
+
+```
+{
+  token: Object, the token from Stripe
+}
+```
+
+### POST /v1/account/cancel-plan
+
+Stops the subscription plan with Stripe, and downgrades the authenticated user's plan.
 
 ## Admin APIs
 

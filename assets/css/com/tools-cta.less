@@ -1,0 +1,66 @@
+.tools-cta {
+  margin-bottom: 2rem;
+
+  h4 {
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 6px;
+  }
+
+  .tool {
+    border-bottom: 1px solid @color-border--light-gray;
+    padding: .75rem;
+    padding-top: .65rem;
+    width: 100%;
+
+    &:first-of-type {
+      border-top: 1px solid @color-border--light-gray;
+    }
+
+    @media (min-width: @tablet-horizontal) {
+      border-radius: 3px;
+      border: 1px solid @color-border--light-gray;
+      margin-bottom: .5rem;
+    }
+
+    img {
+      width: 100px;
+      height: 60px;
+      border: 1px solid @color-border--light-gray;
+    }
+
+    .info {
+      &:extend(.flex);
+      flex-wrap: nowrap !important;
+    }
+
+    a {
+      color: @blue;
+
+      &.title {
+        font-weight: 500;
+      }
+
+      &:hover {
+        &:extend(.link);
+      }
+    }
+
+    h5 {
+      margin: 0;
+      margin-bottom: 5px;
+      font-size: .9rem;
+    }
+
+    .description {
+      margin-left: .5rem;
+      vertical-align: top;
+      font-size: .8rem;
+    }
+
+    .links {
+      color: @blue;
+      margin-top: 5px;
+    }
+  }
+}

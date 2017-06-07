@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Explore - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="explore">
+    <div class="container">
+      <h1>Explore users</h1>
+      <div>
+        <% users.forEach(u => { %>
+          <a href="/<%= u.username %>" class="list-group-item list-group-item-action"><%= u.username %></a>
+        <% }) %>
+      </div>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

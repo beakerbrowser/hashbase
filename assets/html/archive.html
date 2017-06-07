@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= username %>/<%= archivename %> - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="archive">
+    <div class="container">
+      <p id="error-general" class="alert warning"></p>
+
+      <p class="breadcrumbs">
+        <a href="/<%= username %>"><%= username %></a>
+        <span><%= archivename %></span>
+      </p>
+
+      <div class="section">
+        <h1><%= title %></h1>
+        <% if (description) { %>
+          <p><%= description %></p>
+        <% } else { %>
+          <p><em>No description</em></p>
+        <% } %>
+      </div>
+
+      <% if (isOwner) { %>
+        <div class="section">
+          <div class="progress-bar-container">
+            <span class="label">
+              Upload progress (<span><%= progress %>%</span>)
+              <i class="fa fa-spinner fa-spin"></i>
+            </span>
+            <div
+              class="progress-bar"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="<%= progress %>"
+              data-key="<%= key %>">
+              <div class="progress" style="width: <%= progress %>%"></div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+
+      <div class="section links">
+        <ul>
+          <li>
+            <span id="dat-raw-url" class="dat-link"><%= rawUrl %></span>
+            <a class="copy-to-clipboard" data-target="#dat-raw-url" data-feedback-el="#dat-raw-url-feedback" title="Copy to clipboard">
+              <i class="fa fa-clipboard"></i>
+            </a>
+            <a href="<%= rawUrl %>" title="<%= rawUrl %>">
+              <i class="fa fa-external-link"></i>
+            </a>
+            <em id="dat-raw-url-feedback"></em>
+          </li>
+          <li>
+            <span id="dat-nice-url" class="dat-link">dat://<%= niceUrl %></span>
+            <a class="copy-to-clipboard" data-target="#dat-nice-url" data-feedback-el="#dat-nice-url-feedback" title="Copy to clipboard">
+              <i class="fa fa-clipboard"></i>
+            </a>
+            <a href="dat://<%= niceUrl %>" title="<%= niceUrl %>" target="_blank">
+              <i class="fa fa-external-link"></i>
+            </a>
+            <em id="dat-nice-url-feedback"></em>
+          </li>
+          <li>
+            <span id="https-nice-url" class="dat-link">https://<%= niceUrl %></span>
+            <a class="copy-to-clipboard" data-target="#https-nice-url" data-feedback-el="#https-nice-url-feedback" title="Copy to clipboard">
+              <i class="fa fa-clipboard"></i>
+            </a>
+            <a href="https://<%= niceUrl %>" title="<%= niceUrl %>" target="_blank">
+              <i class="fa fa-external-link"></i>
+            </a>
+            <em id="https-nice-url-feedback"></em>
+          </li>
+        </ul>
+      </div>
+      <% if (isOwner) { %>
+        <button id="show-remove-archive-form" class="link">Remove archive</button>
+        <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
+          <input name="key" type="hidden" value="<%= key %>"/>
+          <button id="cancel-remove-archive" class="btn outline">
+            Cancel
+          </button>
+          <button type="submit" id="remove-archive-btn" class="btn cancel">
+            Remove
+            <i class="fa fa-close"></i>
+          </button>
+        </form>
+      <% } %>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/archive.js"></script>
+    <script src="/assets/js/clipboard.js"></script>
+    <% if (isOwner) { %>
+      <script>
+        window.params = {
+          progress: <%= progress %>
+        }
+      </script>
+      <script src="/assets/js/upload-progress.js"></script>
+    <% } %>
+  </body>
+</html>

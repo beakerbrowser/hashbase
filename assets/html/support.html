@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Support - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="support">
+    <div class="container medium">
+      <h1>Support</h1>
+
+      <div class="card">
+        Contact us at <a href="mailto:support@beakerbrowser.com">support@beakerbrowser.com</a> if your question is not answered here.
+      </div>
+     
+      <h2>FAQ</h2>
+     
+      <h3>What is a Dat archive?</h3>
+      <p>
+        A Dat archive is a collection of files that can be efficiently shared
+        with others on a peer-to-peer network.
+      </p>
+
+      <h3 id="create-dat-archive">How do I create a Dat archive?</h3>
+      <p>
+        You can use the <a href="https://github.com/beakerbrowser/beaker">
+        Beaker browser</a>, the <a href="https://github.com/datproject/dat">
+        official Dat command line tool</a>, or the <a href="https://github.com/datproject/dat-desktop">
+        official Dat desktop app</a>.
+      </p>
+
+      <h3 id="self-hosting">
+        Can I self host Hashbase?
+      </h3>
+      <p>
+        Yes. The software that powers Hashbase, <a href="https://github.com/datprotocol/hypercloud">
+        Hypercloud</a>, is open source and easy to deploy.
+      </p>
+      <p>
+        You may also find
+        <a href="https://github.com/beakerbrowser/dathttpd">DatHTTPD</a>
+        is a good choice.
+      </p>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+<div class="session-alerts">
+  <% sessionAlerts.forEach(alert => { %>
+    <a class="alert <%= alert.type %>" href="<%= alert.href %>"><strong><%= alert.message %></strong> <%= alert.details %></a>
+  <% }) %>
+</div>

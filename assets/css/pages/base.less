@@ -1,0 +1,61 @@
+main {
+  padding: 2rem 0;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 1rem;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.5rem;
+  }
+
+  .section {
+
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+
+    p,
+    form {
+      max-width: 600px;
+      margin: 1rem 0;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    a {
+      &:extend(.link);
+    }
+  }
+}
+
+// nested ordered lists
+ol ol {
+  list-style-type: lower-alpha;
+}
+
+main.terms,
+main.privacy,
+main.acceptable-use {
+
+  p:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    margin-left: 40px;
+    list-style-type: disc;
+    margin-bottom: 1rem;
+  }
+}

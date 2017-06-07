@@ -1,19 +1,22 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var cookieParser = require('cookie-parser')
-var expressValidator = require('express-validator')
-var RateLimit = require('express-rate-limit')
-var vhost = require('vhost')
-var bytes = require('bytes')
+const express = require('express')
+const path = require('path')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const expressValidator = require('express-validator')
+const RateLimit = require('express-rate-limit')
+const vhost = require('vhost')
+const bytes = require('bytes')
+const lessExpress = require('less-express')
+const ejs = require('ejs')
 
-var Hypercloud = require('./lib')
-var customValidators = require('./lib/validators')
-var customSanitizers = require('./lib/sanitizers')
-var packageJson = require('./package.json')
+const Hypercloud = require('./lib')
+const customValidators = require('./lib/validators')
+const customSanitizers = require('./lib/sanitizers')
+const packageJson = require('./package.json')
 
 module.exports = function (config) {
   if (config.pm2) {
-    var pmx = require('pmx').init({
+    require('pmx').init({
       http: true, // HTTP routes logging (default: true)
       ignore_routes: [], // Ignore http routes with this pattern (Default: [])
       errors: true, // Exceptions logging (default: true)
@@ -35,12 +38,14 @@ module.exports = function (config) {
 
   app.locals = {
     session: false, // default session value
+    sessionUser: false,
     errors: false, // common default value
     appInfo: {
-      version: packageJson.version,
+      version: cloud.version,
       brandname: config.brandname,
       hostname: config.hostname,
-      port: config.port
+      port: config.port,
+      proDiskUsageLimit: config.proDiskUsageLimit
     }
   }
 
@@ -55,6 +60,10 @@ module.exports = function (config) {
     app.use('/v1/login', actionLimiter(1, 'Too many login attempts from this IP, please try again after an hour'))
   }
 
+  app.engine('html', ejs.renderFile)
+  app.set('view engine', 'html')
+  app.set('views', path.join(__dirname, 'assets/html'))
+
   // http gateway
   // =
 
@@ -65,11 +74,53 @@ module.exports = function (config) {
     app.use(vhost('*.' + config.hostname, httpGatewayApp))
   }
 
+  // assets
+  // =
+
+  app.get('/assets/css/main.css', lessExpress(path.join(__dirname, 'assets/css/main.less')))
+  app.use('/assets/css', express.static(path.join(__dirname, 'assets/css')))
+  app.use('/assets/js', express.static(path.join(__dirname, 'assets/js')))
+  app.use('/assets/fonts', express.static(path.join(__dirname, 'assets/fonts')))
+  app.use('/assets/images', express.static(path.join(__dirname, 'assets/images')))
+
   // service apis
   // =
 
   app.get('/', cloud.api.service.frontpage)
   app.get('/v1/explore', cloud.api.service.explore)
+
+  // pages
+  // =
+
+  app.get('/', cloud.api.pages.frontpage)
+  app.get('/explore', cloud.api.pages.explore)
+  app.get('/new-archive', cloud.api.pages.newArchive)
+  app.get('/about', cloud.api.pages.about)
+  app.get('/pricing', cloud.api.pages.pricing)
+  app.get('/terms', cloud.api.pages.terms)
+  app.get('/privacy', cloud.api.pages.privacy)
+  app.get('/acceptable-use', cloud.api.pages.acceptableUse)
+  app.get('/support', cloud.api.pages.support)
+  app.get('/login', cloud.api.pages.login)
+  app.get('/forgot-password', cloud.api.pages.forgotPassword)
+  app.get('/reset-password', cloud.api.pages.resetPassword)
+  app.get('/register', cloud.api.pages.register)
+  app.get('/register/pro', cloud.api.pages.registerPro)
+  app.get('/registered', cloud.api.pages.registered)
+  app.get('/profile', cloud.api.pages.profileRedirect)
+  app.get('/account/upgrade', cloud.api.pages.accountUpgrade)
+  app.get('/account/upgraded', cloud.api.pages.accountUpgraded)
+  app.get('/account/cancel-plan', cloud.api.pages.accountCancelPlan)
+  app.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan)
+  app.get('/account/change-password', cloud.api.pages.accountChangePassword)
+  app.get('/account/update-email', cloud.api.pages.accountUpdateEmail)
+  app.get('/account', cloud.api.pages.account)
+
+  // user pages
+  // =
+
+  app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})', cloud.api.userContent.viewArchive)
+  app.get('/:username([a-z0-9]{3,})', cloud.api.userContent.viewUser)
 
   // user & auth apis
   // =
@@ -80,6 +131,10 @@ module.exports = function (config) {
   app.post('/v1/account', cloud.api.users.updateAccount)
   app.post('/v1/account/password', cloud.api.users.updateAccountPassword)
   app.post('/v1/account/email', cloud.api.users.updateAccountEmail)
+  app.post('/v1/account/upgrade', cloud.api.users.upgradePlan)
+  app.post('/v1/account/register/pro', cloud.api.users.registerPro)
+  app.post('/v1/account/update-card', cloud.api.users.updateCard)
+  app.post('/v1/account/cancel-plan', cloud.api.users.cancelPlan)
   app.post('/v1/login', cloud.api.users.doLogin)
   app.get('/v1/logout', cloud.api.users.doLogout)
   app.post('/v1/forgot-password', cloud.api.users.doForgotPassword)
@@ -138,13 +193,6 @@ module.exports = function (config) {
     }
     res.json(error)
   })
-
-  // ui module handlers
-  // =
-
-  if (config.ui) {
-    app.use(require(config.ui)({cloud, config}))
-  }
 
   // error handling
   // =

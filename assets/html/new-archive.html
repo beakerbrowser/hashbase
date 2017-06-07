@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>New Archive - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <div class="container">
+      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form modal-form">
+      <h1 class="form-heading">Upload a new archive</h1>
+      <p class="form-desc">
+      An archive contains a set of files. Archives can be created <a
+         href="https://github.com/datproject/dat">from the command line</a> or
+       <a href="https://github.com/datproject/dat-desktop">desktop app</a>, or
+       by using the <a href="https://beakerbrowser.com">Beaker browser</a>.
+      </p>
+
+      <p class="form-desc bordered">
+        After creating your archive, you will be given a URL. Enter it
+        below to upload it to Hashbase.
+      </p>
+
+      <p class="form-group">
+        <label for="add-archive-key-input">
+          The URL of the archive to host on <%= appInfo.brandname %>
+        </label>
+        <input autofocus required type="text" class="form-control" id="add-archive-key-input" placeholder="dat://" name="key" />
+        <span id="add-archive-key-error" class="form-control-feedback"></span>
+      </p>
+
+      <p class="form-group">
+        <label for="add-archive-name-input">Name</label>
+        <input required type="text" class="form-control" id="add-archive-name-input"
+        placeholder="Untitled" name="name">
+        <span id="add-archive-name-error" class="form-control-feedback"></span>
+        <p id="emailHelp">The archive will be at <span
+          id="add-archive-name-output">-</span><%= sessionUser.username
+        %>.<%= appInfo.hostname %>.</p>
+      </p>
+
+      <div class="actions">
+        <button id="add-archive-submit-btn" type="submit" class="btn success" disabled>
+          Add Archive
+        </button>
+      </div>
+    </form>
+    </div>
+    </main>
+
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+    <script>
+    window.params = {
+      username: "<%= sessionUser.username %>"
+    }
+    </script>
+    <script src="/assets/js/new-archive.js"></script>
+  </body>
+</html>

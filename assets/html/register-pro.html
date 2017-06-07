@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Join Hashbase Pro - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main>
+    <p class="container">
+      <form id="register" class="form modal-form" action="/v1/register/pro" method="POST">
+        <input type="hidden" name="id" value="<%= id %>"/>
+        <input type="hidden" name="email" value="<%= email %>"/>
+        <h1 class="heading">Set up a payment method</h1>
+        <div id="error-general" class="alert warning" role="alert"></div>
+
+        <p class="form-group">
+          <label for="card-element">
+            Credit or debit card number
+          </label>
+
+        <div id="card-element">
+          <!-- a Stripe Element will be inserted here. -->
+        </div>
+
+        <!-- Used to display form errors -->
+        <p id="card-errors" class="form-control-feedback"></p>
+
+        <div class="actions">
+          <button id="submit-btn" disabled class="btn success" type="submit">Create your account</button>
+        </div>
+        <div class="form-footer">
+          By clicking on "Create your account", you are agreeing to the <a href="/terms">Terms of Service</a> and the <a href="/privacy">Privacy Policy</a>.
+        </div>
+      </form>
+    </div>
+    </main>
+
+    <% include com/footer-light.html %>
+    <% include com/stdjs.html %>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+    window.params = {
+      stripePK: "<%= stripePK %>"
+    }
+    </script>
+    <script src="/assets/js/register-pro.js"></script>
+  </body>
+</html>
