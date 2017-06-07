@@ -1,17 +1,10 @@
-# Hypercloud ☁ 
+# Hashbase
 
-Hypercloud is a public peer service for [Dat](https://datproject.org) archives. It provides a HTTP-accessible interface for creating an account and uploading Dats.
-
-Features:
-
- - Simple Dat uploading and hosting
- - Easy to replicate Dats, Users, or entire datasets between Hypercloud deployments
- - Configurable user management
- - Easy to self-deploy
+Hashbase is a public peer service for [Dat](https://datproject.org) archives. It provides a HTTP-accessible interface for creating an account and uploading Dats. It was created to power a content-community for the [Beaker Browser](https://beakerbrowser.com)
 
 Links:
 
- - **[Get Involved](https://github.com/joehand/hypercloud/wiki)**
+ - **[Hashbase.io](https://hashbase.io)**
  - **[Documentation](./docs)**
 
 ## Setup
@@ -32,9 +25,9 @@ Before deploying the service, you absolutely *must* modify the following config.
 #### Basics
 
 ```yaml
-dir: ./.hypercloud            # where to store the data
-brandname: Hypercloud         # the title of your service
-hostname: hypercloud.local    # the hostname of your service
+dir: ./.hashbase              # where to store the data
+brandname: Hashbase           # the title of your service
+hostname: hashbase.local      # the hostname of your service
 port: 8080                    # the port to run the service on
 rateLimiting: true            # rate limit the HTTP requests?
 defaultDiskUsageLimit: 100mb  # default maximum disk usage for each user
@@ -65,7 +58,7 @@ admin:
 
 #### HTTP Sites
 
-Hypercloud can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](npm.im/dat-dns) for the archives. There are two possible schemes:
+Hashbase can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](npm.im/dat-dns) for the archives. There are two possible schemes:
 
 ```yaml
 sites: per-user
@@ -112,7 +105,7 @@ registration:
 
 #### Session Tokens
 
-Hypercloud uses Json Web Tokens to manage sessions. You absolutely *must* replace the `secret` with a random string before deployment.
+Hashbase uses Json Web Tokens to manage sessions. You absolutely *must* replace the `secret` with a random string before deployment.
 
 ```yaml
 sessions:
@@ -123,7 +116,7 @@ sessions:
 
 #### Jobs
 
-Hypercloud runs some jobs periodically. You can configure how frequently they run.
+Hashbase runs some jobs periodically. You can configure how frequently they run.
 
 ```yaml
 # processing jobs
