@@ -345,6 +345,27 @@ test('bob can login when unsuspended', async t => {
   t.is(res.statusCode, 200, '200 can login when unsuspended')
 })
 
+test('send support email', async t => {
+  var res, lastMail
+
+  res = await app.req.post({
+    uri: '/v1/admin/users/alice/send-email',
+    json: {
+      username: 'alice',
+      subject: 'The subject line',
+      message: 'The message'
+    },
+    auth
+  })
+  t.is(res.statusCode, 200)
+
+  // check sent mail and extract the verification nonce
+  lastMail = app.cloud.mailer.transport.sentMail.pop()
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'The subject line')
+  t.truthy(lastMail.data.text.includes('The message'))
+})
+
 test.cb('stop test server', t => {
   app.close(() => {
     t.pass('closed')
