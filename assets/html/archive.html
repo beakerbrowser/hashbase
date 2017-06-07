@@ -47,6 +47,19 @@
           </div>
         </div>
       <% } %>
+      <% if (session.scopes && session.scopes.includes('admin:dats') && !isOwner) { %>
+        <button id="show-remove-archive-form" class="link">Remove archive</button>
+        <form id="admin-remove-archive-form" action="/v1/admin/archives/<%= key %>/remove" method="POST">
+          <input name="key" type="hidden" value="<%= key %>"/>
+          <button id="cancel-remove-archive" class="btn outline">
+            Cancel
+          </button>
+          <button type="submit" id="remove-archive-btn" class="btn cancel">
+            Remove
+            <i class="fa fa-close"></i>
+          </button>
+        </form>
+      <% } %>
 
       <div class="section links">
         <ul>
