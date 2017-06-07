@@ -27,7 +27,7 @@ $(function () {
     if (nameVal === window.params.username) {
       addArchiveNameOutput.text('')
     } else {
-      addArchiveNameOutput.text((nameVal || '') + '-')      
+      addArchiveNameOutput.text((nameVal || '') + '-')
     }
 
     // update submit button disabled state
@@ -35,7 +35,7 @@ $(function () {
     else addArchiveSubmitBtn.attr('disabled', true)
 
     // provide initial feedback about archive name
-    if (!nameVal.match(/^([0-9a-zA-Z-]*)$/i))  {
+    if (!nameVal.match(/^([0-9a-zA-Z-]*)$/i)) {
       renderErrors({
         details: {
           name: {

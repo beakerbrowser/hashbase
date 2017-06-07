@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ EventSource */
 
 // upload progress bar
 $(function () {

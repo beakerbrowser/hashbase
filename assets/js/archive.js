@@ -39,7 +39,7 @@ $(function () {
     })
   })
 
-  function renderErrors(json) {
+  function renderErrors (json) {
     // general error
     $('#error-general').text(json.message || json)
   }

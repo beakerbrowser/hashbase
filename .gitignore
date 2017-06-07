@@ -1,6 +1,7 @@
 node_modules
 npm-debug.log
 .hypercloud
+.hashbase
 config.*.yml
 !config.defaults.yml
 test/scaffold/testdat1/.dat

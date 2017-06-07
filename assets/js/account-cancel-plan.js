@@ -9,7 +9,7 @@ $(function () {
     toggleSpinner(true)
 
     // post to api
-    var xhr = $.post('/v1/hashbase-accounts/cancel-plan')
+    var xhr = $.post('/v1/account/cancel-plan')
     xhr.done(function (res) {
       // success, redirect
       window.location = '/account/canceled-plan'

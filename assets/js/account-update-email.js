@@ -1,4 +1,4 @@
-/* global $ URL */
+/* global $ */
 
 // update email page js
 $(function () {

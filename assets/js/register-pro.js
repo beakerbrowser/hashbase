@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ Stripe */
 
 // register page js
 $(function () {
@@ -49,7 +49,7 @@ $(function () {
 
       // post to api
       var token = result.token
-      var xhr = $.post('/v1/hashbase-accounts/register/pro', {
+      var xhr = $.post('/v1/account/register/pro', {
         token: token,
         id: document.forms[0].id.value
       })

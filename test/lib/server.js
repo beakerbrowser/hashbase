@@ -59,6 +59,10 @@ function createLocalApp (cb) {
     proofs: {
       algorithm: 'HS256',
       secret: 'super secret 2'
+    },
+    stripe: {
+      secretKey: 'foo',
+      publishableKey: 'bar'
     }
   }
 

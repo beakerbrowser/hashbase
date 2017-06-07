@@ -38,8 +38,6 @@ $(function () {
   // form submit
   updateCardForm.on('submit', function (e) {
     e.preventDefault()
-    var last4
-    var cardImagePath
 
     toggleSpinner(true)
     stripe.createToken(card).then(function (result) {
@@ -54,7 +52,7 @@ $(function () {
       var last4 = token.card.last4
       var cardImagePath = '/assets/images/cc-' + token.card.brand.toLowerCase().replace(' ', '') + '.png'
 
-      var xhr = $.post('/v1/hashbase-accounts/update-card', {
+      var xhr = $.post('/v1/account/update-card', {
         token: token
       })
       xhr.done(function (res) {

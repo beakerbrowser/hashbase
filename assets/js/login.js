@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ URLSearchParams location */
 
 // login page js
 $(function () {

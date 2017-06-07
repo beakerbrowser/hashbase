@@ -81,7 +81,7 @@
       <div class="section plan">
         <h2 id="plan">Plan</h2>
 
-        <% if (sessionAccount.plan === 'basic') { %>
+        <% if (sessionUser.plan === 'basic') { %>
         <p>You are signed up for Hashbase's free account.
           <a href="/account/upgrade" class="btn outline">
             <span>Upgrade</span>
@@ -97,11 +97,11 @@
         <% } %>
 
         <p id="billing-alert-success" class="alert success"></p>
-        <% if (sessionAccount.stripeCardLast4) { %>
+        <% if (sessionUser.stripeCardLast4) { %>
           <h3>Payment information</h3>
           <p class="active-card">
-            <span class="card-number">XXXX-XXXX-XXXX-<span id="last-4"><%= sessionAccount.stripeCardLast4 %></span></span>
-            <img class="card-type" src="/assets/images/cc-<%= sessionAccount.stripeCardBrand.toLowerCase().replace(' ', '') %>.png"/>
+            <span class="card-number">XXXX-XXXX-XXXX-<span id="last-4"><%= sessionUser.stripeCardLast4 %></span></span>
+            <img class="card-type" src="/assets/images/cc-<%= sessionUser.stripeCardBrand.toLowerCase().replace(' ', '') %>.png"/>
           </p>
 
           <a id="show-update-card-form">Update payment information</a>

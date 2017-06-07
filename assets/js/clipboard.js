@@ -26,6 +26,6 @@ $(function () {
 
     setTimeout(function () {
       feedbackEl.innerText = ''
-    }, 2000);
+    }, 2000)
   })
 })

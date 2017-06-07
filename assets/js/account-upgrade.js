@@ -42,7 +42,7 @@ $(function () {
 
       // post to api
       var token = result.token
-      var xhr = $.post('/v1/hashbase-accounts/upgrade', {
+      var xhr = $.post('/v1/account/upgrade', {
         token: token
       })
       xhr.done(function (res) {
