@@ -15,7 +15,9 @@
       <% } %>
 
       <div class="hero-container container">
-        <% include com/home-cta.html %>
+        <% if (!session) { %>
+          <% include com/home-cta.html %>
+        <% } %>
       </div>
 
       <div class="highlighted-content">
@@ -37,7 +39,11 @@
             </div>
           </div>
 
-          <div class="sidebar">
+          <% if (session && sessionUser) { %>
+            <div class="sidebar logged-in">
+          <% } else { %>
+            <div class="sidebar">
+          <% } %>
             <% if (session && sessionUser) { %>
               <% include com/your-archives.html %>
             <% } %>

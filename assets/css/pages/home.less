@@ -29,7 +29,11 @@ main.home {
   }
 
   .sidebar {
-    margin-top: 1.5em;
+    margin-top: 1.5rem;
+  }
+
+  .sidebar.logged-in {
+    margin-top: 0;
   }
 
   .sidebar .callout {
@@ -107,12 +111,15 @@ main.home {
 
     .sidebar {
       flex: 1;
-      margin-top: 0;
 
       // pull to top when hero is not full width
       @media (min-width: @desktop-wide) {
         margin-top: -117px;
       }
+    }
+
+    .sidebar.logged-in {
+      margin-top: 1.5rem;
     }
   }
 
