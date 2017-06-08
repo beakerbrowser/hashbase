@@ -35,8 +35,21 @@ main.profile {
     }
   }
 
-  .activity {
+  .sidebar {
+
+    > * {
+      margin-bottom: 1.5rem;
+    }
+
     display: none;
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    .send-email {
+      font-size: .9rem;
+    }
   }
 
   @media (min-width: @tablet-horizontal) {
@@ -49,13 +62,12 @@ main.profile {
       padding-right: 4rem;
     }
 
-    .activity {
+    .sidebar {
       display: block;
       flex: 1;
 
       h2 {
         margin-top: 0;
-        font-size: 1rem;
       }
     }
   }
