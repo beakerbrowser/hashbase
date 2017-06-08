@@ -104,17 +104,10 @@
           </div>
 
           <div>
-            <button id="show-admin-remove-archive-form" class="btn">Remove archive</button>
-            <form id="admin-remove-archive-form" action="/v1/admin/archives/<%= key %>/remove" method="POST">
-              <input name="key" type="hidden" value="<%= key %>"/>
-              <button type="button" id="cancel-admin-remove-archive" class="btn outline">
-                Cancel
-              </button>
-              <button type="submit" id="remove-archive-btn" class="btn cancel">
-                Remove
-                <i class="fa fa-close"></i>
-              </button>
-            </form>
+            <button id="admin-remove-archive" class="btn cancel">
+              Remove
+              <i class="fa fa-close"></i>
+            </button>
           </div>
         </div>
       <% } %>
@@ -127,6 +120,7 @@
     <script>
       window.params = {
         key: "<%= key %>",
+        owner: "<%= username %>",
         progress: <%= progress %>,
         isFeatured: <%= isFeatured %>
       }
