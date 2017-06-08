@@ -58,7 +58,7 @@ admin:
 
 #### HTTP Sites
 
-Hashbase can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](npm.im/dat-dns) for the archives. There are two possible schemes:
+Hashbase can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](https://npm.im/dat-dns) for the archives. There are two possible schemes:
 
 ```yaml
 sites: per-user
