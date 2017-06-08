@@ -1,10 +1,13 @@
 .columns-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1.25rem;
 
-  .column {
-    margin-right: 1rem;
+  @media (min-width: @tablet-vertical) {
+    grid-template-columns: 1fr 1fr;
   }
-  .column:last-child {
-    margin: 0;
+
+  @media (min-width: @desktop) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
