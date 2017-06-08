@@ -9,6 +9,11 @@
         <a href="/about">About</a>
       </li>
       <% if (sessionUser) { %>
+        <% if (sessionUser.scopes.includes('admin:dats')) { %>
+          <li class="nav-item">
+            <a href="/v1/admin">Admin</a>
+          </li>
+        <% } %>
         <li class="nav-item">
           <div class="dropdown-menu-link">
             <span>Hi, <%= sessionUser.username %></span>

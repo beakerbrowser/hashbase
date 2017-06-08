@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="admin-dashboard">
+    <div class="container">
+      <h1>Admin Dashboard</h1>
+
+      <p>Admins only. Weirdos get out.</p>
+
+      <h2>Unique visits by day <small><a class="link" href="/v1/admin/analytics/visits-by-day?unique=1" target="_blank">source</a></small></h2>
+      <svg class="visits-chart"></svg>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/d3.min.js"></script>
+    <script src="/assets/js/admin-dashboard.js"></script>
+  </body>
+</html>

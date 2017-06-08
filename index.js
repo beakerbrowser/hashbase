@@ -168,6 +168,7 @@ module.exports = function (config) {
   app.post('/v1/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
   app.get('/v1/admin/archives/:key', cloud.api.admin.getArchive)
   app.post('/v1/admin/archives/:key/remove', cloud.api.admin.removeArchive)
+  app.get('/v1/admin/analytics/visits-by-day', cloud.api.admin.getAnalyticsVisitsByDay)
 
   // (json) error-handling fallback
   // =
