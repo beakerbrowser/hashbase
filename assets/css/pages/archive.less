@@ -1,5 +1,6 @@
 main.archive {
 
+  #admin-remove-archive-form,
   #remove-archive-form {
     display: none;
 
@@ -35,7 +36,21 @@ main.archive {
     }
   }
 
+
   .admin-controls {
     margin-top: 1rem;
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: .5rem;
+    }
+
+    > div:not(:last-of-type) {
+      margin-bottom: 1rem;
+    }
+
+    form {
+      margin-top: .5rem;
+    }
   }
 }

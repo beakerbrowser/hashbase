@@ -22,7 +22,6 @@ $(function () {
       values[value.name] = value.value
     })
 
-    // post to api
     var xhr = $.post('/v1/archives/remove', values)
     xhr.done(function (res) {
       // success, redirect

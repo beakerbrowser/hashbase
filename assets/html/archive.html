@@ -47,7 +47,6 @@
           </div>
         </div>
       <% } %>
-
       <div class="section links">
         <ul>
           <li>
@@ -86,7 +85,7 @@
         <button id="show-remove-archive-form" class="link">Remove archive</button>
         <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
           <input name="key" type="hidden" value="<%= key %>"/>
-          <button id="cancel-remove-archive" class="btn outline">
+          <button type="button" id="cancel-remove-archive" class="btn outline">
             Cancel
           </button>
           <button type="submit" id="remove-archive-btn" class="btn cancel">
@@ -95,13 +94,21 @@
           </button>
         </form>
       <% } %>
-
       <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
         <div class="card admin-controls">
-          <h1>admin</h1>
-          <p>
-            <button id="admin-toggle-featured" class="btn"><%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured</button>
-          </p>
+          <h2>admin</h2>
+          <div>
+            <button id="admin-toggle-featured" class="btn">
+              <%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured
+            </button>
+          </div>
+
+          <div>
+            <button id="admin-remove-archive" class="btn cancel">
+              Remove
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
         </div>
       <% } %>
     </main>
@@ -113,6 +120,7 @@
     <script>
       window.params = {
         key: "<%= key %>",
+        owner: "<%= username %>",
         progress: <%= progress %>,
         isFeatured: <%= isFeatured %>
       }
