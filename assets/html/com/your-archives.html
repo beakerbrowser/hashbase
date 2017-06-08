@@ -25,6 +25,12 @@
         </span>
       </a>
     <% }) %>
+    <p class="usage">
+      <code><%= bytes(diskUsage) %>/<%= bytes(diskQuota) %></code>
+      <% if (diskUsage > diskQuota) { %>
+        <i class="fa fa-exclamation-circle"></i>
+      <% } %>
+    </p>
   </ul>
   <% if (sessionUser.archives.length > 10) { %>
     <a class="more" href="/<%= sessionUser.username %>">

@@ -59,7 +59,7 @@ main.home {
       padding: .5rem 0.8rem;
       font-size: .85rem;
 
-      &:not(:last-child) {
+      &:not(:last-of-type) {
         border-bottom: 1px solid @color-border--light-gray;
       }
 
@@ -75,6 +75,19 @@ main.home {
       .peer-count {
         float: right;
       }
+    }
+
+    code {
+      font-size: .8rem;
+      color: @color-text--muted;
+    }
+
+    .usage {
+      color: @color-text--muted;
+      display: block;
+      font-size: .8rem;
+      padding: .25rem 1rem;
+      border-top: 1px solid @color-border--light-gray;
     }
 
     .more {
