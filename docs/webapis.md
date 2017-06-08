@@ -43,6 +43,8 @@ GET  /v1/admin/users/:id - get user info & settings
 POST /v1/admin/users/:id - update user settings
 POST /v1/admin/users/:id/suspend - suspend a user account
 POST /v1/admin/users/:id/unsuspend - unsuspend a user account
+POST /v1/admin/archives/:key/feature - add an archive to featured
+POST /v1/admin/archives/:key/unfeature - remove an archive from featured
 GET /v1/admin/archives/:key - get archive information
 POST /v1/admin/users/:username/send-email - send an email to the user
 ```
@@ -134,6 +136,22 @@ Response body when `?view=activity`:
 Additional query params when `?view=activity`:
  
  - start: For pagination. The key of the event to start after.
+
+Response body when `?view=featured`:
+
+```
+{
+  featured: [{
+    key: String, the archive's key
+    numPeers: Number, the number of peers replicating the archive
+    name: String, the name given to the archive by its owner
+    title: String, optional title extracted from the dat's manifest file
+    description: String, optional description extracted from the dat's manifest file
+    owner: String, the username of the owning author
+    createdAt: Number, the timestamp of the archive's upload
+  }, ...]
+}
+```
 
 Response body when `?view=popular`:
 
@@ -451,6 +469,14 @@ Scope: `admin:users`
 ### POST /v1/admin/users/:id/unsuspend
 
 Scope: `admin:users`
+
+### POST /v1/admin/archives/:id/feature
+
+Scope: `admin:dats`
+
+### POST /v1/admin/archives/:id/unfeature
+
+Scope: `admin:dats`
 
 ### GET /v1/admin/archives/:key
 

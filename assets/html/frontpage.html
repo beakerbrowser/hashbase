@@ -23,17 +23,39 @@
 
           <div class="tabbed-archive-list">
             <div class="heading">
-              <a class="active archives-view-link" data-view=".archives-view.popular">Popular</a>
+              <a class="active archives-view-link" data-view=".archives-view.featured">Featured</a>
+              <% if (popular) { %>
+                <span class="divider"> | </span>
+                <a class="archives-view-link" data-view=".archives-view.popular">Popular [admin]</a>
+              <% } %>
               <span class="divider"> | </span>
               <a class="archives-view-link" data-view=".archives-view.recent">Recent</a>
             </div>
 
-            <div class="archives-view popular active">
-              <% include com/popular-archives.html %>
+            <div class="archives-view featured active">
+              <ul class="archive-list">
+                <% featured.forEach(archive => { %>
+                  <%- include('com/archive-list-item', {archive}) %>
+                <% }) %>
+              </ul>
             </div>
 
+            <% if (popular) { %>
+              <div class="archives-view popular">
+                <ul class="archive-list">
+                  <% popular.forEach(archive => { %>
+                    <%- include('com/archive-list-item', {archive}) %>
+                  <% }) %>
+                </ul>
+              </div>
+            <% } %>
+
             <div class="archives-view recent">
-              <% include com/recent-archives.html %>
+              <ul class="archive-list">
+                <% recent.forEach(archive => { %>
+                  <%- include('com/archive-list-item', {archive}) %>
+                <% }) %>
+              </ul>
             </div>
           </div>
 
