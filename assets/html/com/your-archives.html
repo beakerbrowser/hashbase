@@ -18,6 +18,7 @@
         <span class="name">
           <%= archive.title || archive.name %>
         </span>
+        <code><%= bytes(archive.diskUsage) %></code>
         <span class="peer-count">
           <i class="fa fa-share-alt"></i>
           <%= archive.numPeers %>
