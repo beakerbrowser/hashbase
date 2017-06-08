@@ -83,19 +83,24 @@ $(function () {
 
   function renderErrors (json) {
     // individual form errors
-    var details = json.details || {}
-    ;(['key', 'name']).forEach(function (name) {
-      if (details[name]) {
-        $('#add-archive-' + name + '-error')
-          .text(details[name].msg)
-          .parent()
-          .addClass('warning')
-      } else {
-        $('#add-archive-' + name + '-error')
-          .text('')
-          .parent()
-          .removeClass('warning')
-      }
-    })
+    if (json.outOfSpace) {
+      $('#error-general').text(json.message)
+    } else {
+      var details = json.details || {}
+      ;(['key', 'name']).forEach(function (name) {
+        if (details[name]) {
+          $('#add-archive-' + name + '-error')
+            .text(details[name].msg)
+            .parent()
+            .addClass('warning')
+        } else {
+          console.log(name)
+          $('#add-archive-' + name + '-error')
+            .text('')
+            .parent()
+            .removeClass('warning')
+        }
+      })
+    }
   }
 })
