@@ -28,6 +28,33 @@
         <% } %>
       </div>
 
+      <div class="section links">
+        <em id="url-copy-feedback"></em>
+        <div class="url">
+          <span class="label">
+            <a href="<%= rawUrl %>"><code>dat:// (raw)</code></a>
+            <a class="copy-to-clipboard fa fa-clipboard" data-target="#dat-raw-url" data-feedback-el="#url-copy-feedback" title="Copy to clipboard"></a>
+          </span>
+          <code id="dat-raw-url" class="content"><%= rawUrl %></code>
+        </div>
+
+        <div class="url">
+          <span class="label">
+            <a href="dat://<%= niceUrl %>"><code>dat:// (short)</code></a>
+            <a class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-feedback-el="#url-copy-feedback" title="Copy to clipboard"></a>
+          </span>
+          <code id="dat-nice-url" class="content">dat://<%= niceUrl %></code>
+        </div>
+
+        <div class="url">
+          <span class="label">
+            <a href="https://<%= niceUrl %>"><code>https://</code></a>
+            <a class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-feedback-el="#url-copy-feedback" title="Copy to clipboard"></a>
+          </span>
+          <code id="https-nice-url" class="content">https://<%= niceUrl %></code>
+        </div>
+      </div>
+
       <% if (isOwner) { %>
         <div class="section">
           <div class="progress-bar-container">
@@ -47,40 +74,7 @@
           </div>
         </div>
       <% } %>
-      <div class="section links">
-        <ul>
-          <li>
-            <span id="dat-raw-url" class="dat-link"><%= rawUrl %></span>
-            <a class="copy-to-clipboard" data-target="#dat-raw-url" data-feedback-el="#dat-raw-url-feedback" title="Copy to clipboard">
-              <i class="fa fa-clipboard"></i>
-            </a>
-            <a href="<%= rawUrl %>" title="<%= rawUrl %>">
-              <i class="fa fa-external-link"></i>
-            </a>
-            <em id="dat-raw-url-feedback"></em>
-          </li>
-          <li>
-            <span id="dat-nice-url" class="dat-link">dat://<%= niceUrl %></span>
-            <a class="copy-to-clipboard" data-target="#dat-nice-url" data-feedback-el="#dat-nice-url-feedback" title="Copy to clipboard">
-              <i class="fa fa-clipboard"></i>
-            </a>
-            <a href="dat://<%= niceUrl %>" title="<%= niceUrl %>" target="_blank">
-              <i class="fa fa-external-link"></i>
-            </a>
-            <em id="dat-nice-url-feedback"></em>
-          </li>
-          <li>
-            <span id="https-nice-url" class="dat-link">https://<%= niceUrl %></span>
-            <a class="copy-to-clipboard" data-target="#https-nice-url" data-feedback-el="#https-nice-url-feedback" title="Copy to clipboard">
-              <i class="fa fa-clipboard"></i>
-            </a>
-            <a href="https://<%= niceUrl %>" title="<%= niceUrl %>" target="_blank">
-              <i class="fa fa-external-link"></i>
-            </a>
-            <em id="https-nice-url-feedback"></em>
-          </li>
-        </ul>
-      </div>
+
       <% if (isOwner) { %>
         <button id="show-remove-archive-form" class="link">Remove archive</button>
         <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
