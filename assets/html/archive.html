@@ -17,7 +17,10 @@
       </p>
 
       <div class="section">
-        <h1><%= title %></h1>
+        <h1>
+          <%= title %>
+          <% if (isFeatured) { %><span class="featured">featured</span><% } %>
+        </h1>
         <% if (description) { %>
           <p><%= description %></p>
         <% } else { %>
@@ -92,19 +95,33 @@
           </button>
         </form>
       <% } %>
+
+      <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
+        <div class="card admin-controls">
+          <h1>admin</h1>
+          <p>
+            <button id="admin-toggle-featured" class="btn"><%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured</button>
+          </p>
+        </div>
+      <% } %>
     </main>
 
     <% include com/footer.html %>
     <% include com/stdjs.html %>
     <script src="/assets/js/archive.js"></script>
     <script src="/assets/js/clipboard.js"></script>
+    <script>
+      window.params = {
+        key: "<%= key %>",
+        progress: <%= progress %>,
+        isFeatured: <%= isFeatured %>
+      }
+    </script>
     <% if (isOwner) { %>
-      <script>
-        window.params = {
-          progress: <%= progress %>
-        }
-      </script>
       <script src="/assets/js/upload-progress.js"></script>
+    <% } %>
+    <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
+      <script src="/assets/js/archive-admin.js"></script>
     <% } %>
   </body>
 </html>
