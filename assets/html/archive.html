@@ -85,7 +85,7 @@
         <button id="show-remove-archive-form" class="link">Remove archive</button>
         <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
           <input name="key" type="hidden" value="<%= key %>"/>
-          <button id="cancel-remove-archive" class="btn outline">
+          <button type="button" id="cancel-remove-archive" class="btn outline">
             Cancel
           </button>
           <button type="submit" id="remove-archive-btn" class="btn cancel">
@@ -96,24 +96,28 @@
       <% } %>
       <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
         <div class="card admin-controls">
-          <h1>admin</h1>
-          <p>
-            <button id="admin-toggle-featured" class="btn"><%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured</button>
-          </p>
+          <h2>admin</h2>
+          <div>
+            <button id="admin-toggle-featured" class="btn">
+              <%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured
+            </button>
+          </div>
+
+          <div>
+            <button id="show-admin-remove-archive-form" class="btn">Remove archive</button>
+            <form id="admin-remove-archive-form" action="/v1/admin/archives/<%= key %>/remove" method="POST">
+              <input name="key" type="hidden" value="<%= key %>"/>
+              <button type="button" id="cancel-admin-remove-archive" class="btn outline">
+                Cancel
+              </button>
+              <button type="submit" id="remove-archive-btn" class="btn cancel">
+                Remove
+                <i class="fa fa-close"></i>
+              </button>
+            </form>
+          </div>
+          <p id="error-admin-general" class="alert warning"></p>
         </div>
-      <% } %>
-      <% if (sessionUser && sessionUser.scopes.includes('admin:dats') && !isOwner) { %>
-        <button id="show-remove-archive-form" class="link">Remove archive</button>
-        <form id="admin-remove-archive-form" action="/v1/admin/archives/<%= key %>/remove" method="POST">
-          <input name="key" type="hidden" value="<%= key %>"/>
-          <button id="cancel-remove-archive" class="btn outline">
-            Cancel
-          </button>
-          <button type="submit" id="remove-archive-btn" class="btn cancel">
-            Remove
-            <i class="fa fa-close"></i>
-          </button>
-        </form>
       <% } %>
     </main>
 
