@@ -27,7 +27,7 @@
     <% }) %>
   </ul>
   <% if (sessionUser.archives.length > 10) { %>
-    <a href="/<%= sessionUser.username %>">
+    <a class="more" href="/<%= sessionUser.username %>">
       View <%= sessionUser.archives.length - 10 %> more archives...
     </a>
   <% } %>

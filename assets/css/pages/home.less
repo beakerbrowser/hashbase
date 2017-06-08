@@ -77,6 +77,17 @@ main.home {
       }
     }
 
+    .more {
+      display: block;
+      font-size: .85rem;
+      padding: .15rem 1rem;
+      border-top: 1px solid @color-border--light-gray;
+
+      &:hover {
+        &:extend(.link);
+      }
+    }
+
     .heading {
       display: flex; // TODO: why isn't &:extend isn't working
       align-items: center;
