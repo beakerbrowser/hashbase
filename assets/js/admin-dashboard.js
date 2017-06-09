@@ -2,8 +2,10 @@
 
 // admin tools on archive
 $(function () {
+  setupStats()
   setupBarChart()
   setupVisitorsTable()
+  $('#stats-time-select').on('change', setupStats)
   $('#chart-source-select').on('change', setupBarChart)
 })
 
@@ -11,7 +13,7 @@ function setupVisitorsTable () {
  $('.visits-table').DataTable({
    order: [[ 0, 'desc' ]],
     ajax: {
-      url: '/v1/admin/analytics/visits-count',
+      url: '/v1/admin/analytics/events-count',
       data: {groupBy: 'url', unique: '1'},
       dataSrc: ''
     },
@@ -25,9 +27,25 @@ function setupVisitorsTable () {
   })
 }
 
+function setupStats () {
+  var time = $('#stats-time-select').val()
+  var url = '/v1/admin/analytics/events-stats?period=' + time
+  $.get(url, stats => {
+    $('#stats tbody').html(`
+      <tr>
+        <td>${stats.visits}</td>
+        <td>${stats.registrations}</td>
+        <td>${stats.logins}</td>
+        <td>${stats.upgrades}</td>
+        <td>${stats.cancels}</td>
+      </tr>
+    `)
+  })
+}
+
 function setupBarChart () {
   var event = $('#chart-source-select').val()
-  var url = '/v1/admin/analytics/visits-count?groupBy=date&unique=1&event=' + event
+  var url = '/v1/admin/analytics/events-count?groupBy=date&unique=1&event=' + event
   $('#chart-source').attr('href', url)
   $('#chart').html('')
   d3.json(url, function (visits) {

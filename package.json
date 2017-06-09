@@ -63,7 +63,7 @@
     "nodemailer-ses-transport": "^1.5.0",
     "nodemailer-stub-transport": "^1.1.0",
     "pauls-dat-api": "^4.2.1",
-    "pauls-embedded-analytics": "^1.0.0",
+    "pauls-embedded-analytics": "^1.2.0",
     "pmx": "^1.2.0",
     "pretty-bytes": "^4.0.2",
     "range-parser": "^1.2.0",
