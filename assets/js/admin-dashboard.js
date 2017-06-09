@@ -48,12 +48,25 @@ function setupBarChart () {
   var url = '/v1/admin/analytics/events-count?groupBy=date&unique=1&event=' + event
   $('#chart-source').attr('href', url)
   $('#chart').html('')
-  d3.json(url, function (visits) {
+  d3.json(url, function (visitsRaw) {
 
-    visits = visits.slice(-30, 30) // last 30
-    visits.forEach(v => {
-      v.date = v.date.split('-').slice(1).join('-')
-    })
+    // make sure there are 30 continuous days
+    var visits = []
+    let dayCursor = moment()
+    for (let i = 0; i < 30; i++) {
+      // existing visit?
+      let dayCursorFormatted = dayCursor.format('YYYY-MM-DD')
+      let v = visitsRaw.find(v => v.date === dayCursorFormatted)
+
+      // add item
+      visits.unshift({
+        date: dayCursor.format('M/DD'),
+        count: v ? v.count : 0
+      })
+
+      // move cursor
+      dayCursor = dayCursor.subtract(1, 'day')
+    }
 
     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 20, bottom: 55, left: 40},
@@ -61,11 +74,10 @@ function setupBarChart () {
         height = 200 - margin.top - margin.bottom;
 
     // set the ranges
-    var xBandWidth = Math.min(10, visits.length) * 40
     var x = d3.scaleBand()
-              .range([0, xBandWidth])
-              .padding(0.25)
-              .paddingInner(0.25);
+              .range([0, width])
+              .padding(0.5)
+              .paddingInner(0.5);
 
     var y = d3.scaleLinear()
               .range([height, 0]);
