@@ -9,17 +9,16 @@
         <a href="/about">About</a>
       </li>
       <% if (sessionUser) { %>
-        <% if (sessionUser.scopes.includes('admin:dats')) { %>
-          <li class="nav-item">
-            <a href="/v1/admin">Admin</a>
-          </li>
-        <% } %>
         <li class="nav-item">
           <div class="dropdown-menu-link">
             <span>Hi, <%= sessionUser.username %></span>
             <i class="fa fa-caret-down"></i>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="/new-archive">New archive</a>
+              <% if (sessionUser.scopes.includes('admin:dats')) { %>
+                <hr>
+                <a class="dropdown-item" href="/v1/admin">Admin Dashboard</a>
+              <% } %>
               <hr>
               <a class="dropdown-item" href="/profile">View profile</a>
               <a class="dropdown-item" href="/account">Manage account</a>

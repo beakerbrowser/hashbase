@@ -14,11 +14,21 @@
 
       <p>Admins only. Weirdos get out.</p>
 
-      <h2>Unique visits by day <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=date&amp;unique=1" target="_blank">source</a></small></h2>
-      <svg class="visits-chart"></svg>
-
-      <h2>Upgrades by day <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=date&amp;unique=1&amp;event=upgrade" target="_blank">source</a></small></h2>
-      <svg class="upgrades-chart"></svg>
+      <h2>
+        Unique
+        <select id="chart-source-select">
+          <option value="visit" selected>Visits</option>
+          <option value="register">Registrations</option>
+          <option value="confirm-email">Email confirmations</option>
+          <option value="upgrade">Upgrades</option>
+          <option value="cancel-plan">Cancellations</option>
+          <option value="login">Logins</option>
+          <option value="logout">Logouts</option>
+        </select>
+        by day
+        <small><a id="chart-source" class="link" target="_blank">source</a></small>
+      </h2>
+      <svg id="chart"></svg>
 
       <h2>Unique visits by URL <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=url&amp;unique=1" target="_blank">source</a></small></h2>
       <table class="visits-table display" cellspacing="0" width="100%">

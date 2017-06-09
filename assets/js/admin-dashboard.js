@@ -2,9 +2,9 @@
 
 // admin tools on archive
 $(function () {
-  setupBarChart('.visits-chart', '/v1/admin/analytics/visits-count?groupBy=date&unique=1')
-  setupBarChart('.upgrades-chart', '/v1/admin/analytics/visits-count?groupBy=date&unique=1&event=upgrade')
+  setupBarChart()
   setupVisitorsTable()
+  $('#chart-source-select').on('change', setupBarChart)
 })
 
 function setupVisitorsTable () {
@@ -25,7 +25,11 @@ function setupVisitorsTable () {
   })
 }
 
-function setupBarChart (sel, url) {
+function setupBarChart () {
+  var event = $('#chart-source-select').val()
+  var url = '/v1/admin/analytics/visits-count?groupBy=date&unique=1&event=' + event
+  $('#chart-source').attr('href', url)
+  $('#chart').html('')
   d3.json(url, function (visits) {
 
     visits = visits.slice(-30, 30) // last 30
@@ -51,7 +55,7 @@ function setupBarChart (sel, url) {
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    var svg = d3.select(sel)
+    var svg = d3.select('#chart')
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
