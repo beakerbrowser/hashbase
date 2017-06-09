@@ -5,6 +5,7 @@ $(function () {
   setupStats()
   setupBarChart()
   setupVisitorsTable()
+  setupReferersTable()
   $('#stats-time-select').on('change', setupStats)
   $('#chart-source-select').on('change', setupBarChart)
 })
@@ -21,6 +22,25 @@ function setupVisitorsTable () {
       {data: 'count'},
       {data: function (row) {
         var url = makeSafe(row.url)
+        return `<a class="link" href="${url}" target="_blank">${url}</a>`
+      }}
+    ]
+  })
+}
+
+function setupReferersTable () {
+ $('.referers-table').DataTable({
+   order: [[ 0, 'desc' ]],
+    ajax: {
+      url: '/v1/admin/analytics/events-count',
+      data: {groupBy: 'referer', unique: '1'},
+      dataSrc: ''
+    },
+    columns: [
+      {data: 'count'},
+      {data: function (row) {
+        if (!row.referer) return '(none)'
+        var url = makeSafe(row.referer)
         return `<a class="link" href="${url}" target="_blank">${url}</a>`
       }}
     ]
