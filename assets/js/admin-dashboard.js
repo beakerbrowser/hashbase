@@ -2,14 +2,36 @@
 
 // admin tools on archive
 $(function () {
-  // setup visits chart
-  d3.json('/v1/admin/analytics/visits-by-day?unique=1', function ({visits}) {
+  setupBarChart('.visits-chart', '/v1/admin/analytics/visits-count?groupBy=date&unique=1')
+  setupBarChart('.upgrades-chart', '/v1/admin/analytics/visits-count?groupBy=date&unique=1&event=upgrade')
+  setupVisitorsTable()
+})
+
+function setupVisitorsTable () {
+ $('.visits-table').DataTable({
+   order: [[ 0, 'desc' ]],
+    ajax: {
+      url: '/v1/admin/analytics/visits-count',
+      data: {groupBy: 'url', unique: '1'},
+      dataSrc: ''
+    },
+    columns: [
+      {data: 'count'},
+      {data: function (row) {
+        var url = makeSafe(row.url)
+        return `<a class="link" href="${url}" target="_blank">${url}</a>`
+      }}
+    ]
+  })
+}
+
+function setupBarChart (sel, url) {
+  d3.json(url, function (visits) {
 
     visits = visits.slice(-30, 30) // last 30
     visits.forEach(v => {
       v.date = v.date.split('-').slice(1).join('-')
     })
-    console.log(visits)
 
     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 20, bottom: 55, left: 40},
@@ -17,17 +39,19 @@ $(function () {
         height = 200 - margin.top - margin.bottom;
 
     // set the ranges
-    var xBandWidth = Math.min(10, visits.length) * 60
+    var xBandWidth = Math.min(10, visits.length) * 40
     var x = d3.scaleBand()
               .range([0, xBandWidth])
-              .padding(0.1);
+              .padding(0.25)
+              .paddingInner(0.25);
+
     var y = d3.scaleLinear()
               .range([height, 0]);
               
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    var svg = d3.select(".visits-chart")
+    var svg = d3.select(sel)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -76,4 +100,4 @@ $(function () {
     svg.append("g")
         .call(d3.axisLeft(y));
   })
-})
+}

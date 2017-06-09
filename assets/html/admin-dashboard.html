@@ -3,6 +3,7 @@
   <head>
     <title>Admin Dashboard - <%= appInfo.brandname %></title>
     <% include com/stdhead.html %>
+    <link rel="stylesheet" href="/assets/css/jquery.dataTables.min.css">
   </head>
   <body>
     <%- include('com/nav.html', {navClass: ''}) %>
@@ -13,14 +14,36 @@
 
       <p>Admins only. Weirdos get out.</p>
 
-      <h2>Unique visits by day <small><a class="link" href="/v1/admin/analytics/visits-by-day?unique=1" target="_blank">source</a></small></h2>
+      <h2>Unique visits by day <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=date&amp;unique=1" target="_blank">source</a></small></h2>
       <svg class="visits-chart"></svg>
+
+      <h2>Upgrades by day <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=date&amp;unique=1&amp;event=upgrade" target="_blank">source</a></small></h2>
+      <svg class="upgrades-chart"></svg>
+
+      <h2>Unique visits by URL <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=url&amp;unique=1" target="_blank">source</a></small></h2>
+      <table class="visits-table display" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Count</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Count</th>
+            <th>URL</th>
+          </tr>
+        </tfoot>
+      </table>
     </div>
     </main>
 
     <% include com/footer.html %>
     <% include com/stdjs.html %>
+    <script src="/assets/js/util.js"></script>
     <script src="/assets/js/d3.min.js"></script>
+    <script src="/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="/assets/js/jquery.dataTables.min.js"></script>
     <script src="/assets/js/admin-dashboard.js"></script>
   </body>
 </html>
