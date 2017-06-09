@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+    <link rel="stylesheet" href="/assets/css/jquery.dataTables.min.css">
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="admin-dashboard">
+    <div class="container">
+      <h1>Admin Dashboard</h1>
+
+      <p>Admins only. Weirdos get out.</p>
+
+      <h2>
+        Stats
+        <select id="stats-time-select">
+          <option value="day" selected>Last day</option>
+          <option value="3days">Last 3 days</option>
+          <option value="week">Last week</option>
+          <option value="2weeks">Last 2 weeks</option>
+          <option value="month">Last month</option>
+          <option value="3months">Last 3 months</option>
+          <option value="6months">Last 6 months</option>
+          <option value="year">Last year</option>
+          <option value="all">All time</option>
+        </select>
+      </h2>
+      <table id="stats">
+        <thead>
+          <tr>
+            <th>Unique visits</th>
+            <th>Registrations</th>
+            <th>Logins</th>
+            <th>Upgrades</th>
+            <th>Cancellations</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <h2>
+        Unique
+        <select id="chart-source-select">
+          <option value="visit" selected>Visits</option>
+          <option value="register">Registrations</option>
+          <option value="confirm-email">Email confirmations</option>
+          <option value="upgrade">Upgrades</option>
+          <option value="cancel-plan">Cancellations</option>
+          <option value="login">Logins</option>
+          <option value="logout">Logouts</option>
+        </select>
+        by day
+        <small><a id="chart-source" class="link" target="_blank">source</a></small>
+      </h2>
+      <svg id="chart"></svg>
+
+      <h2>Unique visits by URL <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=url&amp;unique=1" target="_blank">source</a></small></h2>
+      <table class="visits-table display" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Count</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Count</th>
+            <th>URL</th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <h2>Top Referers <small><a class="link" href="/v1/admin/analytics/visits-count?groupBy=referer&amp;unique=1" target="_blank">source</a></small></h2>
+      <table class="referers-table display" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Count</th>
+            <th>Referer</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Count</th>
+            <th>Referer</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/util.js"></script>
+    <script src="/assets/js/d3.min.js"></script>
+    <script src="/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="/assets/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/moment.min.js"></script>
+    <script src="/assets/js/admin-dashboard.js"></script>
+  </body>
+</html>

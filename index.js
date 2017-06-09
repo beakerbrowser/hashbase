@@ -12,6 +12,7 @@ const ejs = require('ejs')
 const Hypercloud = require('./lib')
 const customValidators = require('./lib/validators')
 const customSanitizers = require('./lib/sanitizers')
+const analytics = require('./lib/analytics')
 const packageJson = require('./package.json')
 
 module.exports = function (config) {
@@ -83,6 +84,11 @@ module.exports = function (config) {
   app.use('/assets/fonts', express.static(path.join(__dirname, 'assets/fonts')))
   app.use('/assets/images', express.static(path.join(__dirname, 'assets/images')))
 
+  // ----------------------------------------------------------------------------------
+  // add analytics for routes declared below here
+  // ----------------------------------------------------------------------------------
+  app.use(analytics.middleware(cloud))
+
   // service apis
   // =
 
@@ -151,6 +157,7 @@ module.exports = function (config) {
   // admin apis
   // =
 
+  app.get('/v1/admin', cloud.api.admin.getDashboard)
   app.get('/v1/admin/users', cloud.api.admin.listUsers)
   app.get('/v1/admin/users/:id', cloud.api.admin.getUser)
   app.post('/v1/admin/users/:id', cloud.api.admin.updateUser)
@@ -161,6 +168,9 @@ module.exports = function (config) {
   app.post('/v1/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
   app.get('/v1/admin/archives/:key', cloud.api.admin.getArchive)
   app.post('/v1/admin/archives/:key/remove', cloud.api.admin.removeArchive)
+  app.get('/v1/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
+  app.get('/v1/admin/analytics/events-count', cloud.api.admin.getAnalyticsEventsCount)
+  app.get('/v1/admin/analytics/events-stats', cloud.api.admin.getAnalyticsEventsStats)
 
   // (json) error-handling fallback
   // =
