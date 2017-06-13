@@ -117,18 +117,6 @@ test.cb('check archive status and wait till synced', t => {
   }
 })
 
-test('archive is still downloading', async t => {
-  // check archive record
-  var res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
-  t.is(res.statusCode, 200, '200 got archive data')
-  t.deepEqual(res.body.swarmOpts, {upload: true, download: true}, 'is still downloading')
-})
-
-test('compute disk usage', async t => {
-  // run usage-compute job
-  await app.cloud.archiver.computeUserDiskUsageAndSwarm()
-})
-
 test('user disk usage now exceeds the disk quota', async t => {
   // check user record
   var res = await app.req.get({url: '/v1/admin/users/bob', json: true, auth})
