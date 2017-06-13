@@ -44,7 +44,7 @@
     "get-folder-size": "^1.0.0",
     "greenlock-express": "^2.0.11",
     "hypercloud-ui-vanilla": "^1.0.0",
-    "hyperdrive": "^9.3.0",
+    "hyperdrive": "^9.4.0",
     "identify-filetype": "^1.0.0",
     "js-yaml": "^3.8.4",
     "jsonwebtoken": "^7.4.1",
