@@ -1,6 +1,6 @@
 /* global $ d3 */
 
-// admin tools on archive
+// admin tools for service stats
 $(function () {
   setupStats()
   setupBarChart()
