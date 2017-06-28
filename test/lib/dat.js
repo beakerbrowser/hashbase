@@ -1,7 +1,10 @@
+const path = require('path')
+const rimraf = require('rimraf')
 const Dat = require('dat-node')
 const util = require('./util')
 
 exports.makeDatFromFolder = function (dir, cb) {
+  rimraf.sync(path.join(dir, '.dat'))
   Dat(dir, (err, dat) => {
     if (err) return cb(err)
 

@@ -67,15 +67,6 @@ test('register and login bob', async t => {
   authUser = { bearer: sessionToken }
 })
 
-test('set bobs quota to something really small', async t => {
-  var res = await app.req.post({
-    uri: '/v1/admin/users/bob',
-    json: {diskQuota: '5b'},
-    auth
-  })
-  t.is(res.statusCode, 200, '200 updated')
-})
-
 test.cb('share test-dat 1', t => {
   makeDatFromFolder(path.join(__dirname, '/scaffold/testdat1'), (err, d, dkey) => {
     t.ifError(err)
@@ -117,6 +108,15 @@ test.cb('check archive status and wait till synced', t => {
   }
 })
 
+test('set bobs quota to something really small', async t => {
+  var res = await app.req.post({
+    uri: '/v1/admin/users/bob',
+    json: {diskQuota: '5b'},
+    auth
+  })
+  t.is(res.statusCode, 200, '200 updated')
+})
+
 test('user disk usage now exceeds the disk quota', async t => {
   // check user record
   var res = await app.req.get({url: '/v1/admin/users/bob', json: true, auth})
@@ -126,7 +126,6 @@ test('user disk usage now exceeds the disk quota', async t => {
   // check archive record
   var res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
   t.is(res.statusCode, 200, '200 got archive data')
-  t.deepEqual(res.body.swarmOpts, {upload: true, download: false}, 'no longer downloading')
   t.truthy(res.body.diskUsage > 0, 'response has disk usage')
 })
 

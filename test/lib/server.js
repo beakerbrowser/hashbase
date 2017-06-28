@@ -36,6 +36,7 @@ function createLocalApp (cb) {
     port: portCounter++,
     csrf: false, // disable to make tests work
     defaultDiskUsageLimit: '100mb',
+    pm2: false,
     admin: {
       password: 'foobar'
     },
