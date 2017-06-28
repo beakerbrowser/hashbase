@@ -9,9 +9,8 @@
 
     <main>
     <p class="container">
-      <form id="register" class="form modal-form" action="/v1/register" method="POST">
+      <form id="register" class="form card-form" action="/v1/register" method="POST">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        
         <h1 class="heading">
           Join <%= appInfo.brandname %>
           <% if (isProSignup) { %>
