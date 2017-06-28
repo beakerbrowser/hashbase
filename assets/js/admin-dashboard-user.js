@@ -16,7 +16,7 @@ $(function () {
     } catch (e) {
       return onError({resonseJSON: e.toString()}, 0, 'Error parsing JSON')
     }
-    
+
     $('#error-general').text('')
     $.ajax(location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data: JSON.stringify(data)})
       .done(onUpdate)

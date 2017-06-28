@@ -378,7 +378,6 @@ test('send support email', async t => {
 })
 
 test('remove an archive', async t => {
-
   // upload the test archive
   var json = {key: testDatKey}
   var res = await app.req.post({

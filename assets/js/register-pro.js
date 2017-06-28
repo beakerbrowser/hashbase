@@ -50,7 +50,7 @@ $(function () {
       // post to api
       var token = result.token
       var xhr = $.post('/v1/account/register/pro', {
-        _csrf: $('#register [name=_csrf]').val(),        
+        _csrf: $('#register [name=_csrf]').val(),
         token: token,
         id: document.forms[0].id.value
       })
