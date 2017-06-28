@@ -156,6 +156,9 @@ module.exports = function (config) {
   app.get('/v1/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
   app.get('/v1/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 
+  // reports apis
+  app.post('/v1/reports/add', cloud.api.reports.add)
+
   // admin apis
   // =
 

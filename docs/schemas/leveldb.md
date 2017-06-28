@@ -28,6 +28,22 @@ Schema:
 }
 ```
 
+## Report object
+
+Schema:
+```
+{
+  id: String, the id of this report
+  archiveKey: String, the archive key
+  archiveOwner: String, the user ID of the archive’s owner
+  reportingUser: String, the user ID of the user that reported it
+  reason: String, the reason for reporting the archive
+  status: String, the status of the report. Can be ‘open’ or ‘closed’
+  notes: String, administrative notes on this report (used internally)
+  createdAt: Number, the timestamp of the report
+}
+```
+
 ## Account object
 
 Schema:
