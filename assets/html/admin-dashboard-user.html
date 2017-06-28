@@ -20,6 +20,7 @@
           <textarea><%- JSON.stringify(user, null, 2) %></textarea>
         </div>
         <div class="record-actions">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div><button id="save-btn" class="btn primary big">Save</button></div>
           <br>
           <div>

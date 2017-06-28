@@ -34,6 +34,7 @@ function createLocalApp (cb) {
     hostname: 'test.local',
     dir: tmpdir,
     port: portCounter++,
+    csrf: false, // disable to make tests work
     defaultDiskUsageLimit: '100mb',
     admin: {
       password: 'foobar'

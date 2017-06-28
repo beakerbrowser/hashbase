@@ -10,6 +10,7 @@
     <main>
     <p class="container">
       <form id="register" class="form modal-form" action="/v1/register/pro" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="id" value="<%= id %>"/>
         <input type="hidden" name="email" value="<%= email %>"/>
         <h1 class="heading">Set up a payment method</h1>

@@ -61,6 +61,7 @@
                 (Only include the message and the subject. The greeting and salutation are already included).
               </p>
               <form id="send-email" class="form" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <input type="hidden" name="username" value="<%= userRecord.username %>"/>
 
                 <p class="form-group">

@@ -5,6 +5,7 @@ port: 8080
 letsencrypt: false
 sites: false
 rateLimiting: true
+csrf: true
 defaultDiskUsageLimit: 100mb
 pm2: false
 

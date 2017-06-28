@@ -1,6 +1,6 @@
 /* global $ */
 
-// archive page js
+// user page admin js
 $(function () {
   var sendEmailForm = $('#send-email')
 

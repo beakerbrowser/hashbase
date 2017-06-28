@@ -30,6 +30,7 @@ brandname: Hashbase           # the title of your service
 hostname: hashbase.local      # the hostname of your service
 port: 8080                    # the port to run the service on
 rateLimiting: true            # rate limit the HTTP requests?
+csrf: true                    # use csrf tokens?
 defaultDiskUsageLimit: 100mb  # default maximum disk usage for each user
 pm2: false                    # set to true if you're using https://keymetrics.io/
 ```
