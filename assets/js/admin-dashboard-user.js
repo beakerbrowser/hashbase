@@ -42,6 +42,15 @@ $(function () {
       .done(onUpdate)
       .fail(onError)
   })
+
+  // resend confirmation email
+  $('#resend-email-confirmation-btn').on('click', function () {
+    if (!confirm('Resend confirmation email?')) return
+    $('#error-general').text('')
+    $.ajax(location.pathname + '/resend-email-confirmation', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+      .done(onUpdate)
+      .fail(onError)
+  })
 })
 
 function onUpdate () {
