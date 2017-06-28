@@ -179,7 +179,7 @@ module.exports = function (config) {
   // =
 
   app.use((err, req, res, next) => {
-    var contentType = req.accepts('json')
+    var contentType = req.accepts(['json', 'html'])
     if (!contentType) {
       return next()
     }
@@ -204,7 +204,11 @@ module.exports = function (config) {
     // common errors
     if ('status' in err) {
       res.status(err.status)
-      res.json(err.body)
+      if (contentType === 'json') {
+        res.json(err.body)
+      } else {
+        res.render('error', { error: err })
+      }
       return
     }
 
@@ -215,7 +219,11 @@ module.exports = function (config) {
       message: 'Internal server error',
       internalError: true
     }
-    res.json(error)
+    if (contentType === 'json') {
+      res.json(error)
+    } else {
+      res.render('error', { error })
+    }
   })
 
   // error handling

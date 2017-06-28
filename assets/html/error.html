@@ -10,7 +10,7 @@
     <main class="error">
     <div class="container">
       <h1><%= error.status || 500 %> - Error</h1>
-      <p><%= error.message || error.body.message %></p>
+      <p class="alert warning" role="alert"><%= error.message || error.body.message %></p>
       <p>Lost? <a href="/support">Contact Support</a></p>
     </div>
     </main>
