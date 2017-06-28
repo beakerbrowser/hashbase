@@ -9,11 +9,28 @@
 
     <main class="admin-dashboard">
     <div class="container">
-      <h1>Admin Dashboard <span class="admin-nav"><a href="/v1/admin">stats</a> | <a href="/va/admin/sers">users</a></span></h1>
+      <h1>Admin Dashboard <span class="admin-nav"><a href="/v1/admin">stats</a> | <a href="/v1/admin/users">users</a></span></h1>
+      
+      <div id="error-general" class="alert warning" role="alert"></div>
 
       <p>Admins only. Weirdos get out.</p>
 
-      TODO
+      <div class="record">
+        <div class="record-content">
+          <textarea><%- JSON.stringify(user, null, 2) %></textarea>
+        </div>
+        <div class="record-actions">
+          <div><button id="save-btn" class="btn primary big">Save</button></div>
+          <br>
+          <div>
+            <% if (user.suspension) { %>
+              <button id="unsuspend-btn" class="btn big">Unsuspend</button>
+            <% } else { %>
+              <button id="suspend-btn" class="btn big">Suspend</button>
+            <% } %>
+          </div>
+        </div>
+      </div>
 
     </div>
     </main>

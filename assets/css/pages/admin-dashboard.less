@@ -16,4 +16,26 @@
       width: 120px;
     }
   }
+
+  .record {
+    display: flex;
+
+    .record-content {
+      flex: 1;
+
+      textarea {
+        width: 100%;
+        max-width: 1000px;
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+
+    .record-actions {
+      flex: 0 0 400px;
+      margin-left: 1rem;
+    }
+  }
 }

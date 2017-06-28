@@ -8,7 +8,8 @@ $(function () {
 function setupUsersTable () {
   var table = $('.users-table')
   table = table.DataTable({
-   order: [[ 0, 'desc' ]],
+    order: [[ 1, 'desc' ]],
+    pageLength: 50,
     ajax: {
       url: '/v1/admin/users',
       headers: {accept: 'application/json'},
@@ -24,7 +25,7 @@ function setupUsersTable () {
       {data: colValue('diskQuota')},
       {data: colValue('plan')},
       {data: colBool('isEmailVerified')},
-      {data: colBool('suspension')},
+      {data: suspension},
       {data: colDate('createdAt')}
     ]
   })
@@ -48,6 +49,9 @@ function colValue (col) {
 }
 function colBool (col) {
   return row => `<i class="fa fa-${(row[col]) ? 'check' : 'times'}"></i>`
+}
+function suspension (row) {
+  return row.suspension ? `<strong>SUSPENDED</strong>` : ''
 }
 function colDate (col) {
   return row => moment(row[col]).format('YYYY/MM/DD')
