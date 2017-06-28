@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+    <link rel="stylesheet" href="/assets/css/jquery.dataTables.min.css">
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="admin-dashboard">
+    <div class="container">
+      <h1>Admin Dashboard <span class="admin-nav"><a href="/v1/admin">stats</a> | <strong>users</strong></span></h1>
+
+      <p>Admins only. Weirdos get out.</p>
+
+      <table class="users-table display" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Archives</th>
+            <th>Usage</th>
+            <th>Quota</th>
+            <th>Plan</th>
+            <th>Verified?</th>
+            <th>Suspended?</th>
+            <th>Join Date</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Archives</th>
+            <th>Usage</th>
+            <th>Quota</th>
+            <th>Plan</th>
+            <th>Verified?</th>
+            <th>Suspended?</th>
+            <th>Join Date</th>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/util.js"></script>
+    <script src="/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="/assets/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/moment.min.js"></script>
+    <script src="/assets/js/admin-dashboard-users.js"></script>
+  </body>
+</html>

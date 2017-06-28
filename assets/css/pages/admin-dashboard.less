@@ -1,9 +1,41 @@
 .admin-dashboard {
+  h1 .admin-nav {
+    font-weight: normal;
+    font-size: 1.4rem;
+    margin-left: 0.5rem;
+
+    a {
+      color: @blue;
+    }
+  }
+
   #stats {
     tbody td {
       font-size: 3rem;
       text-align: center;
       width: 120px;
+    }
+  }
+
+  .record {
+    display: flex;
+
+    .record-content {
+      flex: 1;
+
+      textarea {
+        width: 100%;
+        max-width: 1000px;
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+
+    .record-actions {
+      flex: 0 0 400px;
+      margin-left: 1rem;
     }
   }
 }

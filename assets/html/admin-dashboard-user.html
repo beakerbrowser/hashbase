@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="admin-dashboard">
+    <div class="container">
+      <h1>Admin Dashboard <span class="admin-nav"><a href="/v1/admin">stats</a> | <a href="/v1/admin/users">users</a></span></h1>
+      
+      <div id="error-general" class="alert warning" role="alert"></div>
+
+      <p>Admins only. Weirdos get out.</p>
+
+      <div class="record">
+        <div class="record-content">
+          <textarea><%- JSON.stringify(user, null, 2) %></textarea>
+        </div>
+        <div class="record-actions">
+          <div><button id="save-btn" class="btn primary big">Save</button></div>
+          <br>
+          <div>
+            <% if (user.suspension) { %>
+              <button id="unsuspend-btn" class="btn big">Unsuspend</button>
+            <% } else { %>
+              <button id="suspend-btn" class="btn big">Suspend</button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/util.js"></script>
+    <script src="/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="/assets/js/moment.min.js"></script>
+    <script src="/assets/js/admin-dashboard-user.js"></script>
+  </body>
+</html>
