@@ -5,7 +5,7 @@ var { makeDatFromFolder } = require('./lib/dat.js')
 
 var app
 var sessionToken, auth
-var testDat, testDatKey
+var testDatKey
 
 test.cb('start test server', t => {
   app = createTestServer(async err => {
@@ -30,7 +30,6 @@ test.cb('start test server', t => {
 test.cb('share test-dat', t => {
   makeDatFromFolder(path.join(__dirname, '/scaffold/testdat1'), (err, d, dkey) => {
     t.ifError(err)
-    testDat = d
     testDatKey = dkey
     t.end()
   })

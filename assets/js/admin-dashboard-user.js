@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ window */
 
 // admin user tools
 $(function () {
@@ -18,43 +18,43 @@ $(function () {
     }
 
     $('#error-general').text('')
-    $.ajax(location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data: JSON.stringify(data)})
+    $.ajax(window.location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data: JSON.stringify(data)})
       .done(onUpdate)
       .fail(onError)
   })
 
   // suspend
   $('#suspend-btn').on('click', function () {
-    var data = {reason: prompt('Reason?'), _csrf}
+    var data = {reason: window.prompt('Reason?'), _csrf}
     if (!data.reason) return
     data = JSON.stringify(data)
     $('#error-general').text('')
-    $.ajax(location.pathname + '/suspend', {method: 'post', contentType: 'application/json; charset=utf-8', data})
+    $.ajax(window.location.pathname + '/suspend', {method: 'post', contentType: 'application/json; charset=utf-8', data})
       .done(onUpdate)
       .fail(onError)
   })
 
   // unsuspend
   $('#unsuspend-btn').on('click', function () {
-    if (!confirm('Unsuspend?')) return
+    if (!window.confirm('Unsuspend?')) return
     $('#error-general').text('')
-    $.ajax(location.pathname + '/unsuspend', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/unsuspend', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
       .done(onUpdate)
       .fail(onError)
   })
 
   // resend confirmation email
   $('#resend-email-confirmation-btn').on('click', function () {
-    if (!confirm('Resend confirmation email?')) return
+    if (!window.confirm('Resend confirmation email?')) return
     $('#error-general').text('')
-    $.ajax(location.pathname + '/resend-email-confirmation', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/resend-email-confirmation', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
       .done(onUpdate)
       .fail(onError)
   })
 })
 
 function onUpdate () {
-  location.reload()
+  window.location.reload()
 }
 
 function onError (jqXHR, _, err) {

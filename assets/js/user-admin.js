@@ -15,7 +15,7 @@ $(function () {
 
     // post to api
     $.post('/v1/admin/users/' + values['username'] + '/send-email', values, function (res, status) {
-      if (status !== 'success') console.error(status, response)
+      if (status !== 'success') console.error(status, res)
       else {
         $('#send-email-success').text('Sent message to ' + values['username'])
         sendEmailForm[0].reset()

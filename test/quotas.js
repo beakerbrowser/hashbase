@@ -124,7 +124,7 @@ test('user disk usage now exceeds the disk quota', async t => {
   t.truthy(res.body.diskUsage > res.body.diskQuota, 'disk quota is exceeded')
 
   // check archive record
-  var res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
+  res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
   t.is(res.statusCode, 200, '200 got archive data')
   t.truthy(res.body.diskUsage > 0, 'response has disk usage')
 })

@@ -1,4 +1,4 @@
-/* global $ d3 */
+/* global $ d3 makeSafe moment */
 
 // admin tools for service stats
 $(function () {
@@ -88,9 +88,9 @@ function setupBarChart () {
     }
 
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 55, left: 40},
-      width = 1000 - margin.left - margin.right,
-      height = 200 - margin.top - margin.bottom
+    var margin = {top: 20, right: 20, bottom: 55, left: 40}
+    var width = 1000 - margin.left - margin.right
+    var height = 200 - margin.top - margin.bottom
 
     // set the ranges
     var x = d3.scaleBand()

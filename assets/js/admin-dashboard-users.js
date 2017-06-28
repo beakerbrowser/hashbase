@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ makeSafe moment */
 
 // admin user tools
 $(function () {

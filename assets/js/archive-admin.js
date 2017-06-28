@@ -1,10 +1,10 @@
-/* global $ location params */
+/* global $ params */
 
 // admin tools on archive
 $(function () {
   var _csrf = $('[name=_csrf]').val()
   $('#admin-remove-archive').on('click', function () {
-    if (confirm('Remove this archive?')) {
+    if (window.confirm('Remove this archive?')) {
       $.post('/v1/admin/archives/' + params.key + '/remove', {key: params.key, _csrf}, function (response, status) {
         if (status !== 'success') {
           console.error(status, response)
@@ -22,7 +22,7 @@ $(function () {
       if (status !== 'success') {
         return console.error(status, response)
       }
-      location.reload()
+      window.location.reload()
     })
   })
 })

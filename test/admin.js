@@ -5,7 +5,7 @@ var createTestServer = require('./lib/server.js')
 var { makeDatFromFolder } = require('./lib/dat.js')
 
 var app
-var sessionToken, auth, testDat, testDatKey
+var sessionToken, auth, testDatKey
 
 test.cb('start test server', t => {
   app = createTestServer(async err => {
@@ -30,7 +30,6 @@ test.cb('start test server', t => {
 test.cb('share test-dat', t => {
   makeDatFromFolder(path.join(__dirname, '/scaffold/testdat1'), (err, d, dkey) => {
     t.ifError(err)
-    testDat = d
     testDatKey = dkey
     t.end()
   })
@@ -378,9 +377,10 @@ test('send support email', async t => {
 })
 
 test('remove an archive', async t => {
+  var res
+
   // upload the test archive
-  var json = {key: testDatKey}
-  var res = await app.req.post({
+  res = await app.req.post({
     uri: '/v1/archives/add',
     json: {key: testDatKey},
     auth
@@ -389,7 +389,7 @@ test('remove an archive', async t => {
   t.is(res.statusCode, 200, '200 added dat')
 
   // remove the archive
-  var res = await app.req.post({
+  res = await app.req.post({
     uri: `/v1/admin/archives/${testDatKey}/remove`,
     json: {
       key: testDatKey
@@ -399,7 +399,7 @@ test('remove an archive', async t => {
   t.is(res.statusCode, 200, '200 removed dat')
 
   // check that the archive was removed
-  var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, auth})
+  res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 404, '404 not found')
 })
 

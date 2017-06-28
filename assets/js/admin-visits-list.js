@@ -1,4 +1,4 @@
-/* global $ d3 */
+/* global $ */
 
 // admin tools on archive
 $(function () {
