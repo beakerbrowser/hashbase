@@ -30,6 +30,12 @@
               <button id="suspend-btn" class="btn big">Suspend</button>
             <% } %>
           </div>
+          <br>
+          <div>
+            <% if (!user.isEmailVerified) { %>
+              <button id="resend-email-confirmation-btn" class="btn big">Resend confirmation email</button>
+            <% } %>
+          </div>
         </div>
       </div>
 

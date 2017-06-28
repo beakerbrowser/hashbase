@@ -165,6 +165,7 @@ module.exports = function (config) {
   app.post('/v1/admin/users/:id', cloud.api.admin.updateUser)
   app.post('/v1/admin/users/:id/suspend', cloud.api.admin.suspendUser)
   app.post('/v1/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
+  app.post('/v1/admin/users/:id/resend-email-confirmation', cloud.api.admin.resendEmailConfirmation)
   app.post('/v1/admin/users/:username/send-email', cloud.api.admin.sendEmail)
   app.post('/v1/admin/archives/:key/feature', cloud.api.admin.featureArchive)
   app.post('/v1/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
