@@ -89,34 +89,36 @@ test('do some activity', async t => {
 test('get global activity', async t => {
   // no offset
   var res = await app.req.get({url: '/v1/explore?view=activity', json: true})
+  res.body.activity.sort((a, b) => a.username.localeCompare(b.username))
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 3)
   t.is(res.body.activity[0].username, 'admin')
   t.is(res.body.activity[0].action, 'del-archive')
   t.is(res.body.activity[0].params.name, 'fakedat1')
   t.is(res.body.activity[0].params.key, fakeDatKey1)
-  t.is(res.body.activity[1].username, 'bob')
-  t.is(res.body.activity[1].action, 'add-archive')
-  t.is(res.body.activity[1].params.name, 'fakedat2')
-  t.is(res.body.activity[1].params.key, fakeDatKey2)
-  t.is(res.body.activity[2].username, 'admin')
-  t.is(res.body.activity[2].action, 'add-archive')
-  t.is(res.body.activity[2].params.name, 'fakedat1')
-  t.is(res.body.activity[2].params.key, fakeDatKey1)
-
-  // with offset
-  var start = res.body.activity[0].key
-  res = await app.req.get({url: '/v1/explore', qs: {view: 'activity', start}, json: true})
-  t.is(res.statusCode, 200, '200 got activity')
-  t.is(res.body.activity.length, 2)
-  t.is(res.body.activity[0].username, 'bob')
-  t.is(res.body.activity[0].action, 'add-archive')
-  t.is(res.body.activity[0].params.name, 'fakedat2')
-  t.is(res.body.activity[0].params.key, fakeDatKey2)
   t.is(res.body.activity[1].username, 'admin')
   t.is(res.body.activity[1].action, 'add-archive')
   t.is(res.body.activity[1].params.name, 'fakedat1')
   t.is(res.body.activity[1].params.key, fakeDatKey1)
+  t.is(res.body.activity[2].username, 'bob')
+  t.is(res.body.activity[2].action, 'add-archive')
+  t.is(res.body.activity[2].params.name, 'fakedat2')
+  t.is(res.body.activity[2].params.key, fakeDatKey2)
+
+  // with offset
+  var start = res.body.activity[0].key
+  res = await app.req.get({url: '/v1/explore', qs: {view: 'activity', start}, json: true})
+  res.body.activity.sort((a, b) => a.username.localeCompare(b.username))
+  t.is(res.statusCode, 200, '200 got activity')
+  t.is(res.body.activity.length, 2)
+  t.is(res.body.activity[0].username, 'admin')
+  t.is(res.body.activity[0].action, 'add-archive')
+  t.is(res.body.activity[0].params.name, 'fakedat1')
+  t.is(res.body.activity[0].params.key, fakeDatKey1)
+  t.is(res.body.activity[1].username, 'bob')
+  t.is(res.body.activity[1].action, 'add-archive')
+  t.is(res.body.activity[1].params.name, 'fakedat2')
+  t.is(res.body.activity[1].params.key, fakeDatKey2)
 })
 
 test('get user activity', async t => {
