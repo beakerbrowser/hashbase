@@ -10,6 +10,7 @@
     <main>
     <div class="container">
       <form method="post" class="form modal-form form-account-cancel-plan">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <h1 class="form-heading">Cancel Pro Plan</h1>
         <p class="form-desc">
           This will drop your storage limit to 100 MB. Are you sure?

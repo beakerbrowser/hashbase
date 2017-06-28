@@ -10,6 +10,7 @@
     <main>
     <div class="container">
       <form id="form-account-upgrade" method="POST" class="form modal-form">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <h1 class="form-heading">
           10 GB of storage
         </h1>

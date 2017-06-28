@@ -53,6 +53,7 @@ $(function () {
       var cardImagePath = '/assets/images/cc-' + token.card.brand.toLowerCase().replace(' ', '') + '.png'
 
       var xhr = $.post('/v1/account/update-card', {
+        _csrf: updateCardForm.find('[name=_csrf]').val(),
         token: token
       })
       xhr.done(function (res) {

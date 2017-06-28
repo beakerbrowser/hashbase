@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
 const RateLimit = require('express-rate-limit')
+const csurf = require('csurf')
 const vhost = require('vhost')
 const bytes = require('bytes')
 const lessExpress = require('less-express')
@@ -55,6 +56,7 @@ module.exports = function (config) {
   app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
+  app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
   if (config.rateLimiting) {
     app.use(new RateLimit({windowMs: 1e3, max: 100, delayMs: 0})) // general rate limit
     app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
@@ -181,6 +183,14 @@ module.exports = function (config) {
       return next()
     }
 
+    // CSRF error
+    if (err.code === 'EBADCSRFTOKEN') {
+      return res.status(403).json({
+        message: 'The form has entered an invalid state. Please refresh and try submitting again. If this persists, please contact support.',
+        badCSRF: true
+      })
+    }
+
     // validation errors
     if ('isEmpty' in err) {
       return res.status(422).json({
@@ -278,4 +288,9 @@ function approveDomains (config, cloud) {
     } catch (e) {}
     cb(new Error('Invalid domain'))
   }
+}
+
+function fakeCSRF (req, res, next) {
+  req.csrfToken = () => 'csrf is disabled'
+  next()
 }

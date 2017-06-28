@@ -10,6 +10,7 @@
     <main>
     <div class="container">
       <form class="form modal-form form-login" action="/login" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <% if (reset) { %>
           <div class="alert success" role="alert">
             Your password has been updated.
