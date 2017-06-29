@@ -100,6 +100,7 @@
             <input type="hidden" name="archiveOwner" value="<%= username %>"/>
             <input type="hidden" name="archiveKey" value="<%= key %>"/>
             <h1 class="form-heading">Report this archive</h1>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <p class="form-desc bordered">
               Report this archive to the Hashbase admins.
             </p>
