@@ -17,17 +17,6 @@ const analytics = require('./lib/analytics')
 const packageJson = require('./package.json')
 
 module.exports = function (config) {
-  if (config.pm2) {
-    require('pmx').init({
-      http: true, // HTTP routes logging (default: true)
-      ignore_routes: [], // Ignore http routes with this pattern (Default: [])
-      errors: true, // Exceptions logging (default: true)
-      custom_probes: true, // Auto expose JS Loop Latency and HTTP req/s as custom metrics
-      network: true, // Network monitoring at the application level
-      ports: true  // Shows which ports your app is listening on (default: false)
-    })
-  }
-
   addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version
@@ -66,6 +55,22 @@ module.exports = function (config) {
   app.engine('html', ejs.renderFile)
   app.set('view engine', 'html')
   app.set('views', path.join(__dirname, 'assets/html'))
+
+  // monitoring
+  // =
+
+  if (config.pm2) {
+    let pmx = require('pmx')
+    pmx.init({
+      http: true, // HTTP routes logging (default: true)
+      ignore_routes: [], // Ignore http routes with this pattern (Default: [])
+      errors: true, // Exceptions logging (default: true)
+      custom_probes: true, // Auto expose JS Loop Latency and HTTP req/s as custom metrics
+      network: true, // Network monitoring at the application level
+      ports: true  // Shows which ports your app is listening on (default: false)
+    })
+    require('./lib/monitoring').init(config, pmx)
+  }
 
   // http gateway
   // =

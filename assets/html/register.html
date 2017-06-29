@@ -11,6 +11,7 @@
     <p class="container">
       <form id="register" class="form card-form" action="/v1/register" method="POST">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
         <h1 class="heading">
           Join <%= appInfo.brandname %>
           <% if (isProSignup) { %>
@@ -45,6 +46,12 @@
           <span id="error-password" class="form-control-feedback">
             Must be at least 6 characters
           </span>
+        </p>
+
+        <p class="form-group">
+          <label for="input-password-confirm">Confirm password</label>
+          <input required type="password" name="passwordConfirm" class="form-control" id="input-password-confirm" />
+          <span id="error-password-confirm" class="form-control-feedback"></span>
         </p>
 
         <div class="actions">

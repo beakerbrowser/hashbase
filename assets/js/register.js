@@ -11,6 +11,20 @@ $(function () {
     usernameOutput.text(usernameInput.val() || 'username')
   }
 
+  $('#input-password-confirm').on('blur', function (e) {
+    if (e.target.value !== $('#input-password').value) {
+      $('#error-password-confirm')
+        .text('Passwords don\'t match')
+        .parent()
+        .addClass('warning')
+    } else {
+      $('#error-password-confirm')
+        .text('')
+        .parent()
+        .removeClass('warning')
+    }
+  })
+
   $('#register').on('submit', function (e) {
     e.preventDefault()
 

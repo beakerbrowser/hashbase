@@ -7,13 +7,17 @@ sites: false
 rateLimiting: true
 csrf: true
 defaultDiskUsageLimit: 100mb
-pm2: false
 
 # processing jobs
 jobs:
   popularArchivesIndex: 30s
   userDiskUsage: 5m
   deleteDeadArchives: 5m
+
+# monitoring
+pm2: false
+alerts:
+  diskUsage: 1gb
 
 # user settings
 registration:
