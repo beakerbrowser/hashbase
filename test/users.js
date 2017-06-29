@@ -136,7 +136,7 @@ test('verify validation', async t => {
   await run('get', { username: 'carla' }, 'nonce') // missing nonce
   await run('post', { username: 'carla' }, 'nonce') // missing nonce
   await run('get', { nonce: 'asdf' }, 'username') // missing username
-  await run('post', { nonce: 'asdf' }, 'username' // missing username
+  await run('post', { nonce: 'asdf' }, 'username') // missing username
 })
 
 test('cant register an already-registered user', async t => {
