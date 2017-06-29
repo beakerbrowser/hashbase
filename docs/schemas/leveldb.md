@@ -28,22 +28,6 @@ Schema:
 }
 ```
 
-## Report object
-
-Schema:
-```
-{
-  id: String, the id of this report
-  archiveKey: String, the archive key
-  archiveOwner: String, the user ID of the archive’s owner
-  reportingUser: String, the user ID of the user that reported it
-  reason: String, the reason for reporting the archive
-  status: String, the status of the report. Can be ‘open’ or ‘closed’
-  notes: String, administrative notes on this report (used internally)
-  createdAt: Number, the timestamp of the report
-}
-```
-
 ## Account object
 
 Schema:
@@ -66,7 +50,7 @@ Schema:
   suspension: String, if suspended, will be set to an explanation
   updatedAt: Number, the timestamp of the last update
   createdAt: Number, the timestamp of creation time
-  
+
   isEmailVerified: Boolean
   emailVerifyNonce: String, the random verification nonce (register flow)
 
@@ -74,6 +58,27 @@ Schema:
 
   isProfileDatVerified: Boolean
   profileVerifyToken: String, the profile verification token (stored so the user can refetch it)
+}
+```
+
+## Report object
+
+Schema:
+```
+{
+  id: String, the id of this report
+
+  archiveKey: String, the archive key
+
+  archiveOwner: String, the user ID of the archive’s owner
+  reportingUser: String, the user ID of the user that reported it
+
+  reason: String, the reason for reporting the archive
+  status: String, the status of the report. Can be ‘open’ or ‘closed’
+  notes: String, administrative notes on this report (used internally)
+
+  createdAt: Number, the timestamp of the report
+  updatedAt: Number, the timestamp the report was last updated
 }
 ```
 
