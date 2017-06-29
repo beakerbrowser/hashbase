@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard - <%= appInfo.brandname %></title>
+    <% include com/stdhead.html %>
+  </head>
+  <body>
+    <%- include('com/nav.html', {navClass: ''}) %>
+
+    <main class="admin-dashboard">
+    <div class="container">
+      <h1>Admin Dashboard
+        <span class="admin-nav">
+          <a href="/v1/admin">stats</a> |
+          <a href="/v1/admin/users">users</a> |
+          <a href="/v1/admin/reports/">reports</a>
+        </span>
+      </h1>
+
+      <div id="error-general" class="alert warning" role="alert"></div>
+
+      <p>Admins only. Weirdos get out.</p>
+
+      <div class="record">
+        <div class="record-content">
+          <% if (record.status === 'open') { %>
+            <p id="status" class="open">
+              Status: Needs review
+            </p>
+          <% } else { %>
+            <p id="status" class="closed">
+              Status: Resolved
+            </p>
+          <% } %>
+          <textarea><%- JSON.stringify(record, null, 2) %></textarea>
+        </div>
+        <div class="record-actions">
+          <button id="save-btn" class="btn big primary">Save</button>
+          <br>
+          <br>
+          <% if (record.status === 'open') { %>
+            <button id="close-btn" class="btn big">Close report</button>
+          <% } else { %>
+            <button id="open-btn" class="btn big">Re-open this report</button>
+          <% } %>
+        </div>
+      </div>
+
+    </div>
+    </main>
+
+    <% include com/footer.html %>
+    <% include com/stdjs.html %>
+    <script src="/assets/js/util.js"></script>
+    <script src="/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="/assets/js/moment.min.js"></script>
+    <script src="/assets/js/admin-dashboard-report.js"></script>
+  </body>
+</html>

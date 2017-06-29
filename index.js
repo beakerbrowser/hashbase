@@ -177,6 +177,11 @@ module.exports = function (config) {
   app.get('/v1/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
   app.get('/v1/admin/analytics/events-count', cloud.api.admin.getAnalyticsEventsCount)
   app.get('/v1/admin/analytics/events-stats', cloud.api.admin.getAnalyticsEventsStats)
+  app.get('/v1/admin/reports', cloud.api.admin.getReports)
+  app.get('/v1/admin/reports/:id', cloud.api.admin.getReport)
+  app.post('/v1/admin/reports/:id', cloud.api.admin.updateReport)
+  app.post('/v1/admin/reports/:id/close', cloud.api.admin.closeReport)
+  app.post('/v1/admin/reports/:id/open', cloud.api.admin.openReport)
 
   // (json) error-handling fallback
   // =
