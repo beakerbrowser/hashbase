@@ -17,12 +17,11 @@ function setupReportsTable () {
       dataSrc: 'reports'
     },
     columns: [
-      {data: colValue('id')},
       {data: colValue('archiveKey')},
       {data: colValue('archiveOwner')},
-      {data: colValue('reportedBy')},
+      {data: colValue('reportingUser')},
       {data: colValue('reason')},
-      {data: colValue('reportedAt')},
+      {data: colDate('reportedAt')},
       {data: colValue('notes')},
       {data: colValue('status')}
     ]
