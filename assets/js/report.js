@@ -1,3 +1,5 @@
+/* global $ */
+
 // report form js
 $(function () {
   $('#show-report-archive-form').on('click', showReportArchiveForm)

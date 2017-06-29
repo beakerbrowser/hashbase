@@ -17,7 +17,7 @@ $(function () {
       return onError({responseJSON: e.toString()}, 0, 'Error parsing JSON')
     }
     $('#error-general').text('')
-    $.ajax(location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data: JSON.stringify(data)})
+    $.ajax(window.location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data: JSON.stringify(data)})
       .done(onUpdate)
       .fail(onError)
   })
@@ -25,7 +25,7 @@ $(function () {
   // close
   $('#close-btn').on('click', function () {
     $('#error-general').text('')
-    $.ajax(location.pathname + '/close', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/close', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
       .done(onUpdate)
       .fail(onError)
   })
@@ -33,15 +33,14 @@ $(function () {
   // open
   $('#open-btn').on('click', function () {
     $('#error-general').text('')
-    var data = {_csrf}
-    $.ajax(location.pathname + '/open', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/open', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
       .done(onUpdate)
       .fail(onError)
   })
 })
 
 function onUpdate () {
-  location.reload()
+  window.location.reload()
 }
 
 function onError (jqXHR, _, err) {

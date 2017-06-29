@@ -447,7 +447,7 @@ test('update a report', async t => {
   t.is(res.statusCode, 200)
 
   // check if the report was updated
-  var res = await app.req.get({
+  res = await app.req.get({
     uri: `/v1/admin/reports/${report.id}`,
     json: true,
     auth

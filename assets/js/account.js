@@ -66,7 +66,7 @@ $(function () {
       xhr.fail(function (res) {
         // failure, render errors
         toggleSpinner(false)
-        $('#card-errors').text(res.responseJSON && res.responseJSON.message || 'Internal server error. Please contact support.')
+        $('#card-errors').text((res.responseJSON && res.responseJSON.message) || 'Internal server error. Please contact support.')
       })
     })
   })
