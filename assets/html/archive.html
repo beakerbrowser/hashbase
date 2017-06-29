@@ -10,6 +10,7 @@
     <main class="archive">
     <div class="container">
       <p id="error-general" class="alert warning"></p>
+      <p id="feedback-general" class="alert success"></p>
 
       <p class="breadcrumbs">
         <a href="/<%= username %>"><%= username %></a>
@@ -88,6 +89,45 @@
             <i class="fa fa-close"></i>
           </button>
         </form>
+      <% } else { %>
+        <button id="show-report-archive-form" data-key="<%= key %>" class="link" title="Report inappropriate or illegal content">
+          Report
+        </button>
+
+        <div class="modal-form-container">
+          <form id="report-archive-form" class="form modal-form">
+            <p id="error-general" class="alert warning"></p>
+            <input type="hidden" name="archiveOwner" value="<%= username %>"/>
+            <input type="hidden" name="archiveKey" value="<%= key %>"/>
+            <h1 class="form-heading">Report this archive</h1>
+            <p class="form-desc bordered">
+              Report this archive to the Hashbase admins.
+            </p>
+            <p class="form-group">
+              Why are you reporting this archive?
+            </p>
+            <p class="form-group">
+              <label for="inappropriate" name="reason">
+                <input name="reason" type="radio" value="inappropriate"/>
+                It's inappropriate
+              </label>
+              <label for="illegal" name="reason">
+                <input name="reason" type="radio" value="illegal"/>
+                It contains illegal content
+              </label>
+              <label for="terms" name="reason">
+                <input name="reason" type="radio" value="terms"/>
+                It includes racist, sexist, abusive, or violent content
+              </label>
+            </p>
+            <div class="actions">
+              <div>
+                <button id="cancel-report-btn" type="button" class="btn">Cancel</button>
+                <button type="submit" class="btn primary">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
       <% } %>
       <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
         <div class="card admin-controls">
@@ -112,6 +152,7 @@
     <% include com/footer.html %>
     <% include com/stdjs.html %>
     <script src="/assets/js/archive.js"></script>
+    <script src="/assets/js/report.js"></script>
     <script src="/assets/js/clipboard.js"></script>
     <script>
       window.params = {
