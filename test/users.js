@@ -24,7 +24,8 @@ test('register and POST verify', async t => {
     json: {
       email: 'alice@example.com',
       username: 'alice',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 201, '201 created user')
@@ -57,7 +58,8 @@ test('register and GET verify', async t => {
     json: {
       email: 'bob@example.com',
       username: 'bob',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 201, '201 created user')
@@ -88,13 +90,14 @@ test('register validation', async t => {
   }
 
   await run({ email: 'bob@example.com', username: 'bob' }, 'password') // missing password
-  await run({ email: 'bob@example.com', password: 'foobar' }, 'username') // missing username
-  await run({ username: 'bob', password: 'foobar' }, 'email') // missing email
-  await run({ email: 'bob@example.com', username: 'bob', password: 'a' }, 'password') // password too short
-  await run({ email: 'bob@example.com', username: 'a', password: 'foobar' }, 'username') // username too short
-  await run({ email: 'bob@example.com', username: 'bob.boy', password: 'foobar' }, 'username') // username has invalid chars
-  await run({ email: 'asdf', username: 'bob', password: 'foobar' }, 'email') // invalid email
-  await run({ email: 'bob+foo@example.com', username: 'bob', password: 'foobar' }, 'email') // invalid email
+  await run({ email: 'bob@example.com', password: 'foobar', passwordConfirm: 'foobar' }, 'username') // missing username
+  await run({ username: 'bob', password: 'foobar', passwordConfirm: 'foobar' }, 'email') // missing email
+  await run({ email: 'bob@example.com', username: 'bob', password: 'a', passwordConfirm: 'a' }, 'password') // password too short
+  await run({ email: 'bob@example.com', username: 'a', password: 'foobar', passwordConfirm: 'foobar' }, 'username') // username too short
+  await run({ email: 'bob@example.com', username: 'bob.boy', password: 'foobar', passwordConfirm: 'foobar' }, 'username') // username has invalid chars
+  await run({ email: 'asdf', username: 'bob', password: 'foobar', passwordConfirm: 'foobar' }, 'email') // invalid email
+  await run({ email: 'bob+foo@example.com', username: 'bob', password: 'foobar', passwordConfirm: 'foobar' }, 'email') // invalid email
+  await run({ email: 'bob+foo@example.com', username: 'bob', password: 'foobar', passwordConfirm: 'foobaz' }, 'passwordConfirm') // invalid passwordConfirm
 })
 
 test('register blocks reserved usernames', async t => {
@@ -104,9 +107,9 @@ test('register blocks reserved usernames', async t => {
     t.is(res.body.reservedName, true, 'reservedName')
   }
 
-  await run({ email: 'bob@example.com', username: 'blacklisted', password: 'foobar' })
-  await run({ email: 'bob@example.com', username: 'reserved', password: 'foobar' })
-  await run({ email: 'bob@example.com', username: 'RESERVED', password: 'foobar' })
+  await run({ email: 'bob@example.com', username: 'blacklisted', password: 'foobar', passwordConfirm: 'foobar' })
+  await run({ email: 'bob@example.com', username: 'reserved', password: 'foobar', passwordConfirm: 'foobar' })
+  await run({ email: 'bob@example.com', username: 'RESERVED', password: 'foobar', passwordConfirm: 'foobar' })
 })
 
 test('verify validation', async t => {
@@ -124,7 +127,8 @@ test('verify validation', async t => {
     json: {
       email: 'carla@example.com',
       username: 'carla',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 201, '201 created user')
@@ -144,7 +148,8 @@ test('cant register an already-registered user', async t => {
     json: {
       email: 'alice@example.com',
       username: 'rando',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 422, '422 bad input')
@@ -156,7 +161,8 @@ test('cant register an already-registered user', async t => {
     json: {
       email: 'rando@example.com',
       username: 'alice',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 422, '422 bad input')
@@ -168,7 +174,8 @@ test('cant register an already-registered user', async t => {
     json: {
       email: 'carla@example.com',
       username: 'rando',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 422, '422 bad input')
@@ -180,7 +187,8 @@ test('cant register an already-registered user', async t => {
     json: {
       email: 'rando@example.com',
       username: 'carla',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   t.is(res.statusCode, 422, '422 bad input')

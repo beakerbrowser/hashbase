@@ -42,7 +42,8 @@ async function registerUser (username) {
     json: {
       email: `${username}@example.com`,
       username: username,
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   if (res.statusCode !== 201) throw new Error(`Failed to register ${username} user`)

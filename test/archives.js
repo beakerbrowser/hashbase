@@ -37,7 +37,8 @@ test('register and login bob', async t => {
     json: {
       email: 'bob@example.com',
       username: 'bob',
-      password: 'foobar'
+      password: 'foobar',
+      passwordConfirm: 'foobar'
     }
   })
   if (res.statusCode !== 201) throw new Error('Failed to register bob user')
