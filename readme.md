@@ -32,7 +32,6 @@ port: 8080                    # the port to run the service on
 rateLimiting: true            # rate limit the HTTP requests?
 csrf: true                    # use csrf tokens?
 defaultDiskUsageLimit: 100mb  # default maximum disk usage for each user
-pm2: false                    # set to true if you're using https://keymetrics.io/
 ```
 
 #### Lets Encrypt
@@ -102,6 +101,14 @@ registration:
     - noreply
     - users
     - archives
+```
+
+#### Monitoring
+
+```yaml
+pm2: false         # set to true if you're using https://keymetrics.io/
+alerts:
+  diskUsage: 10gb  # when to trigger an alert on disk usage
 ```
 
 #### Session Tokens
