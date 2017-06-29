@@ -8,7 +8,6 @@ $(function () {
 
   // save
   $('#save-btn').on('click', function () {
-    // TODO
     var data = textarea.val()
     $('#error-general').text('')
     $.ajax(location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data})
