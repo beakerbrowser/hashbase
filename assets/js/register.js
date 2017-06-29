@@ -17,6 +17,11 @@ $(function () {
         .text('Passwords don\'t match')
         .parent()
         .addClass('warning')
+    } else {
+      $('#error-password-confirm')
+        .text('')
+        .parent()
+        .removeClass('warning')
     }
   })
 
