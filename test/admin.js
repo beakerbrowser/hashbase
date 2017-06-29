@@ -403,6 +403,60 @@ test('remove an archive', async t => {
   t.is(res.statusCode, 404, '404 not found')
 })
 
+test('create a report', async t => {
+  // create the report
+  var res = await app.req.post({
+    uri: '/v1/reports/add/',
+    json: {
+      archiveKey: testDatKey,
+      archiveOwner: 'admin',
+      reason: 'inappropriate'
+    },
+    auth
+  })
+  t.is(res.statusCode, 200)
+})
+
+test('update a report', async t => {
+  // get the ID of the first report
+  var res = await app.req.get({
+    uri: '/v1/admin/reports/',
+    json: true,
+    auth
+  })
+  var report = res.body.reports[0]
+
+  // update a field that shouldn't be edited
+  res = await app.req.post({
+    uri: `/v1/admin/reports/${report.id}`,
+    json: {
+      id: '123',
+      auth
+    }
+  })
+  t.is(res.statusCode, 401)
+
+  // update a property that admins can edit
+  res = await app.req.post({
+    uri: `/v1/admin/reports/${report.id}`,
+    json: {
+      notes: 'This is a note'
+    },
+    auth
+  })
+  t.is(res.statusCode, 200)
+
+  // check if the report was updated
+  var res = await app.req.get({
+    uri: `/v1/admin/reports/${report.id}`,
+    json: true,
+    auth
+  })
+
+  t.is(res.statusCode, 200)
+  t.is(res.body.notes, 'This is a note')
+})
+
 test.cb('stop test server', t => {
   app.close(() => {
     t.pass('closed')
