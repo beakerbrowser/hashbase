@@ -38,4 +38,23 @@
       margin-left: 1rem;
     }
   }
+
+  #status {
+    padding: 5px 10px;
+    font-weight: 700;
+    font-size: .85rem;
+    border-radius: 3px;
+    -webkit-font-smoothing: antialiased;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 1rem 0;
+
+    &.open {
+      background: shade(@red, 10%);
+    }
+
+    &.closed {
+      background: shade(@green, 10%);
+    }
+  }
 }

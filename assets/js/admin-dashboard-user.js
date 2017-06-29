@@ -14,7 +14,7 @@ $(function () {
       var data = JSON.parse(textarea.val())
       data._csrf = _csrf
     } catch (e) {
-      return onError({resonseJSON: e.toString()}, 0, 'Error parsing JSON')
+      return onError({responseJSON: e.toString()}, 0, 'Error parsing JSON')
     }
 
     $('#error-general').text('')

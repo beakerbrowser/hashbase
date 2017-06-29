@@ -19,6 +19,10 @@ button.btn {
   background: @color-bg;
   border: 1px solid @color-border--light-gray;
 
+  &:hover {
+    background: shade(@color-bg, 5%);
+  }
+
   &.small {
     padding: 0 10px;
     height: 20px;

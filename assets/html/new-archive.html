@@ -9,14 +9,15 @@
 
     <main>
     <div class="container">
-      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form modal-form">
+      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form card-form">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <h1 class="form-heading">Upload a new archive</h1>
         <div id="error-general" class="alert warning" role="alert"></div>
         <% if (diskUsage >= diskQuota) { %>
           <p class="form-desc">
             <strong>You are out of disk space!</strong>
-            <a href="/account">Review your account</a> to manage your archives.
+            <a href="/account">Review your account</a> to manage your archives or
+            <a href="/account/upgrade">upgrade to Hashbase Pro</a>.
           </p>
         <% } else { %>
           <p class="form-desc">

@@ -13,40 +13,34 @@
       <h1>Admin Dashboard
         <span class="admin-nav">
           <a href="/v1/admin">stats</a> |
-          <strong>users</strong> |
-          <a href="/v1/admin/reports">reports</a>
+          <a href="/v1/admin/users/">users</a> |
+          <strong>reports</strong>
         </span>
       </h1>
 
       <p>Admins only. Weirdos get out.</p>
 
-      <table class="users-table display" cellspacing="0" width="100%">
+      <table class="reports-table display" cellspacing="0" width="100%">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Archives</th>
-            <th>Usage</th>
-            <th>Quota</th>
-            <th>Plan</th>
-            <th>Verified?</th>
-            <th>Suspended?</th>
-            <th>Join Date</th>
+            <th>Archive</th>
+            <th>Archive owner</th>
+            <th>Reported by</th>
+            <th>Reason</th>
+            <th>Reported at</th>
+            <th>Notes</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tfoot>
           <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Archives</th>
-            <th>Usage</th>
-            <th>Quota</th>
-            <th>Plan</th>
-            <th>Verified?</th>
-            <th>Suspended?</th>
-            <th>Join Date</th>
+            <th>Archive</th>
+            <th>Archive owner</th>
+            <th>Reported by</th>
+            <th>Reason</th>
+            <th>Reported at</th>
+            <th>Notes</th>
+            <th>Status</th>
           </tr>
         </tfoot>
       </table>
@@ -60,6 +54,6 @@
     <script src="/assets/js/jquery-3.1.1.min.js"></script>
     <script src="/assets/js/jquery.dataTables.min.js"></script>
     <script src="/assets/js/moment.min.js"></script>
-    <script src="/assets/js/admin-dashboard-users.js"></script>
+    <script src="/assets/js/admin-dashboard-reports.js"></script>
   </body>
 </html>

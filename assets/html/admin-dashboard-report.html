@@ -13,7 +13,7 @@
         <span class="admin-nav">
           <a href="/v1/admin">stats</a> |
           <a href="/v1/admin/users">users</a> |
-          <a href="/v1/admin/reports">reports</a>
+          <a href="/v1/admin/reports/">reports</a>
         </span>
       </h1>
 
@@ -23,25 +23,27 @@
 
       <div class="record">
         <div class="record-content">
-          <textarea><%- JSON.stringify(user, null, 2) %></textarea>
+          <% if (record.status === 'open') { %>
+            <p id="status" class="open">
+              Status: Needs review
+            </p>
+          <% } else { %>
+            <p id="status" class="closed">
+              Status: Resolved
+            </p>
+          <% } %>
+          <textarea><%- JSON.stringify(record, null, 2) %></textarea>
         </div>
         <div class="record-actions">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div><button id="save-btn" class="btn primary big">Save</button></div>
+          <button id="save-btn" class="btn big primary">Save</button>
           <br>
-          <div>
-            <% if (user.suspension) { %>
-              <button id="unsuspend-btn" class="btn big">Unsuspend</button>
-            <% } else { %>
-              <button id="suspend-btn" class="btn big">Suspend</button>
-            <% } %>
-          </div>
           <br>
-          <div>
-            <% if (!user.isEmailVerified) { %>
-              <button id="resend-email-confirmation-btn" class="btn big">Resend confirmation email</button>
-            <% } %>
-          </div>
+          <% if (record.status === 'open') { %>
+            <button id="close-btn" class="btn big">Close report</button>
+          <% } else { %>
+            <button id="open-btn" class="btn big">Re-open this report</button>
+          <% } %>
         </div>
       </div>
 
@@ -53,6 +55,6 @@
     <script src="/assets/js/util.js"></script>
     <script src="/assets/js/jquery-3.1.1.min.js"></script>
     <script src="/assets/js/moment.min.js"></script>
-    <script src="/assets/js/admin-dashboard-user.js"></script>
+    <script src="/assets/js/admin-dashboard-report.js"></script>
   </body>
 </html>
