@@ -394,7 +394,7 @@ test('archive status wont stall on archive that fails to sync', async t => {
 
   // now ask for the status. since the archive is never found, this should timeout
   res = await app.req({uri: `/v1/archives/${fakeKey}`, qs: {view: 'status'}})
-  t.same(res.statusCode, 200, '200 status')
+  t.ok(res.statusCode == 200 || res.statusCode == 404, '200 or 404 status')
 })
 
 test.cb('stop test server', t => {
