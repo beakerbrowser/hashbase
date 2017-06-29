@@ -27,7 +27,6 @@ function setupReportsTable () {
     ]
   })
   table.on('click', 'tr', function () {
-    console.log(table.row($(this)).data())
     window.location = '/v1/admin/reports/' + table.row($(this)).data().id
   })
 }
