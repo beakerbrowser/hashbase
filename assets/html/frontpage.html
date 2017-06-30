@@ -66,14 +66,10 @@
           <% } else { %>
             <div class="sidebar">
           <% } %>
-            <% if (session && sessionUser) { %>
-              <% include com/your-archives.html %>
-            <% } %>
-              <% include com/tools-cta.html %>
-
-            <p class="callout">
-              This is a callout of some sort. "A callout to what?" you might ask. Oh, don't worry yourself with such concerns. <a href="/">Download Beaker</a> instead.
-            </p>
+          <% if (session && sessionUser) { %>
+            <% include com/your-archives.html %>
+          <% } %>
+          <% include com/tools-cta.html %>
           </div>
         </div>
       </div>
