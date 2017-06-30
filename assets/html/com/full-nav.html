@@ -14,9 +14,7 @@
             <span>Hi, <%= sessionUser.username %></span>
             <i class="fa fa-caret-down"></i>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="/new-archive">Upload archive</a>
               <% if (sessionUser.scopes.includes('admin:dats')) { %>
-                <hr>
                 <a class="dropdown-item" href="/v1/admin">Admin Dashboard</a>
               <% } %>
               <hr>
