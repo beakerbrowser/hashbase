@@ -20,7 +20,12 @@
       <div class="section">
         <h1>
           <%= title %>
-          <% if (isFeatured) { %><span class="featured">featured</span><% } %>
+          <% if (isFeatured) { %>
+            <span class="featured">
+              <i class="fa fa-bullhorn"></i>
+              featured
+            </span>
+          <% } %>
         </h1>
         <% if (description) { %>
           <p><%= description %></p>

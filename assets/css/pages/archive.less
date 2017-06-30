@@ -10,18 +10,22 @@ main.archive {
   }
 
   h1 .featured {
-    // bullshit CSS because tara needs to take a pass at this
-    font-size: 0.8rem;
-    font-weight: normal;
-    border: 1px solid gray;
-    border-radius: 2px;
     display: inline-block;
-    line-height: 1.2;
-    padding: 1px 4px 0;
-    background: #fafafa;
-    color: #666;
-    position: relative;
-    top: -3px;
+    background: @color-bg--light-gray;
+    border: 1px solid @color-border--light-gray;
+    font-size: 11.5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 3px 5px 2px 5px;
+    line-height: 100%;
+    vertical-align: middle;
+    font-weight: 500;
+    letter-spacing: .35px;
+    color: fadeout(@color-text, 20%);
+
+    i {
+      margin-right: 2px;
+    }
   }
 
   .section.links {
