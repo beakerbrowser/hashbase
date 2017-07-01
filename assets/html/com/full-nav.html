@@ -6,8 +6,8 @@
 
     <div class="links">
       <% if (sessionUser) { %>
-        <a href="/new-archive" class="nav-item btn success">
-          Upload archive +
+        <a href="/new-archive" class="nav-item">
+          + Upload archive
         </a>
         <div class="nav-item">
           <div class="dropdown-menu-link">
@@ -34,7 +34,7 @@
       <% } else { %>
         <a href="/about" class="nav-item">About</a>
         <a href="/login" class="nav-item">Login</a>
-        <a href="/about" class="nav-item btn primary register">Sign up</a>
+        <a href="/register" class="nav-item btn primary register">Sign up</a>
       <% } %>
     </ul>
   </div>
