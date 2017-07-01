@@ -37,6 +37,13 @@
 
   .nav-item {
     display: inline-block;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: @color-border--lightest-gray;
+      border-color: @color-border--lightest-gray;
+      border-radius: 3px;
+    }
 
     &:not(.btn) {
       padding: 3px 8px; // same padding as .btn
