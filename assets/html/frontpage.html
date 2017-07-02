@@ -67,7 +67,7 @@
             <div class="sidebar">
           <% } %>
           <% if (session && sessionUser) { %>
-            <% if (sessionUser.archives.length) { %>
+            <% if (!sessionUser.archives.length) { %>
               <div id="get-started-container">
                 <i id="dismiss-get-started-btn" class="fa fa-close"></i>
                 <p>
