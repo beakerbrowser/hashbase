@@ -5,6 +5,8 @@ button.btn {
 
 .btn {
   &:extend(.rounded);
+  display: inline-flex;
+  align-items: center;
   outline: none;
   border: none;
   border: 1px solid transparent;
@@ -101,6 +103,7 @@ button.btn {
     color: inherit;
     background: none;
     border: 1px solid;
+    font-weight: 400;
   }
 
   &[disabled] {
