@@ -23,7 +23,6 @@
             <div class="heading">
               <% if (session && session.id === userRecord.id) { %>
                 <h2>Your archives</h2>
-                <a href="/new-archive" class="new-archive btn success small">Upload archive</a>
               <% } else { %>
                 <h2><%= userRecord.username %>'s archives</h2>
               <% } %>
