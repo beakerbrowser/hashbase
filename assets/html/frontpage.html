@@ -67,6 +67,20 @@
             <div class="sidebar">
           <% } %>
           <% if (session && sessionUser) { %>
+            <% if (sessionUser.archives.length) { %>
+              <div id="get-started-container">
+                <i id="dismiss-get-started-btn" class="fa fa-close"></i>
+                <p>
+                  <em>Welcome to Hashbase!</em>
+                  Get started by <a href="/new-archive">adding your first archive</a>.
+                </p>
+
+                <div class="graphic-container">
+                  <i class="main fa fa-magic"></i>
+                </div>
+              </div>
+            <% } %>
+
             <% include com/your-archives.html %>
           <% } %>
           <% include com/tools-cta.html %>
