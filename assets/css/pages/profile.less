@@ -1,13 +1,41 @@
 @import "./base";
 
 main.profile {
+  padding: 1rem 0;
+
+  .container {
+    &:extend(.flex);
+    flex-wrap: wrap;
+
+    &:not(.content-container) {
+      display: block;
+    }
+  }
 
   .content {
-    display: block;
+    &:extend(.card);
+  }
+
+  .content,
+  .sidebar {
+    margin-bottom: 2rem;
+    flex-basis: 100%;
+  }
+
+  @media (min-width: @tablet-horizontal) {
+
+    .content {
+      flex: 2;
+    }
+
+    .sidebar {
+      flex: 1;
+      margin-left: 2rem;
+    }
+
   }
 
   .breadcrumbs {
-    display: inline-block;
     vertical-align: middle;
   }
 
@@ -41,8 +69,6 @@ main.profile {
       margin-bottom: 1.5rem;
     }
 
-    display: none;
-
     p {
       margin-bottom: 1rem;
     }
@@ -50,6 +76,27 @@ main.profile {
     .send-email {
       font-size: .9rem;
     }
+
+    .activity {
+      font-size: .85rem;
+
+      h2 {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        text-transform: uppercase;
+        font-size: .8rem;
+        font-weight: 400;
+        margin-bottom: .5rem;
+        margin-top: 0;
+        border-bottom: 1px solid @color-border--light-gray;
+      }
+    }
+  }
+
+  /* TODO this is so hackish and should be removed when we have a more clear
+   * conception of how to display lists of archives to users -tbv
+   */
+  .archive-footer {
+    border-bottom: 0;
   }
 
   @media (min-width: @tablet-horizontal) {
