@@ -1,5 +1,10 @@
 main.archive {
 
+  .archive-content {
+    &:extend(.card);
+    margin: 1rem 0;
+  }
+
   #admin-remove-archive-form,
   #remove-archive-form {
     display: none;
@@ -123,5 +128,13 @@ main.archive {
     form {
       margin-top: .5rem;
     }
+  }
+}
+
+.archive-footer-links {
+  font-size: .8rem;
+
+  > * {
+    color: @color-text--muted;
   }
 }
