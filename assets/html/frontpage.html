@@ -67,7 +67,9 @@
             <div class="sidebar">
           <% } %>
           <% if (session && sessionUser) { %>
-            <% if (!sessionUser.archives.length) { %>
+            <% if (sessionUser.archives.length) { %>
+              <% include com/your-archives.html %>
+            <% } else { %>
               <div id="get-started-container">
                 <i id="dismiss-get-started-btn" class="fa fa-close"></i>
                 <p>
@@ -80,8 +82,6 @@
                 </div>
               </div>
             <% } %>
-
-            <% include com/your-archives.html %>
           <% } %>
           <% include com/tools-cta.html %>
           </div>
