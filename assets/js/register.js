@@ -12,7 +12,7 @@ $(function () {
   }
 
   $('#input-password-confirm').on('blur', function (e) {
-    if (e.target.value !== $('#input-password').value) {
+    if (e.target.value !== $('#input-password')[0].value) {
       $('#error-password-confirm')
         .text('Passwords don\'t match')
         .parent()
