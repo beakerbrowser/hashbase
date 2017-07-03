@@ -81,7 +81,7 @@
       <div class="section plan">
         <h2 id="plan">Plan</h2>
 
-        <% if (sessionUser.plan === 'basic') { %>
+        <% if (!sessionUser.plan || sessionUser.plan === 'basic') { %>
         <p>
           You are signed up for Hashbase's free account.
           <a href="/account/upgrade" class="btn outline">
