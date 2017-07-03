@@ -15,7 +15,7 @@
           10 GB of storage
         </h1>
         <p class="form-desc bordered">
-        Upgrade to Hashbase Pro for $7 per month.
+          Upgrade to Hashbase Pro for $7 per month.
         </p>
 
         <p class="form-group">
@@ -29,6 +29,11 @@
 
         <!-- Used to display form errors -->
         <div id="card-errors" class="form-control-feedback"></div>
+        <div class="invoice">
+          <div><span>Service fee</span><span>7.00</span></div>
+          <div><span>Sales tax (<%= salesTax %>%)</span><span>+ 0.58</span></div>
+          <div class="total"><span>Total</span><span>$7.58</span></div>
+        </div>
         <div class="actions">
           <button id="submit-btn" type="submit" class="btn success" disabled>
             <span>Upgrade</span>
