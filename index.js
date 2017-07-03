@@ -17,17 +17,6 @@ const analytics = require('./lib/analytics')
 const packageJson = require('./package.json')
 
 module.exports = function (config) {
-  if (config.pm2) {
-    require('pmx').init({
-      http: true, // HTTP routes logging (default: true)
-      ignore_routes: [], // Ignore http routes with this pattern (Default: [])
-      errors: true, // Exceptions logging (default: true)
-      custom_probes: true, // Auto expose JS Loop Latency and HTTP req/s as custom metrics
-      network: true, // Network monitoring at the application level
-      ports: true  // Shows which ports your app is listening on (default: false)
-    })
-  }
-
   addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version
@@ -66,6 +55,22 @@ module.exports = function (config) {
   app.engine('html', ejs.renderFile)
   app.set('view engine', 'html')
   app.set('views', path.join(__dirname, 'assets/html'))
+
+  // monitoring
+  // =
+
+  if (config.pm2) {
+    let pmx = require('pmx')
+    pmx.init({
+      http: true, // HTTP routes logging (default: true)
+      ignore_routes: [], // Ignore http routes with this pattern (Default: [])
+      errors: true, // Exceptions logging (default: true)
+      custom_probes: true, // Auto expose JS Loop Latency and HTTP req/s as custom metrics
+      network: true, // Network monitoring at the application level
+      ports: true  // Shows which ports your app is listening on (default: false)
+    })
+    require('./lib/monitoring').init(config, pmx)
+  }
 
   // http gateway
   // =
@@ -156,6 +161,9 @@ module.exports = function (config) {
   app.get('/v1/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
   app.get('/v1/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 
+  // reports apis
+  app.post('/v1/reports/add', cloud.api.reports.add)
+
   // admin apis
   // =
 
@@ -174,6 +182,11 @@ module.exports = function (config) {
   app.get('/v1/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
   app.get('/v1/admin/analytics/events-count', cloud.api.admin.getAnalyticsEventsCount)
   app.get('/v1/admin/analytics/events-stats', cloud.api.admin.getAnalyticsEventsStats)
+  app.get('/v1/admin/reports', cloud.api.admin.getReports)
+  app.get('/v1/admin/reports/:id', cloud.api.admin.getReport)
+  app.post('/v1/admin/reports/:id', cloud.api.admin.updateReport)
+  app.post('/v1/admin/reports/:id/close', cloud.api.admin.closeReport)
+  app.post('/v1/admin/reports/:id/open', cloud.api.admin.openReport)
 
   // (json) error-handling fallback
   // =

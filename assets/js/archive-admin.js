@@ -12,7 +12,7 @@ $(function () {
         window.location = '/' + params.owner
       })
     } else {
-      return
+
     }
   })
 
