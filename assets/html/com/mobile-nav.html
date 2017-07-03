@@ -7,52 +7,50 @@
   </button>
 </div>
 <nav class="mobile-nav">
-  <div class="container">
-    <ul class="links">
-      <% if (sessionUser) { %>
-        <li class="greeting nav-item">
-          <a href="/profile">Hi, <%= sessionUser.username %></a>
-          <button aria-label="Toggle menu" class="btn mobile-nav-toggle">
-            <i class="fa fa-close"></i>
-          </button>
-        </li>
+  <ul class="links">
+    <% if (sessionUser) { %>
+      <li class="greeting nav-item">
+        <a href="/profile">Hi, <%= sessionUser.username %></a>
+        <button aria-label="Toggle menu" class="btn mobile-nav-toggle">
+          <i class="fa fa-close"></i>
+        </button>
+      </li>
+      <li class="nav-item">
+        <a href="/profile">View profile</a>
+      </li>
+      <li class="nav-item">
+        <a href="/account">Manage account</a>
+      </li>
+      <% if (sessionUser.plan === 'basic') { %>
         <li class="nav-item">
-          <a href="/profile">View profile</a>
-        </li>
-        <li class="nav-item">
-          <a href="/account">Manage account</a>
-        </li>
-        <% if (sessionUser.plan === 'basic') { %>
-          <li class="nav-item">
-            <a href="/account/upgrade">
-              Upgrade to pro
-              <span class="pro-tag">pro</span>
-            </a>
-          </li>
-        <% } %>
-        <li class="nav-item">
-          <a href="/v1/logout">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a href="/new-archive">Upload archive</a>
-        </li>
-      <% } else { %>
-        <li class="nav-item greeting">
-          Welcome to Hashbase!
-          <button class="btn mobile-nav-toggle">
-            <i class="fa fa-close"></i>
-          </button>
-        </li>
-        <li class="nav-item">
-          <a href="/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a href="/login">Login</a>
-        </li>
-        <li class="nav-item btn primary register">
-          <a href="/register">Sign up</a>
+          <a href="/account/upgrade">
+            Upgrade to pro
+            <span class="pro-tag">pro</span>
+          </a>
         </li>
       <% } %>
-    </ul>
-  </div>
+      <li class="nav-item">
+        <a href="/v1/logout">Logout</a>
+      </li>
+      <li class="nav-item">
+        <a href="/new-archive">Upload archive</a>
+      </li>
+    <% } else { %>
+      <li class="nav-item greeting">
+        Welcome to Hashbase!
+        <button class="btn mobile-nav-toggle">
+          <i class="fa fa-close"></i>
+        </button>
+      </li>
+      <li class="nav-item">
+        <a href="/about">About</a>
+      </li>
+      <li class="nav-item">
+        <a href="/login">Login</a>
+      </li>
+      <li class="nav-item btn primary register">
+        <a href="/register">Sign up</a>
+      </li>
+    <% } %>
+  </ul>
 </nav>
