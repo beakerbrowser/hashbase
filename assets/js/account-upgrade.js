@@ -60,7 +60,7 @@ $(function () {
 
   function toggleSpinner (on) {
     if (on) {
-      $('#submit-btn').attr('disabled', 'disabled').html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>')
+      $('#submit-btn').attr('disabled', 'disabled').html('Processing...<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>')
     } else {
       $('#submit-btn').attr('disabled', null).html('<i class="fa fa-arrow-circle-up"></i> Upgrade')
     }
