@@ -3,7 +3,7 @@ main.archive {
   .archive-content {
     &:extend(.card);
     margin: 1rem 0;
-    padding-bottom: 3rem !important;
+    padding-bottom: ~"calc(53px + 2rem)" !important;
     position: relative;
   }
 
@@ -35,11 +35,12 @@ main.archive {
     }
   }
 
-  .section.links {
+  .links {
     &:extend(.flex);
     position: absolute;
     left: 0;
     bottom: 0;
+    margin-bottom: 0 !important;
     width: 100%;
     font-size: .8rem;
     height: 54px;
@@ -54,6 +55,7 @@ main.archive {
       text-align: center;
       color: @color-text--muted;
       font-size: 16px;
+      background: #fff;
       border-right: 1px solid @color-border--light-gray;
     }
 
@@ -180,7 +182,8 @@ main.archive {
 .archive-footer-links {
   font-size: .8rem;
 
-  > * {
+  > button,
+  > a {
     color: @color-text--muted;
   }
 }
