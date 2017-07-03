@@ -17,8 +17,8 @@
             <div class="dropdown-menu">
               <% if (sessionUser.scopes.includes('admin:dats')) { %>
                 <a class="dropdown-item" href="/v1/admin">Admin Dashboard</a>
+                <hr>
               <% } %>
-              <hr>
               <a class="dropdown-item" href="/profile">View profile</a>
               <a class="dropdown-item" href="/account">Manage account</a>
               <% if (sessionUser.plan === 'basic') { %>
