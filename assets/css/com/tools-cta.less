@@ -1,25 +1,13 @@
 .tools-cta {
-  margin-bottom: 2rem;
-
-  h4 {
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 6px;
-  }
+  &:extend(.card);
 
   .tool {
-    border-bottom: 1px solid @color-border--light-gray;
-    padding: .75rem;
-    padding-top: .65rem;
-    width: 100%;
 
     &:first-of-type {
-      border-top: 1px solid @color-border--light-gray;
+      margin-bottom: 1.5rem;
     }
 
     @media (min-width: @tablet-horizontal) {
-      border-radius: 3px;
-      border: 1px solid @color-border--light-gray;
       margin-bottom: .5rem;
     }
 
@@ -34,11 +22,17 @@
       flex-wrap: nowrap !important;
     }
 
+    h3 {
+      margin: 0 0 .25rem 0;
+    }
+
     a {
       color: @blue;
 
       &.title {
         font-weight: 500;
+        font-size: .825rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       }
 
       &:hover {

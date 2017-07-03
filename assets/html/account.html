@@ -82,9 +82,10 @@
         <h2 id="plan">Plan</h2>
 
         <% if (sessionUser.plan === 'basic') { %>
-        <p>You are signed up for Hashbase's free account.
+        <p>
+          You are signed up for Hashbase's free account.
           <a href="/account/upgrade" class="btn outline">
-            <span>Upgrade</span>
+            <span>Upgrade now</span>
             <span class="pro-tag">Pro</span>
           </a>
         </p>
@@ -105,7 +106,7 @@
           </p>
 
           <a id="show-update-card-form">Update payment information</a>
-          
+
           <form id="form-card-update" method="POST" class="form">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <p class="form-group">

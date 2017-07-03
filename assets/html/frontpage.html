@@ -9,16 +9,16 @@
       <%- include('com/nav.html', {navClass: ''}) %>
 
       <% if (verified) { %>
-        <div class="alert success" role="alert">
-          <strong>Welcome!</strong> Your email is verified and your account is now active.
-        </div>
+        <p id="verified-alert" class="alert success" role="alert">
+          Your email is verified and your account is now active
+        </p>
       <% } %>
 
-      <div class="hero-container container">
-        <% if (!session) { %>
+      <% if (!session) { %>
+        <div class="hero-container container">
           <% include com/home-cta.html %>
-        <% } %>
-      </div>
+        </div>
+      <% } %>
 
       <div class="highlighted-content">
         <div class="container">
@@ -66,14 +66,23 @@
           <% } else { %>
             <div class="sidebar">
           <% } %>
-            <% if (session && sessionUser) { %>
+          <% if (session && sessionUser) { %>
+            <% if (sessionUser.archives.length) { %>
               <% include com/your-archives.html %>
-            <% } %>
-              <% include com/tools-cta.html %>
+            <% } else { %>
+              <div id="get-started-container">
+                <i id="dismiss-get-started-btn" class="fa fa-close"></i>
+                <p>
+                  Welcome to Hashbase! Get started by <a href="/new-archive">adding your first archive</a>.
+                </p>
 
-            <p class="callout">
-              This is a callout of some sort. "A callout to what?" you might ask. Oh, don't worry yourself with such concerns. <a href="/">Download Beaker</a> instead.
-            </p>
+                <div class="graphic-container">
+                  <i class="main fa fa-magic"></i>
+                </div>
+              </div>
+            <% } %>
+          <% } %>
+          <% include com/tools-cta.html %>
           </div>
         </div>
       </div>

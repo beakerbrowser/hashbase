@@ -8,50 +8,51 @@
     <%- include('com/nav.html', {navClass: ''}) %>
 
     <main class="profile">
+
     <div class="container">
       <p id="general-feeback" class="alert primary"></p>
       <h1 class="breadcrumbs">
         <a href="/<%= userRecord.username %>"><%= userRecord.username %></a>
       </h1>
+    </div>
+    <div class="container content-container">
 
       <div class="content">
-      <% if (archives.length) { %>
-        <div class="archives">
-          <div class="heading">
-            <% if (session && session.id === userRecord.id) { %>
-              <h2>Your archives</h2>
-              <a href="/new-archive" class="new-archive btn success small">New archive</a>
-            <% } else { %>
-              <h2><%= userRecord.username %>'s archives</h2>
-            <% } %>
-          </div>
+        <% if (archives.length) { %>
+          <div class="archives">
+            <div class="heading">
+              <% if (session && session.id === userRecord.id) { %>
+                <h2>Your archives</h2>
+              <% } else { %>
+                <h2><%= userRecord.username %>'s archives</h2>
+              <% } %>
+            </div>
 
-          <ul class="archive-list">
-            <% archives.forEach(archive => { %>
-              <%- include('com/archive-list-item', {archive: archive}) %>
-            <% }) %>
-          </ul>
-        </div>
-      <% } else { %>
-        <p class="archives">
-          <%= userRecord.username %> hasn't uploaded any archives.
-        </p>
-      <% } %>
+            <ul class="archive-list">
+              <% archives.forEach(archive => { %>
+                <%- include('com/archive-list-item', {archive: archive}) %>
+              <% }) %>
+            </ul>
+          </div>
+        <% } else { %>
+          <p class="archives">
+            <em>No archives</em>
+          </p>
+        <% } %>
+      </div>
 
       <div class="sidebar">
         <div class="activity">
           <h2 class="heading">Recent activity</h2>
-          <div class="content">
-            <% if (activity.length) { %>
-              <%- include('com/activity.html', {activity}) %>
-            <% } else { %>
-              <p>No recent activity</p>
-            <% } %>
-          </div>
+          <% if (activity.length) { %>
+            <%- include('com/activity.html', {activity}) %>
+          <% } else { %>
+            <em>No recent activity</em>
+          <% } %>
         </div>
 
         <% if (sessionUser && sessionUser.scopes.includes('admin:users')) { %>
-          <div class="admin-controls">
+          <div class="admin-controls card">
             <h2>admin</h2>
             <div class="send-email">
               <h3 class="heading">Send this user a message</h2>
@@ -79,7 +80,6 @@
             </div>
           </div>
         <% } %>
-      </div>
       </div>
     </div>
     </main>

@@ -1,11 +1,12 @@
+.form {
+  font-size: .9rem;
+}
+
 .form.card-form,
 .form + .form-followup {
   &:extend(.card);
   max-width: 400px;
-  &:extend(.rounded-extra);
-  background: @color-bg--card-form;
-  display: block;
-  margin: 2rem auto;
+  margin: 1rem auto;
   padding: 1rem;
   border: 1px solid @color-border--light-gray;
 }
@@ -18,6 +19,7 @@
   width: 100%;
   height: 100%;
   background: fadeout(#000, 60%);
+  z-index: 10;
 
   &.visible {
     display: block;
@@ -68,6 +70,7 @@
 
 .form-footer {
   font-size: .85rem;
+  color: @color-text--muted;
   padding: 1rem;
   margin: 1rem -1rem -1rem -1rem;
   background: shade(@color-bg--card-form, 2%);

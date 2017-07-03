@@ -2,6 +2,10 @@
   display: none;
   width: 100%;
   padding: 0.3rem 0;
+  background: #fff;
+  border-bottom: 1px solid @color-border--light-gray;
+  margin-bottom: 1.5rem;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.045);
 
   * {
     vertical-align: middle;
@@ -19,11 +23,11 @@
   }
 
   .dropdown-menu {
-    width: 185px;
+    width: 190px;
   }
 
   .hashbase-logo {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
 
   .links {
@@ -33,6 +37,13 @@
 
   .nav-item {
     display: inline-block;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: @color-border--lightest-gray;
+      border-color: @color-border--lightest-gray;
+      border-radius: 3px;
+    }
 
     &:not(.btn) {
       padding: 3px 8px; // same padding as .btn
@@ -57,13 +68,14 @@
   padding-top: .75rem;
   padding-bottom: .75rem;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .mobile-nav {
   position: absolute;
   top: -100%;
   width: 100%;
-  background: @color-bg;
+  background: #fff;
   border-bottom: 1px solid @color-border--light-gray;
   z-index: @on-top;
 

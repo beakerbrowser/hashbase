@@ -1,24 +1,6 @@
 main.home {
   padding-top: 0;
 
-  .nav,
-  .mobile-nav-links,
-  .mobile-nav-links .mobile-nav-toggle i {
-    &:extend(.text-shadow);
-    color: @color-text--white-transparent;
-
-    .nav-item:not(.register):hover {
-      &:extend(.rounded);
-      background: @color-bg--white-transparent;
-      overflow: initial !important; // .rounded has overflow: hidden which messes up dropdown
-    }
-  }
-
-  .nav,
-  .mobile-nav-links {
-    background: @color-text;
-  }
-
   .highlighted-content {
     vertical-align: top;
     padding: 1rem 0;
@@ -30,6 +12,19 @@ main.home {
 
   .sidebar {
     margin-top: 1.5rem;
+
+    > * {
+      margin-bottom: 2rem !important;
+    }
+
+    h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      text-transform: uppercase;
+      font-size: .75rem;
+      font-weight: 400;
+      margin-bottom: .25rem;
+      margin-top: 0;
+    }
   }
 
   .sidebar.logged-in {
@@ -50,21 +45,31 @@ main.home {
   }
 
   .your-archives {
-    border-radius: 3px; // TODO: why the f isn't &:extend(.rounded) working?
-    border: 1px solid @color-border--light-gray;
-    margin-bottom: 2rem;
 
-    .archive {
+    .archives {
+      &:extend(.card);
+      padding: 0 !important;
+    }
+
+    .heading {
+      &:extend(.flex);
+      justify-content: space-between;
+    }
+
+    .item {
       display: block;
-      padding: .5rem 0.8rem;
-      font-size: .85rem;
+      padding: .5rem .8rem;
+      font-size: .825rem;
 
       &:not(:last-of-type) {
         border-bottom: 1px solid @color-border--light-gray;
       }
 
-      &:hover {
-        background: @color-bg--light-blue;
+      &.archive {
+
+        &:hover {
+          background: @color-bg--light-blue;
+        }
       }
 
       .name {
@@ -74,6 +79,7 @@ main.home {
 
       .peer-count {
         float: right;
+        color: @color-text--muted;
       }
     }
 
@@ -83,11 +89,9 @@ main.home {
     }
 
     .usage {
+      display: inline-block;
       color: @color-text--muted;
-      display: block;
       font-size: .8rem;
-      padding: .25rem 1rem;
-      border-top: 1px solid @color-border--light-gray;
     }
 
     .more {
@@ -98,21 +102,6 @@ main.home {
 
       &:hover {
         &:extend(.link);
-      }
-    }
-
-    .heading {
-      display: flex; // TODO: why isn't &:extend isn't working
-      align-items: center;
-      justify-content: space-between;
-      padding: .5rem 0.8rem;
-      border-bottom: 1px solid @color-border--light-gray;
-      font-size: .9rem;
-
-      h2 {
-        display: inline-block;
-        margin: 0;
-        font-size: .9rem;
       }
     }
 
@@ -150,15 +139,120 @@ main.home {
   @media (max-width: @tablet-horizontal) {
     .your-archives {
       margin: 2rem 0;
-
-      .archive {
-        padding: 1rem;
-        font-size: 1rem;
-      }
     }
   }
 }
 
 .session-alerts:not(:blank) {
   margin-top: 1rem;
+}
+
+#get-started-container {
+  &:extend(.card);
+  &:extend(.flex);
+  &:extend(.antialiased);
+  color: #fff !important;
+  background: @blue !important;
+  border: none !important;
+  position: relative;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
+  padding: 1.25rem !important;
+  max-width: 700px;
+  margin: 1rem;
+  color: fadeout(@color-text, 10%);
+  font-size: 1rem;
+
+  a {
+    &:extend(.link);
+  }
+
+  .graphic-container {
+    font-size: 28px;
+    width: 55px;
+    height: 55px;
+    overflow: hidden;
+    background: radial-gradient(
+      rgba(0,0,0,.2) 10%,
+      rgba(0,0,0,.2) 30%,
+      rgba(0,0,0,.125) 30%,
+      rgba(0,0,0,.125) 50%,
+      rgba(0,0,0,.075) 50%,
+      rgba(0,0,0,.075) 70%
+    );
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  p {
+    width: ~"calc(100% - 80px)";
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    color: @blue;
+    font-weight: 400;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+
+    &:hover {
+      background: fadeout(@blue, 97%) !important;
+    }
+  }
+
+  @media (min-width: @tablet-horizontal) {
+    font-size: .85rem;
+    padding: .5rem 1rem !important;
+
+    .graphic-container {
+      position: initial;
+    }
+  }
+
+  &:hover {
+
+    #dismiss-get-started-btn {
+      opacity: 1;
+    }
+  }
+
+  @media(min-width: @tablet-horizontal) {
+    margin: 0 auto 1rem auto;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    .btn {
+      position: initial;
+    }
+  }
+}
+
+#dismiss-get-started-btn {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  background: @color-bg--light-gray;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  line-height: 1.5;
+  border-radius: 50%;
+  background: @blue;
+  border: 2px solid #fff;
+  cursor: pointer;
+  font-size: 11.25px;
+  text-align: center;
+  -webkit-text-stroke: .5px @blue;
+
+  &:hover {
+    color: fadeout(#fff, 25%);
+  }
 }

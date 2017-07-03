@@ -1,20 +1,23 @@
 <div class="your-archives">
   <div class="heading">
     <h2>Your archives</h2>
-    <a href="/new-archive" class="btn success">
-      New archive
-    </a>
+    <span class="usage">
+      <code><%= bytes(diskUsage) %>/<%= bytes(diskQuota) %></code>
+      <% if (diskUsage > diskQuota) { %>
+        <i class="fa fa-exclamation-circle"></i>
+      <% } %>
+    </span>
   </div>
 
   <% if (!sessionUser.archives.length) { %>
     <p class="no-archives">
-      You haven't uploaded any archives.
+      <em>No archives</em>
     </p>
   <% } %>
 
   <ul class="archives">
     <% userArchives.forEach(archive => { %>
-      <a class="archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
+      <a class="item archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
         <span class="name">
           <%= archive.title || archive.name %>
         </span>
@@ -25,15 +28,9 @@
         </span>
       </a>
     <% }) %>
-    <p class="usage">
-      <code><%= bytes(diskUsage) %>/<%= bytes(diskQuota) %></code>
-      <% if (diskUsage > diskQuota) { %>
-        <i class="fa fa-exclamation-circle"></i>
-      <% } %>
-    </p>
   </ul>
   <% if (sessionUser.archives.length > 10) { %>
-    <a class="more" href="/<%= sessionUser.username %>">
+    <a class="more archive" href="/<%= sessionUser.username %>">
       View <%= sessionUser.archives.length - 10 %> more archives...
     </a>
   <% } %>

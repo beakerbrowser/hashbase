@@ -3,6 +3,11 @@
 // archive page js
 $(function () {
   var removeForm = $('#remove-archive-form')
+  var urlBtns = $('.link-btns .label')
+
+  urlBtns.forEach(function (el) {
+    el.onclick = updateActiveURL
+  })
 
   $('#show-remove-archive-form').on('click', function () {
     removeForm.addClass('open')
@@ -37,6 +42,14 @@ $(function () {
       }
     })
   })
+
+  function updateActiveURL (e) {
+    urlBtns.forEach(function (el) {
+      el.classList.remove('selected')
+    })
+
+    e.target.classList.add('selected')
+  }
 
   function renderErrors (json) {
     // general error

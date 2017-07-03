@@ -19,55 +19,84 @@
 }
 
 .hero {
-  &:extend(.rounded);
+  &:extend(.card);
   width: 100%;
-  flex: 1;
-  background: @blue;
-  color: @color-text--white-transparent;
-  padding: 15px;
-  margin: 1em 0;
+  max-width: 700px;
+  margin: auto;
   display: block;
-
-  h1.tagline,
-  p.blurb {
-    &:extend(.antialiased);
-  }
+  position: relative;
+  border-color: @blue !important;
 
   h1.tagline {
     font-size: 1.3rem;
+    font-weight: 500;
     line-height: 1.1;
     margin: 0;
-    margin-bottom: 5px;
+    margin-bottom: 1rem;
+    color: @blue;
   }
 
   p.blurb {
-    font-size: .95rem;
-    font-weight: 500;
-    margin-bottom: 12px;
+    font-size: .85rem !important;
+    color: fadeout(mix(@blue, @color-text, 95%), 25%);
+    color: fadeout(@blue, 5%);
+    max-width: 450px;
+  }
+
+  .cta {
+    margin-top: 1rem;
+    text-align: right;
+  }
+
+  @media (min-width: @tablet-vertical) {
+
+    p.blurb {
+      max-width: 450px;
+    }
+
+    .cta {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      margin-top: 0;
+
+      .btn {
+        float: right;
+      }
+    }
   }
 
   @media (min-width: @tablet-horizontal) {
+
+    p.blurb {
+      max-width: 700px;
+    }
+
+    .cta {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      margin-top: 0;
+
+      .btn {
+        float: right;
+      }
+    }
 
     h1.tagline {
       font-size: 1.5rem;
     }
 
     p.blurb {
-      font-size: 1rem;
+      font-size: .9rem;
+      margin-right: 100px;
     }
   }
 
   @media (min-width: @desktop) {
-    position: relative;
 
     p.blurb {
       margin-bottom: 0;
-    }
-
-    .cta {
-      position: absolute;
-      right: 15px;
-      bottom: 19px;
     }
   }
 }
