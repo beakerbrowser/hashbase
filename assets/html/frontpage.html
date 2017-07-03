@@ -14,11 +14,11 @@
         </p>
       <% } %>
 
-      <div class="hero-container container">
-        <% if (!session) { %>
+      <% if (!session) { %>
+        <div class="hero-container container">
           <% include com/home-cta.html %>
-        <% } %>
-      </div>
+        </div>
+      <% } %>
 
       <div class="highlighted-content">
         <div class="container">
