@@ -7,7 +7,10 @@ $(function () {
   var addArchiveKeyInput = $('#add-archive-key-input')
   var addArchiveNameInput = $('#add-archive-name-input')
   var addArchiveNameOutput = $('#add-archive-name-output')
+  var addArchiveNameOutputContainer = $('#add-archive-name-output-container')
   var addArchiveSubmitBtn = $('#add-archive-submit-btn')
+
+  addArchiveNameOutputContainer[0].style.opacity = '0'
 
   function getKeyVal () {
     var keyValRaw = addArchiveKeyInput.val()
@@ -22,6 +25,12 @@ $(function () {
     // extract sanitized values
     var keyVal = getKeyVal()
     var nameVal = addArchiveNameInput.val()
+
+    if (nameVal.length) {
+      addArchiveNameOutputContainer[0].style.opacity = 1
+    } else {
+      addArchiveNameOutputContainer[0].style.opacity = 0
+    }
 
     // update the name output
     if (nameVal === window.params.username) {

@@ -135,3 +135,116 @@
 .form + .form-followup a {
   color: @blue;
 }
+
+.form.expanded-form {
+  &:extend(.flex);
+  &:extend(.rounded-extra);
+  margin: 2rem auto;
+  border: 1px solid @color-border--light-gray;
+  max-width: 950px;
+
+  .panel {
+    padding: 2rem;
+    flex-basis: 100%;
+
+    @media (min-width: @tablet-horizontal) {
+      flex-basis: 50%;
+    }
+
+    &.info {
+      background: #fff;
+      border-bottom: 1px solid @color-border--light-gray;
+
+      @media (min-width: @tablet-horizontal) {
+        border-bottom: 0;
+        border-right: 1px solid @color-border--light-gray;
+      }
+    }
+
+    &.form-content {
+      background: @color-bg--lighter-gray;
+    }
+  }
+
+  .panel-section {
+    position: relative;
+    height: 125px;
+    padding-top: 2rem;
+
+    @media (min-width: @tablet-horizontal) {
+      height: 170px;
+
+      code.panel-decorator {
+        top: 2rem;
+      }
+
+      i.panel-decorator {
+        top: 1.5rem;
+      }
+
+      p {
+        top: 3rem;
+      }
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 2px solid fadeout(@blue, 90%);
+      padding-bottom: 2rem;
+    }
+
+    .panel-section-split {
+      position: absolute;
+      bottom: -23px;
+      left: ~"calc(50% - 23px)";
+      background: #fff;
+      border: 2px solid fadeout(@blue, 90%);
+      color: @color-text--muted;
+      text-transform: uppercase;
+      border-radius: 50%;
+      padding: 10px 11.5px;
+    }
+
+    a {
+      &:extend(.link);
+    }
+
+    p {
+      position: absolute;
+      max-width: 240px;
+      color: tint(@color-text, 15%);
+      font-size: 1.1rem;
+
+      &.right {
+        right: 0;
+      }
+
+      &.left {
+        left: 0;
+      }
+    }
+
+    i.panel-decorator {
+      font-size: 8rem;
+    }
+
+    code.panel-decorator {
+      font-size: 3.75rem;
+      bottom: 1.25rem;
+      font-weight: 700;
+    }
+
+    .panel-decorator {
+      color: fadeout(@blue, 90%);
+      position: absolute;
+      bottom: .5rem;
+
+      &.left {
+        left: 0px;
+      }
+
+      &.right {
+        right: -10px;
+      }
+    }
+  }
+}

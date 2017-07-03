@@ -9,53 +9,68 @@
 
     <main>
     <div class="container">
-      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form card-form">
+      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form expanded-form">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <h1 class="form-heading">Upload a new archive</h1>
-        <div id="error-general" class="alert warning" role="alert"></div>
-        <% if (diskUsage >= diskQuota) { %>
-          <p class="form-desc">
-            <strong>You are out of disk space!</strong>
-            <a href="/account">Review your account</a> to manage your archives or
-            <a href="/account/upgrade">upgrade to Hashbase Pro</a>.
-          </p>
-        <% } else { %>
-          <p class="form-desc">
-          An archive contains a set of files. Archives can be created <a
-             href="https://github.com/datproject/dat">from the command line</a> or
-           <a href="https://github.com/datproject/dat-desktop">desktop app</a>, or
-           by using the <a href="https://beakerbrowser.com">Beaker browser</a>.
-          </p>
 
-          <p class="form-desc bordered">
-            After creating your archive, you will be given a URL. Enter it
-            below to upload it to Hashbase.
+        <div class="panel info">
+      <!--     <p class="right">
+            An archive is a set of files hosted with the <a href="https://datproject.org">Dat protocol</a>.
           </p>
-
-          <p class="form-group">
-            <label for="add-archive-key-input">
-              The URL of the archive to host on <%= appInfo.brandname %>
-            </label>
-            <input autofocus required type="text" class="form-control" id="add-archive-key-input" placeholder="dat://" name="key" />
-            <span id="add-archive-key-error" class="form-control-feedback"></span>
-          </p>
-
-          <p class="form-group">
-            <label for="add-archive-name-input">Name</label>
-            <input required type="text" class="form-control" id="add-archive-name-input"
-            placeholder="Untitled" name="name">
-            <span id="add-archive-name-error" class="form-control-feedback"></span>
-            <p id="emailHelp">The archive will be at <span
-              id="add-archive-name-output">-</span><%= sessionUser.username
-            %>.<%= appInfo.hostname %>.</p>
-          </p>
-
-          <div class="actions">
-            <button id="add-archive-submit-btn" type="submit" class="btn success" disabled>
-              Add Archive
-            </button>
+ -->          <div class="panel-section">
+            <code class="panel-decorator right">dat://</code>
+            <p class="left">
+              Create an archive with <a href="https://beakerbrowser.com/docs/install/">the Beaker browser</a>.
+            </p>
+            <span class="panel-section-split">or</span>
           </div>
-        <% } %>
+          <div class="panel-section">
+            <i class="panel-decorator left fa fa-terminal"></i>
+            <p class="right">
+              Create and manage archives on the command line with the <a href="https://datproject.org/install/">Dat CLI</a>.
+            </p>
+          </div>
+        </div>
+
+        <div class="panel form-content">
+          <h1 class="form-heading">Upload an archive</h1>
+          <div id="error-general" class="alert warning" role="alert"></div>
+          <% if (diskUsage >= diskQuota) { %>
+            <p class="form-desc">
+              <strong>You are out of disk space!</strong>
+              <a href="/account">Review your account</a> to manage your archives.
+            </p>
+          <% } else { %>
+            <p class="form-desc bordered">
+              Paste the URL for your Dat archive below.
+            </p>
+
+            <p class="form-group">
+              <label for="add-archive-key-input">
+                URL
+              </label>
+              <input autofocus required type="text" class="form-control" id="add-archive-key-input" placeholder="dat://" name="key" />
+              <span id="add-archive-key-error" class="form-control-feedback"></span>
+            </p>
+
+            <p class="form-group">
+              <label for="add-archive-name-input">Name</label>
+              <input required type="text" class="form-control" id="add-archive-name-input"
+              placeholder="Untitled" name="name">
+              <span id="add-archive-name-error" class="form-control-feedback"></span>
+              <p id="add-archive-name-output-container">
+                Your archive's URL:
+                <code>
+                  <span id="add-archive-name-output">-</span><%= sessionUser.username %>.<%= appInfo.hostname %>
+                </code></p>
+            </p>
+
+            <div class="actions">
+              <button id="add-archive-submit-btn" type="submit" class="btn success" disabled>
+                Add Archive
+              </button>
+            </div>
+          <% } %>
+        </div>
       </form>
     </div>
     </main>
