@@ -62,7 +62,7 @@ $(function () {
     if (on) {
       $('#submit-btn').attr('disabled', 'disabled').html('Processing...<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>')
     } else {
-      $('#submit-btn').attr('disabled', null).html('<i class="fa fa-arrow-circle-up"></i> Upgrade')
+      $('#submit-btn').attr('disabled', null).html('Upgrade<i class="fa fa-arrow-circle-up"></i>')
     }
   }
 })
