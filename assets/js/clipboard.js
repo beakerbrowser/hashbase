@@ -16,7 +16,7 @@ $(function () {
     var targetEl = document.querySelector(this.dataset.target)
 
     // set the input's value and select the text
-    input.value = targetEl.innerText
+    input.value = targetEl.tagName === 'A' ? targetEl.getAttribute('href') : targetEl.innerText
     input.select()
 
     // input.style.position = 'relative'
@@ -32,6 +32,7 @@ $(function () {
 
     setTimeout(function () {
       feedbackEl.innerText = ''
+      feedbackEl.classList.remove('tooltip')
     }, 1500)
   })
 })
