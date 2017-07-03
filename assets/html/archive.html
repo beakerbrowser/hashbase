@@ -33,46 +33,51 @@
             <% } else { %>
               <p><em>No description</em></p>
             <% } %>
+
+            <% if (isOwner) { %>
+              <div>
+                <button id="show-remove-archive-form" class="link">Remove archive</button>
+                <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input name="key" type="hidden" value="<%= key %>"/>
+                  <button type="button" id="cancel-remove-archive" class="btn outline">
+                    Cancel
+                  </button>
+                  <button type="submit" id="remove-archive-btn" class="btn cancel">
+                    Remove
+                    <i class="fa fa-close"></i>
+                  </button>
+                </form>
+              </div>
+            <% } %>
           </div>
 
           <div class="links">
             <i class="fa fa-link"></i>
-            <div class="link-btns">
-              <div class="url">
-                <span id="dat-short-container" class="label selected">
-                  <a href="dat://<%= niceUrl %>"><code>dat://</code></a>
-                  <a class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-container="#dat-short-container" data-feedback-el="#url-copy-feedback-datShort" title="Copy to clipboard"></a>
-                  <p id="url-copy-feedback-datShort"></p>
-                </span>
-                <code id="dat-nice-url" class="url-content">dat://<%= niceUrl %></code>
-              </div>
 
-              <div class="url">
-                <span id="dat-raw-container" class="label">
-                  <a href="<%= rawUrl %>"><code>dat:// (raw)</code></a>
-                  <a class="copy-to-clipboard fa fa-clipboard" data-target="#dat-raw-url" data-container="#dat-raw-container" data-feedback-el="#url-copy-feedback-datRaw" title="Copy to clipboard"></a>
-                  <p id="url-copy-feedback-datRaw"></p>
-                </span>
-                <code id="dat-raw-url" class="url-content">
-                  <%= rawUrl %>
-                </code>
-              </div>
+            <a id="dat-nice-url" class="url" href="dat://<%= niceUrl %>">
+              <code>dat://</code>
+              <span class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-container="#dat-short-container" data-feedback-el="#url-copy-feedback-datShort" title="Copy to clipboard"></span>
+              <span id="url-copy-feedback-datShort"></span>
+            </a>
 
-              <div class="url">
-                <span id="https-container" class="label">
-                  <a href="https://<%= niceUrl %>"><code>https://</code></a>
-                  <a class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-container="#https-container" data-feedback-el="#url-copy-feedback-https" title="Copy to clipboard"></a>
-                  <p id="url-copy-feedback-https"></p>
-                </span>
-                <code id="https-nice-url" class="url-content">
-                  https://<%= niceUrl %>
-                </code>
-              </div>
-            </div>
+            <a id="dat-raw-url" class="url" href="<%= rawUrl %>">
+              <code>dat:// (raw)</code>
+              <span class="copy-to-clipboard fa fa-clipboard" data-target="#dat-raw-url" data-container="#dat-raw-container" data-feedback-el="#url-copy-feedback-datRaw" title="Copy to clipboard"></span>
+              <span id="url-copy-feedback-datRaw"></span>
+            </a>
+
+            <a id="https-nice-url" class="url" href="https://<%= niceUrl %>">
+              <code>https://</code>
+              <span class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-container="#https-container" data-feedback-el="#url-copy-feedback-https" title="Copy to clipboard"></span>
+              <span id="url-copy-feedback-https"></span>
+            </a>
           </div>
+        </div>
 
-          <% if (isOwner) { %>
-            <div class="section">
+        <% if (isOwner) { %>
+          <div class="card owner-controls">
+            <section>
               <div class="progress-bar-container">
                 <span class="label">
                   Upload progress (<span><%= progress %>%</span>)
@@ -88,88 +93,71 @@
                   <div class="progress" style="width: <%= progress %>%"></div>
                 </div>
               </div>
+            </section>
+          </div>
+        <% } %>
+
+        <div class="archive-footer-links">
+          <% if (sessionUser && !isOwner) { %>
+            <button id="show-report-archive-form" data-key="<%= key %>" class="link" title="Report inappropriate or illegal content">
+              Report
+            </button>
+
+            <div class="modal-form-container">
+              <form id="report-archive-form" class="form modal-form">
+                <p id="error-general" class="alert warning"></p>
+                <input type="hidden" name="archiveOwner" value="<%= username %>"/>
+                <input type="hidden" name="archiveKey" value="<%= key %>"/>
+                <h1 class="form-heading">Report this archive</h1>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <p class="form-desc bordered">
+                  Report this archive to the Hashbase admins.
+                </p>
+                <p class="form-group">
+                  Why are you reporting this archive?
+                </p>
+                <p class="form-group">
+                  <label for="inappropriate" name="reason">
+                    <input name="reason" type="radio" value="inappropriate"/>
+                    It's inappropriate
+                  </label>
+                  <label for="illegal" name="reason">
+                    <input name="reason" type="radio" value="illegal"/>
+                    It contains illegal content
+                  </label>
+                  <label for="terms" name="reason">
+                    <input name="reason" type="radio" value="terms"/>
+                    It includes racist, sexist, abusive, or violent content
+                  </label>
+                </p>
+                <div class="actions">
+                  <div>
+                    <button id="cancel-report-btn" type="button" class="btn">Cancel</button>
+                    <button type="submit" class="btn primary">Submit</button>
+                  </div>
+                </div>
+              </form>
             </div>
           <% } %>
+        </div>
 
-          <% if (isOwner) { %>
-            <section>
-              <button id="show-remove-archive-form" class="link">Remove archive</button>
-              <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input name="key" type="hidden" value="<%= key %>"/>
-                <button type="button" id="cancel-remove-archive" class="btn outline">
-                  Cancel
-                </button>
-                <button type="submit" id="remove-archive-btn" class="btn cancel">
-                  Remove
-                  <i class="fa fa-close"></i>
-                </button>
-              </form>
-            </section>
-          <% } %>
-          </div>
-
-          <div class="archive-footer-links">
-            <% if (sessionUser && !isOwner) { %>
-              <button id="show-report-archive-form" data-key="<%= key %>" class="link" title="Report inappropriate or illegal content">
-                Report
+        <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
+          <div class="card admin-controls">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <h2>admin</h2>
+            <div>
+              <button id="admin-toggle-featured" class="btn">
+                <%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured
               </button>
+            </div>
 
-              <div class="modal-form-container">
-                <form id="report-archive-form" class="form modal-form">
-                  <p id="error-general" class="alert warning"></p>
-                  <input type="hidden" name="archiveOwner" value="<%= username %>"/>
-                  <input type="hidden" name="archiveKey" value="<%= key %>"/>
-                  <h1 class="form-heading">Report this archive</h1>
-                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <p class="form-desc bordered">
-                    Report this archive to the Hashbase admins.
-                  </p>
-                  <p class="form-group">
-                    Why are you reporting this archive?
-                  </p>
-                  <p class="form-group">
-                    <label for="inappropriate" name="reason">
-                      <input name="reason" type="radio" value="inappropriate"/>
-                      It's inappropriate
-                    </label>
-                    <label for="illegal" name="reason">
-                      <input name="reason" type="radio" value="illegal"/>
-                      It contains illegal content
-                    </label>
-                    <label for="terms" name="reason">
-                      <input name="reason" type="radio" value="terms"/>
-                      It includes racist, sexist, abusive, or violent content
-                    </label>
-                  </p>
-                  <div class="actions">
-                    <div>
-                      <button id="cancel-report-btn" type="button" class="btn">Cancel</button>
-                      <button type="submit" class="btn primary">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            <% } %>
-          </div>
-
-          <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
-            <div class="card admin-controls">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <h2>admin</h2>
-              <div>
-                <button id="admin-toggle-featured" class="btn">
-                  <%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured
-                </button>
-              </div>
-
-              <div>
-                <button id="admin-remove-archive" class="btn cancel">
-                  Remove
-                  <i class="fa fa-close"></i>
-                </button>
-              </div>
-          <% } %>
+            <div>
+              <button id="admin-remove-archive" class="btn cancel">
+                Remove
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+        <% } %>
         </div>
       </main>
     </div>
