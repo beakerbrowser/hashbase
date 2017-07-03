@@ -33,6 +33,23 @@
             <% } else { %>
               <p><em>No description</em></p>
             <% } %>
+
+            <% if (isOwner) { %>
+              <div>
+                <button id="show-remove-archive-form" class="link">Remove archive</button>
+                <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input name="key" type="hidden" value="<%= key %>"/>
+                  <button type="button" id="cancel-remove-archive" class="btn outline">
+                    Cancel
+                  </button>
+                  <button type="submit" id="remove-archive-btn" class="btn cancel">
+                    Remove
+                    <i class="fa fa-close"></i>
+                  </button>
+                </form>
+              </div>
+            <% } %>
           </div>
 
           <div class="links">
@@ -56,9 +73,11 @@
               <span id="url-copy-feedback-https"></span>
             </a>
           </div>
+        </div>
 
-          <% if (isOwner) { %>
-            <div class="section">
+        <% if (isOwner) { %>
+          <div class="card owner-controls">
+            <section>
               <div class="progress-bar-container">
                 <span class="label">
                   Upload progress (<span><%= progress %>%</span>)
@@ -74,88 +93,71 @@
                   <div class="progress" style="width: <%= progress %>%"></div>
                 </div>
               </div>
+            </section>
+          </div>
+        <% } %>
+
+        <div class="archive-footer-links">
+          <% if (sessionUser && !isOwner) { %>
+            <button id="show-report-archive-form" data-key="<%= key %>" class="link" title="Report inappropriate or illegal content">
+              Report
+            </button>
+
+            <div class="modal-form-container">
+              <form id="report-archive-form" class="form modal-form">
+                <p id="error-general" class="alert warning"></p>
+                <input type="hidden" name="archiveOwner" value="<%= username %>"/>
+                <input type="hidden" name="archiveKey" value="<%= key %>"/>
+                <h1 class="form-heading">Report this archive</h1>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <p class="form-desc bordered">
+                  Report this archive to the Hashbase admins.
+                </p>
+                <p class="form-group">
+                  Why are you reporting this archive?
+                </p>
+                <p class="form-group">
+                  <label for="inappropriate" name="reason">
+                    <input name="reason" type="radio" value="inappropriate"/>
+                    It's inappropriate
+                  </label>
+                  <label for="illegal" name="reason">
+                    <input name="reason" type="radio" value="illegal"/>
+                    It contains illegal content
+                  </label>
+                  <label for="terms" name="reason">
+                    <input name="reason" type="radio" value="terms"/>
+                    It includes racist, sexist, abusive, or violent content
+                  </label>
+                </p>
+                <div class="actions">
+                  <div>
+                    <button id="cancel-report-btn" type="button" class="btn">Cancel</button>
+                    <button type="submit" class="btn primary">Submit</button>
+                  </div>
+                </div>
+              </form>
             </div>
           <% } %>
+        </div>
 
-          <% if (isOwner) { %>
-            <section>
-              <button id="show-remove-archive-form" class="link">Remove archive</button>
-              <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input name="key" type="hidden" value="<%= key %>"/>
-                <button type="button" id="cancel-remove-archive" class="btn outline">
-                  Cancel
-                </button>
-                <button type="submit" id="remove-archive-btn" class="btn cancel">
-                  Remove
-                  <i class="fa fa-close"></i>
-                </button>
-              </form>
-            </section>
-          <% } %>
-          </div>
-
-          <div class="archive-footer-links">
-            <% if (sessionUser && !isOwner) { %>
-              <button id="show-report-archive-form" data-key="<%= key %>" class="link" title="Report inappropriate or illegal content">
-                Report
+        <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
+          <div class="card admin-controls">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <h2>admin</h2>
+            <div>
+              <button id="admin-toggle-featured" class="btn">
+                <%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured
               </button>
+            </div>
 
-              <div class="modal-form-container">
-                <form id="report-archive-form" class="form modal-form">
-                  <p id="error-general" class="alert warning"></p>
-                  <input type="hidden" name="archiveOwner" value="<%= username %>"/>
-                  <input type="hidden" name="archiveKey" value="<%= key %>"/>
-                  <h1 class="form-heading">Report this archive</h1>
-                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <p class="form-desc bordered">
-                    Report this archive to the Hashbase admins.
-                  </p>
-                  <p class="form-group">
-                    Why are you reporting this archive?
-                  </p>
-                  <p class="form-group">
-                    <label for="inappropriate" name="reason">
-                      <input name="reason" type="radio" value="inappropriate"/>
-                      It's inappropriate
-                    </label>
-                    <label for="illegal" name="reason">
-                      <input name="reason" type="radio" value="illegal"/>
-                      It contains illegal content
-                    </label>
-                    <label for="terms" name="reason">
-                      <input name="reason" type="radio" value="terms"/>
-                      It includes racist, sexist, abusive, or violent content
-                    </label>
-                  </p>
-                  <div class="actions">
-                    <div>
-                      <button id="cancel-report-btn" type="button" class="btn">Cancel</button>
-                      <button type="submit" class="btn primary">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            <% } %>
-          </div>
-
-          <% if (sessionUser && sessionUser.scopes.includes('admin:dats')) { %>
-            <div class="card admin-controls">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <h2>admin</h2>
-              <div>
-                <button id="admin-toggle-featured" class="btn">
-                  <%= (!isFeatured) ? 'Add to' : 'Remove from' %> featured
-                </button>
-              </div>
-
-              <div>
-                <button id="admin-remove-archive" class="btn cancel">
-                  Remove
-                  <i class="fa fa-close"></i>
-                </button>
-              </div>
-          <% } %>
+            <div>
+              <button id="admin-remove-archive" class="btn cancel">
+                Remove
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+        <% } %>
         </div>
       </main>
     </div>
