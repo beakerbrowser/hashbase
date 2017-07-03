@@ -3,6 +3,8 @@ main.archive {
   .archive-content {
     &:extend(.card);
     margin: 1rem 0;
+    padding-bottom: 3rem !important;
+    position: relative;
   }
 
   #admin-remove-archive-form,
@@ -35,27 +37,67 @@ main.archive {
 
   .section.links {
     &:extend(.flex);
+    position: absolute;
+    left: 0;
+    bottom: 0;
     width: 100%;
-    max-width: 500px;
-    position: relative;
     font-size: .8rem;
-    margin-bottom: 3rem;
+    height: 54px;
+    border-top: 1px solid @color-border--light-gray;
 
-    #url-copy-feedback {
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 54px;
+      width: 54px;
+      height: 100%;
+      text-align: center;
+      color: @color-text--muted;
+      font-size: 16px;
+      border-right: 1px solid @color-border--light-gray;
+    }
+
+    .link-btns,
+    .url-content,
+    .url-content-placeholder {
       position: absolute;
-      top: -1.25rem;
+      justify-content: space-between;
+      align-items: center;
+      width: ~"calc(100% - 54px)";
+    }
 
-      &:empty {
-        display: none;
-      }
+    .link-btns {
+      &:extend(.flex);
+      top: 0;
+      left: 54px;
+    }
+
+    .url-content {
+      left: 0;
+      width: 100%;
+      height: 27px;
+      text-align: center;
+      background: #fff;
+      border-top: 1px solid @color-border--light-gray;
+      z-index: 3;
+      display: none;
+      z-index: 4;
+      line-height: 27px;
+      padding: 0 15px;
+      text-align: center;
+      color: @color-text--muted;
     }
 
     .url {
       display: inline-block;
       flex: 1;
       text-align: center;
-      border: 1px solid @color-border--light-gray;
+      border-bottom: 1px solid @color-border--light-gray;
       background: @color-bg--lightest-gray;
+
+      &:not(:last-of-type) {
+        border-right: 1px solid @color-border--light-gray;
+      }
 
       a {
         text-decoration: none;
@@ -65,25 +107,28 @@ main.archive {
         }
       }
 
-      &:not(:last-of-type) {
-        border-right: 0;
-      }
-
       &:hover {
         background: @color-bg--light-gray;
+
+        .label .url-content {
+          display block: !important;
+        }
       }
 
       .label {
-        position: relative;
         padding: .25rem 0;
         width: 100%;
         height: 100%;
+        position: relative;
         display: inline-block;
+        transition: background .1s ease;
 
+        &.selected,
         &:hover {
+          background: @color-bg--light-gray;
 
-          + .content {
-            display: block;
+          + .url-content {
+            display: block !important;
           }
         }
       }
@@ -93,19 +138,16 @@ main.archive {
         text-decoration: none !important;
         position: absolute;
         right: .5rem;
-        top: 6.5px;
+        top: 7px;
+        margin-left: auto;
 
         &:hover {
           color: @color-text;
         }
       }
 
-      .content {
+      code.content {
         &:extend(.overflow-ellipsis);
-        position: absolute;
-        top: ~"calc(30px + .5rem)";
-        left: 0;
-        text-align: center;
         display: none;
         width: 100%;
         max-width: 100%;
