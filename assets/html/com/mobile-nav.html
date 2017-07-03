@@ -2,7 +2,7 @@
   <a class="hashbase-logo" href="/" title="<%= appInfo.brandname %>">
     #_hashbase
   </a>
-  <button class="btn mobile-nav-toggle">
+  <button name="toggleMenu" class="btn mobile-nav-toggle">
     <i class="fa fa-bars"></i>
   </button>
 </div>
@@ -12,7 +12,7 @@
       <% if (sessionUser) { %>
         <li class="greeting nav-item">
           <a href="/profile">Hi, <%= sessionUser.username %></a>
-          <button class="btn mobile-nav-toggle">
+          <button aria-label="Toggle menu" class="btn mobile-nav-toggle">
             <i class="fa fa-close"></i>
           </button>
         </li>
