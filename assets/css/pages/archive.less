@@ -123,6 +123,10 @@ main.archive {
         display: inline-block;
         transition: background .1s ease;
 
+        p:empty {
+          display: none;
+        }
+
         &.selected,
         &:hover {
           background: @color-bg--light-gray;

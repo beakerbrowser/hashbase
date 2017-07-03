@@ -1,0 +1,26 @@
+.tooltip {
+  &:extend(.antialiased);
+  position: absolute;
+  right: 0;
+  top: 12px;
+  z-index: 5;
+  background: @color-text;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: .75rem;
+  border-radius: 3px;
+
+  &:before {
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid @color-text;
+    font-weight: 500;
+  }
+}

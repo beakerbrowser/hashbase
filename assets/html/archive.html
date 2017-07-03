@@ -36,29 +36,38 @@
           </div>
 
           <div class="section links">
-            <em id="url-copy-feedback"></em>
-            <div class="url">
-              <span class="label">
-                <a href="<%= rawUrl %>"><code>dat:// (raw)</code></a>
-                <a class="copy-to-clipboard fa fa-clipboard" data-target="#dat-raw-url" data-feedback-el="#url-copy-feedback" title="Copy to clipboard"></a>
-              </span>
-              <code id="dat-raw-url" class="content"><%= rawUrl %></code>
-            </div>
+            <i class="fa fa-link"></i>
+            <div class="link-btns">
+              <div class="url">
+                <span id="dat-short-container" class="label selected">
+                  <a href="dat://<%= niceUrl %>"><code>dat://</code></a>
+                  <a class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-container="#dat-short-container" data-feedback-el="#url-copy-feedback-datShort" title="Copy to clipboard"></a>
+                  <p id="url-copy-feedback-datShort"></p>
+                </span>
+                <code id="dat-nice-url" class="url-content">dat://<%= niceUrl %></code>
+              </div>
 
-            <div class="url">
-              <span class="label">
-                <a href="dat://<%= niceUrl %>"><code>dat:// (short)</code></a>
-                <a class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-feedback-el="#url-copy-feedback" title="Copy to clipboard"></a>
-              </span>
-              <code id="dat-nice-url" class="content">dat://<%= niceUrl %></code>
-            </div>
+              <div class="url">
+                <span id="dat-raw-container" class="label">
+                  <a href="<%= rawUrl %>"><code>dat:// (raw)</code></a>
+                  <a class="copy-to-clipboard fa fa-clipboard" data-target="#dat-raw-url" data-container="#dat-raw-container" data-feedback-el="#url-copy-feedback-datRaw" title="Copy to clipboard"></a>
+                  <p id="url-copy-feedback-datRaw"></p>
+                </span>
+                <code id="dat-raw-url" class="url-content">
+                  <%= rawUrl %>
+                </code>
+              </div>
 
-            <div class="url">
-              <span class="label">
-                <a href="https://<%= niceUrl %>"><code>https://</code></a>
-                <a class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-feedback-el="#url-copy-feedback" title="Copy to clipboard"></a>
-              </span>
-              <code id="https-nice-url" class="content">https://<%= niceUrl %></code>
+              <div class="url">
+                <span id="https-container" class="label">
+                  <a href="https://<%= niceUrl %>"><code>https://</code></a>
+                  <a class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-container="#https-container" data-feedback-el="#url-copy-feedback-https" title="Copy to clipboard"></a>
+                  <p id="url-copy-feedback-https"></p>
+                </span>
+                <code id="https-nice-url" class="url-content">
+                  https://<%= niceUrl %>
+                </code>
+              </div>
             </div>
           </div>
 
