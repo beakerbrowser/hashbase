@@ -59,8 +59,10 @@
   background: none;
   border: none;
   font-size: 1.3rem;
-  margin-left: auto;
-  float: right;
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  padding: 0 5px;
 }
 
 .mobile-nav-links {
@@ -75,9 +77,10 @@
   position: absolute;
   top: -100%;
   width: 100%;
-  background: #fff;
+  background: @color-bg--lightest-gray;
   border-bottom: 1px solid @color-border--light-gray;
   z-index: @on-top;
+  box-shadow: 0 0 20px rgba(0,0,0,.2);
 
   .nav-item.btn {
     width: 100%;
@@ -87,7 +90,11 @@
   }
 
   .nav-item:not(.btn) {
-    padding: .75rem .5rem;
+
+    a {
+      display: block;
+      padding: .75rem .5rem;
+    }
 
     + .nav-item {
       border-top: 1px solid @color-border--light-gray;
@@ -95,6 +102,12 @@
 
     &.greeting {
       font-weight: 700;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: @color-bg--light-gray;
     }
   }
 
