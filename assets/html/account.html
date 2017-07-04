@@ -26,7 +26,7 @@
       <div class="section usage">
         <h2 id="storage">Storage</h2>
         <div class="progress-bar-container">
-          <span class="label"><%= diskUsage %>/<%= diskQuota %> MB</span>
+          <span class="label"><%= bytes(diskUsage) %>/<%= bytes(diskQuota) %></span>
           <div class="progress-bar"
                role="progressbar"
                data-value="<%= diskUsage %>"
