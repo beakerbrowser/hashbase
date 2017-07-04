@@ -49,8 +49,10 @@
         <% if (diskUsage > diskQuota) { %>
           <div class="card">
             <p>
-              <strong>You are out of disk space!</strong>Your archives will still be hosted, but you can't add any new archives or upload any new files.</span>
+              <strong>You are out of disk space!</strong> Your archives will still be hosted, but you can't add any new archives or upload any new files.</span>
             </p>
+
+          <% if (!sessionUser.plan || sessionUser.plan === 'basic') { %>
             <p>
               Upgrade to Pro to get more space.
             </p>
@@ -60,6 +62,12 @@
                 <span class="pro-tag">Pro</span>
               </a>
             </p>
+          <% } else { %>
+            <p>
+              Please <a href="mailto:support@beakerbrowser.com">contact support for more information</a>.
+            </p>
+          <% } %>
+
           </div>
         <% } %>
       </div>
