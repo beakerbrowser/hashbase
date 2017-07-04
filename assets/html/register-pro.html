@@ -24,9 +24,15 @@
         <div id="card-element">
           <!-- a Stripe Element will be inserted here. -->
         </div>
-
+        
         <!-- Used to display form errors -->
         <p id="card-errors" class="form-control-feedback"></p>
+
+        <div class="invoice">
+          <div><span>Service fee</span><span>7.00</span></div>
+          <div><span>Sales tax (<%= salesTax %>%)</span><span>+ 0.58</span></div>
+          <div class="total"><span>Total</span><span>$7.58</span></div>
+        </div>
 
         <div class="actions">
           <button id="submit-btn" disabled class="btn success" type="submit">Create your account</button>
