@@ -11,8 +11,6 @@ main.home {
   }
 
   .sidebar {
-    margin-top: 1.5rem;
-
     > * {
       margin-bottom: 2rem !important;
     }
@@ -29,6 +27,10 @@ main.home {
 
   .sidebar.logged-in {
     margin-top: 0;
+  }
+
+  .tools-cta-container {
+    display: none;
   }
 
   .sidebar .callout {
@@ -113,21 +115,27 @@ main.home {
 
   .highlighted-content .container {
     &:extend(.flex);
+    flex-direction: column-reverse;
   }
 
   @media (min-width: @tablet-horizontal) {
+    .highlighted-content .container {
+      flex-direction: initial;
+    }
 
     .tabbed-archive-list {
       flex: 2;
       padding-right: 4rem;
     }
 
+    .sidebar.logged-in,
     .sidebar {
       flex: 1;
+      margin-top: 1.5rem;
     }
 
-    .sidebar.logged-in {
-      margin-top: 1.5rem;
+    .tools-cta-container {
+      display: block;
     }
   }
 
