@@ -21,7 +21,7 @@ function setupReportsTable () {
       {data: colValue('archiveOwner')},
       {data: colValue('reportingUser')},
       {data: colValue('reason')},
-      {data: colDate('reportedAt')},
+      {data: colDate('createdAt')},
       {data: colValue('notes')},
       {data: colValue('status')}
     ]
