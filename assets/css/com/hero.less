@@ -37,66 +37,43 @@
   }
 
   p.blurb {
-    font-size: .85rem;
     color: fadeout(mix(@blue, @color-text, 95%), 25%);
     color: fadeout(@blue, 5%);
     max-width: 450px;
   }
 
   .cta {
-    margin-top: 1rem;
     text-align: right;
   }
 
   @media (min-width: @tablet-vertical) {
-
     p.blurb {
       max-width: 450px;
     }
+  }
 
-    .cta {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      margin-top: 0;
-
-      .btn {
-        float: right;
-      }
+  // margin under the blurb only needs to happen when the blurb and btn get close
+  @media (max-width: @tablet-vertical) {
+    p.blurb {
+      margin-bottom: 1rem;
+    }
+  }
+  @media (min-width: @tablet-vertical) and (max-width: 1040px) {
+    p.blurb {
+      margin-bottom: 1rem;
     }
   }
 
   @media (min-width: @tablet-horizontal) {
+    padding-bottom: 1rem !important;
 
     p.blurb {
       max-width: 700px;
-    }
-
-    .cta {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      margin-top: 0;
-
-      .btn {
-        float: right;
-      }
+      font-size: .9rem;
     }
 
     h1.tagline {
-      font-size: 1.5rem;
-    }
-
-    p.blurb {
-      font-size: .9rem;
-      margin-right: 100px;
-    }
-  }
-
-  @media (min-width: @desktop) {
-
-    p.blurb {
-      margin-bottom: 0;
+      font-size: 1.4rem;
     }
   }
 }
