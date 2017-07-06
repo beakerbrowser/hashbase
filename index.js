@@ -48,7 +48,7 @@ module.exports = function (config) {
   app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
   if (config.rateLimiting) {
     app.use(new RateLimit({windowMs: 10e3, max: 100, delayMs: 0})) // general rate limit
-    app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
+    // app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
     app.use('/v1/login', actionLimiter(1, 'Too many login attempts from this IP, please try again after an hour'))
   }
 
