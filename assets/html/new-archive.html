@@ -9,29 +9,9 @@
 
     <main>
     <div class="container">
-      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form expanded-form">
+      <form id="add-archive-form" action="/v1/archives/add" method="POST" class="form card-form">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-        <div class="panel info">
-      <!--     <p class="right">
-            An archive is a set of files hosted with the <a href="https://datproject.org">Dat protocol</a>.
-          </p>
- -->          <div class="panel-section">
-            <code class="panel-decorator right">dat://</code>
-            <p class="left">
-              Create an archive with <a href="https://beakerbrowser.com/docs/install/">the&nbsp;Beaker&nbsp;browser</a>.
-            </p>
-            <span class="panel-section-split">or</span>
-          </div>
-          <div class="panel-section">
-            <i class="panel-decorator left fa fa-terminal"></i>
-            <p class="right">
-              Create an archive with <a href="https://datproject.org/install/">the&nbsp;Dat&nbsp;commandline</a>.
-            </p>
-          </div>
-        </div>
-
-        <div class="panel form-content">
           <h1 class="form-heading">Upload an archive</h1>
           <div id="error-general" class="alert warning" role="alert"></div>
           <% if (diskUsage >= diskQuota) { %>
@@ -70,8 +50,31 @@
               </button>
             </div>
           <% } %>
-        </div>
       </form>
+
+      <div class="form-followup">
+        <div data-target="#beaker-howto">
+          <p>Create an archive with the Beaker browser</p>
+          <i class="fa fa-caret-right"></i>
+          <div id="beaker-howto" class="content">
+            Install <a href="https://beakerbrowser.com/docs/install">Beaker</a>, click "New site" in the dropdown menu to create an archive, then copy the archive's URL and paste it above.
+          </div>
+        </div>
+        <div data-target="#dat-howto">
+          <p>Create an archive on the command line</p>
+          <i class="fa fa-caret-right"></i>
+          <div id="dat-howto" class="content">
+            Install the official <a href="https://datproject.org/install"> Dat CLI</a>, create an archive, then paste the URL above.
+          </div>
+        </div>
+        <div data-target="#tutorial">
+          <p>Watch a tutorial</p>
+          <i class="fa fa-caret-right"></i>
+          <div id="tutorial" class="content">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
     </div>
     </main>
 

@@ -4,4 +4,52 @@
     color: @color-text;
     font-size: .85rem;
   }
+
+}
+
+#add-archive-form {
+
+  + .form-followup {
+
+    div[data-target] {
+      &:extend(.flex);
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 0;
+      border-bottom: 1px solid @color-border--light-gray;
+
+      &:first-of-type {
+        padding-top: 0;
+      }
+
+      &:last-of-type {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      &:hover {
+
+        p {
+          cursor: pointer;
+          color: @blue;
+        }
+      }
+    }
+
+    .content {
+      display: none;
+      padding: .75rem 0;
+
+      &.visible {
+        display: block;
+        flex-basis: 100%;
+      }
+
+      iframe {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+  }
 }

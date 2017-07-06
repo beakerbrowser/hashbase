@@ -9,8 +9,28 @@ $(function () {
   var addArchiveNameOutput = $('#add-archive-name-output')
   var addArchiveNameOutputContainer = $('#add-archive-name-output-container')
   var addArchiveSubmitBtn = $('#add-archive-submit-btn')
+  var toggleables = $('[data-target]')
+
+  toggleables.forEach(function (el) {
+    el.addEventListener('click', toggleHowto)
+  })
 
   addArchiveNameOutputContainer[0].style.opacity = '0'
+
+  function toggleHowto (e) {
+    var content = $(e.currentTarget.dataset.target)
+    var icon = e.currentTarget.childNodes[3]
+
+    content.toggleClass('visible')
+
+    if (icon.classList.contains('fa-caret-right')) {
+      icon.classList.remove('fa-caret-right')
+      icon.classList.add('fa-caret-down')
+    } else {
+      icon.classList.remove('fa-caret-down')
+      icon.classList.add('fa-caret-right')
+    }
+  }
 
   function getKeyVal () {
     var keyValRaw = addArchiveKeyInput.val()
