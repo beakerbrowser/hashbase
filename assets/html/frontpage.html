@@ -75,6 +75,15 @@
                 </div>
               </div>
             <% } %>
+
+            <% if (sessionUser && !sessionUser.hasDismissedBeakerPrompt) { %>
+              <p id="beaker-prompt-frontpage" class="beaker-prompt frontpage">
+                <i id="dismiss-beaker-prompt-btn" class="fa fa-close"></i>
+                Use Hashbase in the Beaker browser <a href="https://beakerbrowser.com">Learn more</a>
+                <i class="fa fa-cubes"></i>
+              </p>
+              <input type="hidden" name="csrf" value="<%= csrfToken %>"/>
+            <% } %>
           <% } else { %>
             <% include com/home-cta.html %>
           <% } %>
