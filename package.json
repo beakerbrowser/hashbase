@@ -44,7 +44,7 @@
     "express-validator": "^3.1.2",
     "get-folder-size": "^1.0.0",
     "greenlock-express": "^2.0.11",
-    "hyperdrive": "^9.4.0",
+    "hyperdrive": "^9.4.7",
     "identify-filetype": "^1.0.0",
     "js-yaml": "^3.8.4",
     "jsonwebtoken": "^7.4.1",
@@ -64,7 +64,7 @@
     "nodemailer-ses-transport": "^1.5.0",
     "nodemailer-stub-transport": "^1.1.0",
     "pauls-dat-api": "^4.2.1",
-    "pauls-embedded-analytics": "^1.2.0",
+    "pauls-embedded-analytics": "^2.0.0",
     "pmx": "^1.2.0",
     "pretty-bytes": "^4.0.2",
     "range-parser": "^1.2.0",
@@ -80,7 +80,7 @@
   },
   "devDependencies": {
     "ava": "^0.17.0",
-    "dat-node": "^3.3.2",
+    "dat-node": "^3.5.1",
     "memdb": "^1.3.1",
     "nodemailer-mock-transport": "^1.3.0",
     "standard": "^10.0.2"

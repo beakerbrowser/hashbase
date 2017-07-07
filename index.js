@@ -69,7 +69,7 @@ module.exports = function (config) {
       network: true, // Network monitoring at the application level
       ports: true  // Shows which ports your app is listening on (default: false)
     })
-    require('./lib/monitoring').init(config, pmx)
+    require('./lib/monitoring').init(config, cloud, pmx)
   }
 
   // http gateway

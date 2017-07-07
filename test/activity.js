@@ -163,6 +163,18 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].params.name, 'fakedat2')
 })
 
+test('compute cohorts', async t => {
+  // run the compute
+  await app.cloud.usersDB.computeCohorts()
+
+  // check the cohorts
+  var counts = await app.cloud.analytics.countCohortStates('active_users')
+  t.is(counts[0].state, '1')
+  t.is(counts[1].state, '2')
+  t.is(counts[0].count, 1)
+  t.is(counts[1].count, 1)
+})
+
 test.cb('stop test server', t => {
   app.close(() => {
     t.pass('closed')

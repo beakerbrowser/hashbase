@@ -15,7 +15,7 @@ jobs:
   deleteDeadArchives: 5m
 
 # monitoring
-pm2: false
+pm2: true
 alerts:
   diskUsage: 1gb
 
