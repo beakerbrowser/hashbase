@@ -37,6 +37,12 @@
   .nav-item {
     display: inline-block;
     border: 1px solid transparent;
+    margin-left: .25rem;
+
+    .dropdown-menu-link {
+      margin-top: -4px;
+      line-height: 1.4;
+    }
 
     &:hover {
       background: @color-border--lightest-gray;
@@ -45,7 +51,10 @@
     }
 
     &:not(.btn) {
-      padding: 3px 8px; // same padding as .btn
+      height: 27px;
+      line-height: 27px;
+      vertical-align: middle;
+      padding: 0 8px;
     }
   }
 }
