@@ -3,6 +3,7 @@
 // admin tools for service stats
 $(function () {
   setupStats()
+  setupCohortsChart()
   setupBarChart()
   setupVisitorsTable()
   setupReferersTable()
@@ -60,6 +61,116 @@ function setupStats () {
         <td>${stats.cancels}</td>
       </tr>
     `)
+  })
+}
+
+function setupCohortsChart () {
+  var url = '/v1/admin/analytics/cohorts'
+  $('#cohorts-source').attr('href', url)
+  $('#cohorts').html('')
+  d3.json(url, function (cohortsRaw) {
+    // make sure there are 15 continuous weeks
+    var cohorts = []
+    let weekCursor = moment()
+    for (let i = 0; i < 15; i++) {
+      // existing cohort?
+      let weekCursorFormatted = weekCursor.format('YYYYWW')
+      let v = cohortsRaw[weekCursorFormatted]
+
+      // add item
+      cohorts.unshift({
+        cohort: weekCursor.format('MMMYY (w)'),
+        // registered: v ? (v[1]||0) : 0,
+        // activated:  v ? (v[2]||0) : 0,
+        // active:     v ? (v[3]||0) : 0
+        registered: v ? ((v[1]||0) + (v[2]||0) + (v[3]||0)) : 0,
+        activated:  v ? (            (v[2]||0) + (v[3]||0)) : 0,
+        active:     v ? (                        (v[3]||0)) : 0
+      })
+
+      // move cursor
+      weekCursor = weekCursor.subtract(1, 'week')
+    }
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 20, right: 20, bottom: 55, left: 40}
+    var width = 1000 - margin.left - margin.right
+    var height = 200 - margin.top - margin.bottom
+
+    // set the ranges
+    var x = d3.scaleBand()
+              .range([0, width])
+              .padding(0.5)
+              .paddingInner(0.5)
+
+    var y = d3.scaleLinear()
+              .range([height, 0])
+
+    // append the svg object to the body of the page
+    // append a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select('#cohorts')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+        .attr('transform',
+              'translate(' + margin.left + ',' + margin.top + ')')
+
+    // Scale the range of the cohorts in the domains
+    x.domain(cohorts.map(function (d) { return d.cohort }))
+    y.domain([0, d3.max(cohorts, function (d) { return d.registered })])
+
+    // add bars
+    var bar = svg.selectAll('.bar')
+        .data(cohorts)
+      .enter().append('g')
+    bar
+      .append('rect')
+        .attr('class', 'bar registered')
+        .attr('fill', 'purple')
+        .attr('x', function (d) { return x(d.cohort) })
+        .attr('width', x.bandwidth())
+        .attr('y', function (d) { return y(d.registered) })
+        .attr('height', function (d) { return height - y(d.registered) })
+    bar
+      .append('rect')
+        .attr('class', 'bar activated')
+        .attr('fill', 'blue')
+        .attr('x', function (d) { return x(d.cohort) })
+        .attr('width', x.bandwidth())
+        .attr('y', function (d) { return y(d.activated) })
+        .attr('height', function (d) { return height - y(d.activated) })
+    bar
+      .append('rect')
+        .attr('class', 'bar active')
+        .attr('fill', 'green')
+        .attr('x', function (d) { return x(d.cohort) })
+        .attr('width', x.bandwidth())
+        .attr('y', function (d) { return y(d.active) })
+        .attr('height', function (d) { return height - y(d.active) })
+
+    // append the labels to the bars
+    svg.selectAll('.bar-label')
+        .data(cohorts)
+      .enter().append('text')
+        .attr('x', function (d) { return x(d.cohort) })
+        .attr('y', function (d) { return y(d.registered) })
+        .attr('dx', 0)
+        .attr('dy', '-.35em')
+        .text(function (d) { return `${d.registered}/${d.activated}/${d.active}` })
+
+    // add the x Axis
+    svg.append('g')
+        .attr('class', 'x-label')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(d3.axisBottom(x))
+
+    svg.selectAll('.x-label text')
+        .attr('y', 20)
+
+    // add the y Axis
+    svg.append('g')
+        .call(d3.axisLeft(y))
   })
 }
 
