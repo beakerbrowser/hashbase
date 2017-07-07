@@ -8,10 +8,10 @@ $(function () {
 function setupUsersTable () {
   var table = $('.users-table')
   table = table.DataTable({
-    order: [[ 1, 'desc' ]],
+    order: [[ 9, 'desc' ]],
     pageLength: 50,
     ajax: {
-      url: '/v1/admin/users',
+      url: '/v1/admin/users?view=dashboard',
       headers: {accept: 'application/json'},
       data: {},
       dataSrc: 'users'
@@ -20,7 +20,7 @@ function setupUsersTable () {
       {data: colValue('id')},
       {data: colValue('username')},
       {data: colValue('email')},
-      {data: numArchives},
+      {data: colValue('numArchives')},
       {data: colValue('diskUsage')},
       {data: colValue('diskQuota')},
       {data: colValue('plan')},
@@ -35,9 +35,6 @@ function setupUsersTable () {
 }
 
 // helpers to construct the data
-function numArchives (row) {
-  return row.archives.length
-}
 function colValue (col) {
   return row => {
     var v = row[col]
