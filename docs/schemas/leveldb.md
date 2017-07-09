@@ -54,8 +54,6 @@ Schema:
   isEmailVerified: Boolean
   emailVerifyNonce: String, the random verification nonce (register flow)
 
-  hasDismissedBeakerPrompt: Boolean
-
   forgotPasswordNonce: String, the random verification nonce (forgot password flow)
 
   isProfileDatVerified: Boolean

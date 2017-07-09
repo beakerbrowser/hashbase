@@ -152,7 +152,6 @@ module.exports = function (config) {
   app.get('/v1/logout', cloud.api.users.doLogout)
   app.post('/v1/forgot-password', cloud.api.users.doForgotPassword)
   app.get('/v1/users/:username([^/]{3,})', cloud.api.users.get)
-  app.post('/v1/dismiss-beaker-prompt', cloud.api.users.dismissBeakerPrompt)
 
   // archives apis
   // =
