@@ -43,4 +43,31 @@
       }
     }
   }
+
+  .dat-picker-container {
+    position: relative;
+
+    .dat-picker {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      right: 4px;
+      top: 4px;
+
+      .btn {
+        height: 26px;
+        font-weight: 400;
+      }
+    }
+
+    &.enabled {
+      .dat-picker {
+        display: inline;
+      }
+      
+      input {
+        padding-right: 80px;
+      }
+    }
+  }
 }
