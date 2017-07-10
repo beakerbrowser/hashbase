@@ -14,8 +14,23 @@ $(function () {
   toggleables.forEach(function (el) {
     el.addEventListener('click', toggleHowto)
   })
-
+  setupDatPicker()
   addArchiveNameOutputContainer[0].style.opacity = '0'
+
+  function setupDatPicker () {
+    if (!('DatArchive' in window)) {
+      return
+    }
+
+    var datPicker = $('.dat-picker')
+    datPicker.parent().addClass('enabled')
+    datPicker.click(onPickDat)
+  }
+
+  async function onPickDat () {
+    var url = await DatArchive.selectArchive()
+    addArchiveKeyInput.val(url)
+  }
 
   function toggleHowto (e) {
     var content = $(e.currentTarget.dataset.target)
