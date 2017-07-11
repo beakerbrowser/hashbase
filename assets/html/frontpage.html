@@ -10,6 +10,7 @@
         <% include hero.html %>
       <% } %>
 
+      <%- include('com/nav.html', {navClass: ''}) %>
 
       <% if (verified) { %>
         <p id="verified-alert" class="alert success" role="alert">
