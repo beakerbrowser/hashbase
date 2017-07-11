@@ -6,7 +6,10 @@
   </head>
   <body>
     <main class="home">
-      <%- include('com/nav.html', {navClass: ''}) %>
+      <% if (!session) { %>
+        <% include hero.html %>
+      <% } %>
+
 
       <% if (verified) { %>
         <p id="verified-alert" class="alert success" role="alert">
