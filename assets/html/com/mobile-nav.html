@@ -1,7 +1,9 @@
 <div class="mobile-nav-links container">
-  <a class="hashbase-logo" href="/" title="<%= appInfo.brandname %>">
-    #_hashbase
-  </a>
+  <% if (sessionUser) { %>
+    <a class="hashbase-logo" href="/" title="<%= appInfo.brandname %>">
+      #_hashbase
+    </a>
+  <% } %>
   <button name="toggleMenu" class="btn mobile-nav-toggle">
     <i class="fa fa-bars"></i>
   </button>
@@ -48,8 +50,8 @@
       <li class="nav-item">
         <a href="/login">Login</a>
       </li>
-      <li class="nav-item btn primary register">
-        <a href="/register">Sign up</a>
+      <li class="nav-item">
+        <a class="btn primary register href="/register">Sign up</a>
       </li>
     <% } %>
   </ul>

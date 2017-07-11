@@ -83,9 +83,9 @@ function setupCohortsChart () {
         // registered: v ? (v[1]||0) : 0,
         // activated:  v ? (v[2]||0) : 0,
         // active:     v ? (v[3]||0) : 0
-        registered: v ? ((v[1]||0) + (v[2]||0) + (v[3]||0)) : 0,
-        activated:  v ? (            (v[2]||0) + (v[3]||0)) : 0,
-        active:     v ? (                        (v[3]||0)) : 0
+        registered: v ? ((v[1] || 0) + (v[2] || 0) + (v[3] || 0)) : 0,
+        activated: v ? ((v[2] || 0) + (v[3] || 0)) : 0,
+        active: v ? ((v[3] || 0)) : 0
       })
 
       // move cursor
