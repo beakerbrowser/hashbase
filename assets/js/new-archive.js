@@ -27,9 +27,10 @@ $(function () {
     datPicker.click(onPickDat)
   }
 
-  async function onPickDat () {
-    var url = await DatArchive.selectArchive()
-    addArchiveKeyInput.val(url)
+  function onPickDat () {
+    DatArchive.selectArchive().then(url => {
+      addArchiveKeyInput.val(url)
+    })
   }
 
   function toggleHowto (e) {
