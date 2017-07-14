@@ -6,6 +6,10 @@
   </head>
   <body>
     <main class="home">
+      <% if (!session) { %>
+        <% include hero.html %>
+      <% } %>
+
       <%- include('com/nav.html', {navClass: ''}) %>
 
       <% if (verified) { %>
@@ -83,8 +87,6 @@
                 <i class="fa fa-cubes"></i>
               </p>
             <% } %>
-          <% } else { %>
-            <% include com/home-cta.html %>
           <% } %>
           <% include com/tools-cta.html %>
           </div>
