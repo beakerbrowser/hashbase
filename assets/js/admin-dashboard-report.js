@@ -14,7 +14,7 @@ $(function () {
       var data = JSON.parse(textarea.val())
       data._csrf = _csrf
     } catch (e) {
-      return onError({responseJSON: e.toString()}, 0, 'Error parsing JSON')
+      return onError({responseText: e.toString()}, 0, 'Error parsing JSON')
     }
     $('#error-general').text('')
     $.ajax(window.location.pathname, {method: 'post', contentType: 'application/json; charset=utf-8', dataType: 'json', data: JSON.stringify(data)})
@@ -44,5 +44,5 @@ function onUpdate () {
 }
 
 function onError (jqXHR, _, err) {
-  $('#error-general').text(err + ' ' + JSON.stringify(jqXHR.responseJSON))
+  $('#error-general').text(err + ' ' + jqXHR.responseText)
 }

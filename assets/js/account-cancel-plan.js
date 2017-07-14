@@ -19,7 +19,10 @@ $(function () {
     xhr.fail(function (res) {
       // failure, render errors
       toggleSpinner(false)
-      $('#errors').text((res.responseJSON && res.responseJSON.message) || 'Internal server error. Please contact support.')
+      try {
+        var resObj = JSON.parse(res.responseText)
+      } catch (e) {}
+      $('#errors').text((resObj && resObj.message) || 'Internal server error. Please contact support.')
     })
   })
 
