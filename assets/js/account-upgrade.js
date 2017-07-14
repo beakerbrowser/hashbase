@@ -36,6 +36,7 @@ $(function () {
     stripe.createToken(card).then(function (result) {
       if (result.error) {
         toggleSpinner(false)
+        console.error('Error', result)
         $('#error-general').text(result.error.message)
         return
       }
@@ -53,6 +54,7 @@ $(function () {
       xhr.fail(function (res) {
         // failure, render errors
         toggleSpinner(false)
+        console.error('Error', res)
         $('#error-general').text((res.responseJSON && res.responseJSON.message) || 'Internal server error. Please contact support.')
       })
     })
