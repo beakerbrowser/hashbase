@@ -40,6 +40,10 @@ module.exports = function (config) {
     }
   }
 
+  app.engine('html', ejs.renderFile)
+  app.set('view engine', 'html')
+  app.set('views', path.join(__dirname, 'assets/html'))
+
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded())
@@ -51,10 +55,6 @@ module.exports = function (config) {
     // app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
     app.use('/v1/login', actionLimiter(1, 'Too many login attempts from this IP, please try again after an hour'))
   }
-
-  app.engine('html', ejs.renderFile)
-  app.set('view engine', 'html')
-  app.set('views', path.join(__dirname, 'assets/html'))
 
   // monitoring
   // =
