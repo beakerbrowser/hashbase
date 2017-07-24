@@ -33,11 +33,11 @@
   max-width: 400px;
 }
 
-.form input,
-.form textarea {
+input,
+textarea {
+  &:extend(.rounded);
   outline: none;
   border: 1px solid @color-border--input;
-  &:extend(.rounded);
   width: 100%;
   padding: .5rem;
   font-size: .85rem;
@@ -48,7 +48,7 @@
   }
 }
 
-.form input[type="radio"] {
+input[type="radio"] {
   display: inline-block;
   width: 20px;
 }

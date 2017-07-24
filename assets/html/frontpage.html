@@ -6,11 +6,15 @@
   </head>
   <body>
     <main class="home">
+      <% if (session) { %>
+        <%- include('com/nav.html', {navClass: ''}) %>
+      <% } else { %>
+        <%- include('com/nav.html', {navClass: 'fp-not-logged-in'}) %>
+      <% } %>
+
       <% if (!session) { %>
         <% include hero.html %>
       <% } %>
-
-      <%- include('com/nav.html', {navClass: ''}) %>
 
       <% if (verified) { %>
         <p id="verified-alert" class="alert success" role="alert">

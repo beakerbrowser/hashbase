@@ -1,11 +1,15 @@
 .nav {
   display: none;
   width: 100%;
-  padding: 0.3rem 0;
+  padding: 1rem 0;
   background: #fff;
   border-bottom: 1px solid @color-border--light-gray;
-  margin-bottom: 1.5rem;
   box-shadow: 1px 1px 5px rgba(0,0,0,.045);
+
+  &.fp-not-logged-in {
+    border-bottom: 0;
+    box-shadow: 0;
+  }
 
   * {
     vertical-align: middle;
