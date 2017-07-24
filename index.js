@@ -41,6 +41,7 @@ module.exports = function (config) {
   }
 
   app.engine('html', ejs.renderFile)
+  app.engine('ejs', ejs.renderFile)
   app.set('view engine', 'html')
   app.set('views', path.join(__dirname, 'assets/html'))
 
