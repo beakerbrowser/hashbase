@@ -32,11 +32,25 @@ main.about {
 
     .links {
       &:extend(.flex);
+      &:extend(.rounded);
+      border: 1px solid @color-link;
       justify-content: space-between;
       margin: auto;
-      max-width: 85px;
       color: @color-link;
       font-size: 1.2rem;
+
+      a {
+        flex: 1;
+
+        &:hover {
+          background: @color-link;
+          color: #fff;
+        }
+
+        &:not(:last-child) {
+          border-right: 1px solid;
+        }
+      }
     }
   }
 }
