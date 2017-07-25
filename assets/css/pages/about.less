@@ -33,17 +33,16 @@ main.about {
     .links {
       &:extend(.flex);
       &:extend(.rounded);
-      border: 1px solid @color-link;
+      border: 1px solid;
       justify-content: space-between;
       margin: auto;
-      color: @color-link;
-      font-size: 1.2rem;
+      font-size: 1rem;
 
       a {
         flex: 1;
 
         &:hover {
-          background: @color-link;
+          background: @color-text;
           color: #fff;
         }
 
