@@ -2,6 +2,12 @@
 
 // register page js
 $(function () {
+  // autofill email if email query paramater set
+  if (location.search && location.search.substring(1).split('=').indexOf('email') !== -1) {
+    var email = location.search.substring(1).split('=')[1]
+    $('input[name="email"]').val(decodeURIComponent(email))
+  }
+
   // auto-render profile url on user changes
   var usernameInput = $('#input-username')
   var usernameOutput = $('#output-username')
