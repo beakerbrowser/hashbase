@@ -78,6 +78,9 @@ module.exports = function (config) {
 
   if (config.sites) {
     var httpGatewayApp = express()
+    httpGatewayApp.engine('html', ejs.renderFile)
+    httpGatewayApp.set('view engine', 'html')
+    httpGatewayApp.set('views', path.join(__dirname, 'assets/html'))
     httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
     httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
     app.use(vhost('*.' + config.hostname, httpGatewayApp))
