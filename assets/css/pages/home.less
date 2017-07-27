@@ -1,32 +1,44 @@
 main.home {
   padding-top: 0;
 
-  .highlighted-content {
-    vertical-align: top;
-    padding: 1rem 0;
+  h2 {
+    text-transform: uppercase;
+    font-size: .75rem;
+    font-weight: 400;
+    margin-bottom: .25rem;
   }
 
-  .tabbed-archive-list, .sidebar {
+  .main-content .container {
+    &:extend(.flex);
+    padding-top: 2rem;
+  }
+
+  .sidebar {
+    flex-basis: 100%;
+
+    @media (min-width: @tablet-horizontal) {
+      flex-basis: 30%;
+    }
+  }
+
+  .featured-apps {
+    flex-basis: 100%;
+
+    @media (min-width: @tablet-horizontal) {
+      flex-basis: 70%;
+      padding-right: 2.5rem;
+    }
+  }
+
+  .featured-apps, .sidebar {
     width: 100%;
   }
 
   .sidebar {
+
     > * {
       margin-bottom: 2rem !important;
     }
-
-    h2 {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      text-transform: uppercase;
-      font-size: .75rem;
-      font-weight: 400;
-      margin-bottom: .25rem;
-      margin-top: 0;
-    }
-  }
-
-  .sidebar.logged-in {
-    margin-top: 0;
   }
 
   .tools-cta-container {
@@ -56,6 +68,7 @@ main.home {
     .heading {
       &:extend(.flex);
       justify-content: space-between;
+      align-items: baseline;
     }
 
     .item {
@@ -123,17 +136,6 @@ main.home {
       flex-direction: initial;
     }
 
-    .tabbed-archive-list {
-      flex: 2;
-      padding-right: 4rem;
-    }
-
-    .sidebar.logged-in,
-    .sidebar {
-      flex: 1;
-      margin-top: 1.5rem;
-    }
-
     .tools-cta-container {
       display: block;
     }
@@ -148,6 +150,171 @@ main.home {
 
 .session-alerts:not(:blank) {
   margin-top: 1rem;
+}
+
+.p2p-apps-list,
+.featured-apps-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+
+  @media (min-width: @tablet-vertical) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .app {
+    &:extend(.card);
+    position: relative;
+    background: #fff;
+    border: 1px solid @color-border--light-gray;
+    display: block;
+    padding: 1rem !important;
+    font-size: .85rem;
+
+    &:hover {
+      // TODO hover state
+    }
+
+    .header {
+      &:extend(.flex);
+      justify-content: space-between;
+    }
+
+    .peer-count {
+      &:extend(.monospace-font);
+      color: @color-text--muted;
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 1rem;
+
+      &:hover {
+        color: @color-link;
+      }
+    }
+
+    .desc {
+      margin-bottom: 2rem;
+    }
+
+    .archive-footer {
+      position: absolute;
+      width: 100%;
+      bottom: 1rem;
+      left: 1rem;
+      color: @color-link;
+
+      a {
+        &:extend(.monospace-font);
+        font-size: .7rem;
+        padding: 3px 5px 1px 5px;
+        border-radius: 4px;
+        background: @color-bg--light-gray;
+        border: 1px solid @color-border--light-gray;
+        color: @color-text--muted;
+        margin-right: 5px;
+
+        &:first-of-type {
+          padding-right: 0;
+        }
+
+        &:hover {
+          border-color: @color-text--muted;
+        }
+      }
+    }
+
+    .author {
+      color: @color-text--muted;
+      font-weight: 300;
+      font-size: .8rem;
+
+      a:hover {
+        &:extend(.link);
+      }
+    }
+  }
+}
+
+.p2p-apps {
+  padding: 2rem 0 3rem 0;
+}
+
+.p2p-apps-list {
+
+  @media (min-width: @tablet-horizontal) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .app {
+    &:extend(.antialiased);
+    min-height: 120px;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 4px;
+    font-weight: 500;
+    color: #fff;
+
+    .desc {
+      max-width: 75%;
+      margin-bottom: 0;
+    }
+
+    &.photo-album {
+      background: url(/assets/images/apps/photo-album.svg) no-repeat;
+      background-size: cover;
+    }
+
+    &.editor {
+      background: url(/assets/images/apps/editor.png) no-repeat;
+      background-size: cover;
+    }
+
+    &.rss {
+      background: url(/assets/images/apps/rss.png) no-repeat;
+      background-size: cover;
+    }
+
+    &.nexus{
+      background: url(/assets/images/apps/nexus.svg) no-repeat;
+      background-size: cover;
+    }
+
+    &.paste-dat {
+      background: url(/assets/images/apps/paste-dat.svg) no-repeat;
+      background-size: cover;
+    }
+
+    &:hover {
+
+      .title {
+        &:extend(.link);
+
+        &:after {
+          margin-left: 6px;
+        }
+      }
+    }
+  }
+
+  .title {
+
+    &:after {
+      display: inline-block;
+      content: '→';
+      margin-left: 3px;
+      transition: margin .2s ease;
+    }
+
+    &:hover {
+      color: inherit !important;
+    }
+  }
 }
 
 #get-started-container {
