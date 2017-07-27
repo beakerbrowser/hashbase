@@ -78,6 +78,7 @@ module.exports = function (config) {
 
   if (config.sites) {
     var httpGatewayApp = express()
+    httpGatewayApp.locals = app.locals
     httpGatewayApp.engine('html', ejs.renderFile)
     httpGatewayApp.set('view engine', 'html')
     httpGatewayApp.set('views', path.join(__dirname, 'assets/html'))
