@@ -86,7 +86,7 @@ module.exports = function (config) {
     httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
     httpGatewayApp.use((err, req, res, next) => {
       if (err) {
-        res.send((err.body || err).toString())
+        res.json(err.body || err)
       } else {
         next()
       }
