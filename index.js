@@ -84,6 +84,13 @@ module.exports = function (config) {
     httpGatewayApp.set('views', path.join(__dirname, 'assets/html'))
     httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
     httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
+    httpGatewayApp.use((err, req, res, next) => {
+      if (err) {
+        res.send((err.body || err).toString())
+      } else {
+        next()
+      }
+    })
     app.use(vhost('*.' + config.hostname, httpGatewayApp))
   }
 
@@ -227,7 +234,7 @@ module.exports = function (config) {
         res.json(err.body)
       } else {
         try {
-          res.render('error.html', { error: err })          
+          res.render('error.html', { error: err })
         } catch (e) {
           // HACK
           // I cant figure out why res.render() fails sometimes
