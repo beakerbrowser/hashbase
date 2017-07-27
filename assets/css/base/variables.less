@@ -2,13 +2,52 @@
 @blue: #4261e0;
 @purple: #5c4ee5;
 @green: #44cf6c;
+
 @pink: #e91e63;
+@pink--700: #C2185B;
+@pink--accent-200: #FF4081;
+@pink--accent-400: #F50057;
+
 @red: #e6281a;
 @orange: #ff9800;
 @yellow: #ffeb3b;
 
+@red: #F44336;
+@pink: #E91E63;
+@purple: #9C27B0;
+@deep-purple: #673AB7;
+@indigo: #3F51B5;
+
+// blue
+@blue: #2196F3;
+@blue--600: #1E88E5;
+@blue--700: #1976D2;
+@blue--800: #1565c0;
+@blue--900: #0d47a1;
+
+@blue--accent-400: #2979FF;
+@blue--accent-700: #2962FF;
+
+@deep-blue: #03A9F4;
+@cyan: #00BCD4;
+@teal: #009688;
+
+@green: #4CAF50;
+@green--accent-400: #00E676;
+@green--accent-700: #00C853;
+
+@light-green: #8BC34A;
+@lime: #CDDC39;
+@yellow: #FFEB3B;
+@amber: #FFC107;
+@orange: #FF9800;
+@deep-orange: #FF5722;
+@blue-grey: #607D8B;
+
+@color-link: mix(@color-text, @blue--accent-400, 10%);
+
 // background colors
-@color-bg: fadeout(#000, 97%);
+@color-bg: mix(@blue--accent-700, fadeout(#000, 98%), 1%);
 @color-bg--white-transparent: fadeout(#fff, 75%);
 @color-bg--black-transparent: fadeout(#000, 95%);
 @color-bg--light-gray: tint(#000, 95%);
@@ -22,6 +61,7 @@
 @color-border--transparent-btn: fadeout(#000, 90%);
 @color-border--input: fadeout(#000, 75%);
 @color-border--light-gray: tint(#000, 85%);
+@color-border--lighter-gray: tint(#000, 90%);
 @color-border--lightest-gray: fadeout(#000, 94%);
 @color-border--dark-gray: tint(#000, 50%);
 @color-border--gray: tint(#000, 75%);

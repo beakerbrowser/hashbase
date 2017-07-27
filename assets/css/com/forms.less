@@ -33,21 +33,22 @@
   max-width: 400px;
 }
 
-.form input,
-.form textarea {
+input,
+textarea {
+  &:extend(.rounded);
   outline: none;
   border: 1px solid @color-border--input;
-  &:extend(.rounded);
   width: 100%;
-  padding: .5rem;
+  padding: .5rem .75rem;
   font-size: .85rem;
 
   &:focus {
-    outline: 1px solid fadeout(@blue, 25%);
+    outline: none;
+    border: 1px solid fadeout(@blue--accent-400, 5%);
   }
 }
 
-.form input[type="radio"] {
+input[type="radio"] {
   display: inline-block;
   width: 20px;
 }
@@ -77,7 +78,7 @@
   border-top: 1px solid @color-border--light-gray;
 
   a {
-    color: @blue;
+    color: @color-link;
     &:extend(.link);
   }
 }
@@ -128,10 +129,10 @@
   }
 
   .alternate-link {
-    color: @blue;
+    color: @color-link;
   }
 }
 
 .form + .form-followup a {
-  color: @blue;
+  color: @color-link;
 }

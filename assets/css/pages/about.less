@@ -10,7 +10,7 @@ main.about {
       max-width: none;
     }
     a {
-      color: @blue;
+      color: @color-link;
     }
   }
 
@@ -23,7 +23,6 @@ main.about {
       &:extend(.rounded);
       width: 125px;
       height: 125px;
-      border: 1px solid @color-border--gray;
     }
 
     .title {
@@ -32,11 +31,24 @@ main.about {
 
     .links {
       &:extend(.flex);
+      &:extend(.rounded);
+      border: 1px solid;
       justify-content: space-between;
       margin: auto;
-      max-width: 85px;
-      color: @blue;
-      font-size: 1.2rem;
+      font-size: 1rem;
+
+      a {
+        flex: 1;
+
+        &:hover {
+          background: @color-text;
+          color: #fff;
+        }
+
+        &:not(:last-child) {
+          border-right: 1px solid;
+        }
+      }
     }
   }
 }

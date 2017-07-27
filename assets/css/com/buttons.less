@@ -44,15 +44,17 @@ button.btn {
     &:extend(.antialiased);
     font-weight: 700;
     color: @color-text--white-transparent;
-    background: @blue;
-    border-color: @blue;
+    background: @blue--accent-700;
+    border-color: @blue--accent-700;
+    background: @blue--accent-400;
+    border-color: @blue--accent-400;
 
     i {
       font-weight: 700;
     }
 
     &:hover {
-      background: shade(@blue, 5%);
+      background: shade(@blue--accent-700, 7%);
     }
   }
 
@@ -61,14 +63,14 @@ button.btn {
     font-weight: 700;
     letter-spacing: .01rem;
     color: @color-text--white-transparent;
-    background: @green;
-    border: 1px solid @green;
+    background: @green--accent-700;
+    border: 1px solid @green--accent-700;
 
     i {
       font-weight: 700;
     }
     &:hover {
-      background: shade(@green, 5%);
+      background: shade(@green--accent-700, 5%);
     }
   }
 
@@ -112,7 +114,7 @@ button.btn {
 
   &.white {
     background: #fff;
-    color: @blue;
+    color: @color-link;
   }
 
   &[disabled] {

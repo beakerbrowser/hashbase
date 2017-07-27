@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="408px" height="185px" viewBox="0 0 408 185" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #00CD88;">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>photo-album</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-opacity="0.07">
+        <g id="photo-album" stroke="#000000" stroke-width="7">
+            <g id="photo-icon" transform="translate(227.000000, 26.000000)">
+                <polygon id="Path" stroke-linejoin="round" points="81.5553693 57.550075 97.9320467 80.5360341 119.954883 46 137.013672 74.0722656 137.013672 102.295898 137.013672 106.564453 97.9320467 106.564453 54 106.564453"></polygon>
+                <ellipse id="Oval" cx="47.7277882" cy="49.897176" rx="12.7277882" ry="12.897176"></ellipse>
+                <rect id="Rectangle" x="20.5" y="19.5" width="130.456702" height="100.473801" rx="8"></rect>
+                <polyline id="Path-2" stroke-linecap="round" stroke-linejoin="round" points="7.76077518 100.82218 0 100.82218 0 0 134.084254 0 134.084254 6.0050986"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
