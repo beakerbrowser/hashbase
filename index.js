@@ -222,7 +222,22 @@ module.exports = function (config) {
       if (contentType === 'json') {
         res.json(err.body)
       } else {
-        res.render('error', { error: err })
+        try {
+          res.render('error.html', { error: err })          
+        } catch (e) {
+          // HACK
+          // I cant figure out why res.render() fails sometimes
+          // something about the view engine?
+          // fallback to json and report the issue
+          // -prf
+          if (config.pm2) {
+            require('pmx').emit('debug:view-render-error', {
+              wasRendering: err,
+              threwThis: e
+            })
+          }
+          res.json(err.body)
+        }
       }
       return
     }
