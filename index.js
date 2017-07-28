@@ -98,6 +98,18 @@ module.exports = function (config) {
   // =
 
   app.get('/assets/css/main.css', lessExpress(path.join(__dirname, 'assets/css/main.less')))
+
+  // css for individual pages
+  app.get('/assets/css/about.css', lessExpress(path.join(__dirname, 'assets/css/pages/about.less')))
+  app.get('/assets/css/account.css', lessExpress(path.join(__dirname, 'assets/css/pages/account.less')))
+  app.get('/assets/css/admin-dashboard.css', lessExpress(path.join(__dirname, 'assets/css/pages/admin-dashboard.less')))
+  app.get('/assets/css/archive.css', lessExpress(path.join(__dirname, 'assets/css/pages/archive.less')))
+  app.get('/assets/css/error.css', lessExpress(path.join(__dirname, 'assets/css/pages/error.less')))
+  app.get('/assets/css/home.css', lessExpress(path.join(__dirname, 'assets/css/pages/home.less')))
+  app.get('/assets/css/pricing.css', lessExpress(path.join(__dirname, 'assets/css/pages/pricing.less')))
+  app.get('/assets/css/profile.css', lessExpress(path.join(__dirname, 'assets/css/pages/profile.less')))
+  app.get('/assets/css/support.css', lessExpress(path.join(__dirname, 'assets/css/pages/support.less')))
+
   app.use('/assets/css', express.static(path.join(__dirname, 'assets/css')))
   app.use('/assets/js', express.static(path.join(__dirname, 'assets/js')))
   app.use('/assets/fonts', express.static(path.join(__dirname, 'assets/fonts')))
