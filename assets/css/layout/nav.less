@@ -84,7 +84,14 @@
   padding-top: .75rem;
   padding-bottom: .75rem;
   align-items: center;
-  margin-bottom: 1rem;
+  border-bottom: 1px solid @color-border--light-gray;
+  height: 44px;
+
+  img {
+    width: 130px !important;
+    line-height: 44px;
+    vertical-align: middle;
+  }
 
   &.fp-not-logged-in {
     background: #fff;
@@ -92,6 +99,7 @@
   }
 }
 
+// the actual dropdown menu
 .mobile-nav {
   position: absolute;
   top: -100%;
