@@ -38,7 +38,7 @@
           <% } %>
 
           <ul class="archives">
-            <% userArchives.slice(0, 2).forEach(archive => { %>
+            <% userArchives.slice(0, 5).forEach(archive => { %>
               <a class="item archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
                 <span class="name">
                   <%= archive.title || archive.name %>
@@ -55,6 +55,12 @@
           </ul>
         </div>
       </div>
+
+      <% if (sessionUser.archives.length > 5) { %>
+        <a class="more" href="/<%= sessionUser.username%>">
+          <%= sessionUser.archives.length - 5 %> more archives...
+        </a>
+      <% } %>
     </div>
   </div>
 </div>
