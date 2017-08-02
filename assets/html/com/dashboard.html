@@ -1,0 +1,66 @@
+<div id="dashboard">
+  <div class="container big">
+
+    <div class="stats">
+      <div class="stat">
+        <span class="value"><%= bytes(diskUsage)%></span>
+        <span class="label">hosted</span>
+      </div>
+
+      <div class="stat">
+        <span class="value"><%= peerCount %></span>
+        <span class="label">peers</span>
+      </div>
+
+      <a class="stat" href="/profile">
+        <% if (sessionUser.archives) { %>
+          <span class="value"><%= sessionUser.archives.length %></span>
+        <% } else { %>
+          <span class="value">0</span>
+        <% } %>
+        <span class="label">archives</span>
+      </a>
+    </div>
+
+    <div class="tools">
+      <div class="archives-container">
+        <div class="header">
+          <h1>Hi, <a href="/profile"><%= sessionUser.username %></a></h1>
+
+          <p><a href="/account">Account settings <i class="fa fa-gear"></i></a></p>
+        </div>
+
+        <div class="your-archives">
+          <% if (!sessionUser.archives.length) { %>
+            <p class="no-archives">
+              <em>No archives</em>
+            </p>
+          <% } %>
+
+          <ul class="archives">
+            <% userArchives.slice(0, 5).forEach(archive => { %>
+              <a class="item archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
+                <span class="name">
+                  <%= archive.title || archive.name %>
+                </span>
+                <span class="peer-count">
+                  <%= archive.numPeers %> peers
+                </span>
+              </a>
+            <% }) %>
+
+            <a href="/new-archive" class="item btn primary">
+              Upload archive +
+            </a>
+          </ul>
+        </div>
+      </div>
+
+      <% if (sessionUser.archives.length > 5) { %>
+        <a class="more" href="/<%= sessionUser.username%>">
+          <%= sessionUser.archives.length - 5 %> more archives...
+        </a>
+      <% } %>
+    </div>
+  </div>
+</div>
