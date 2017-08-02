@@ -24,114 +24,115 @@
           Your email is verified and your account is now active
         </p>
       <% } %>
+      </div>
 
+      <div class="section p2p-apps">
+        <div class="container big">
+          <h2>
+            <i class="fa fa-star"></i>
+            Featured apps
+          </h2>
 
-<!--       <div class="p2p-apps">
-        <div class="container large">
-        <h2>Featured apps</h2>
-        <div class="p2p-apps-list">
-          <a href="https://hashbase.io/taravancil/pastedat" class="app paste-dat">
-            <h3 class="title">PasteDat</h3>
-            <p class="desc">
-              Share snippets of text, code, and markdown
-            </p>
-          </a>
+          <div class="p2p-apps-list">
+            <a href="/taravancil/pastedat" class="app paste-dat">
+              <h3 class="title">PasteDat</h3>
+              <p class="desc">
+                Share snippets of text, code, and markdown
+              </p>
+              <i class="fa fa-align-right"></i>
+            </a>
 
-          <a href="https://hashbase.io/pfrazee/rss-reader" class="app rss">
-            <h3 class="title">RSS</h3>
-            <p class="desc">
-              RSS reader for peer-to-peer websites and blogs
-            </p>
-          </a>
+            <a href="/pfrazee/rss-reader" class="app rss">
+              <h3 class="title">RSS</h3>
+              <p class="desc">
+                RSS reader for peer-to-peer websites and blogs
+              </p>
+              <i class="fa fa-feed"></i>
+            </a>
 
-          <a href="https://hashbase.io/taravancil/p2p-photos" class="app photo-album">
-            <h3 class="title">Photos</h3>
-            <p class="desc">
-              Manage photo albums and share photos privately
-            </p>
-          </a>
+            <a href="/taravancil/p2p-photos" class="app photo-album">
+              <h3 class="title">Photos</h3>
+              <p class="desc">
+                Manage photo albums and share photos privately
+              </p>
+              <i class="fa fa-file-image-o"></i>
+            </a>
+          </div>
         </div>
       </div>
- -->      </div>
 
-      <div class="main-content">
-        <div class="container large">
+      <div class="section featured-apps">
+        <div class="container big">
+          <h2>
+            <i class="fa fa-heart"></i>
+            From the community
+          </h2>
 
-          <div class="featured-apps">
-            <h2>Featured</h2>
+          <div class="featured-apps-list">
+            <% featured.forEach(archive => { %>
 
-             <div class="featured-apps-list">
-              <% featured.forEach(archive => { %>
-                <% if (archive.manifest && (archive.manifest.title || archive.name) && archive.manifest.description) { %>
-                  <div href="/<%= archive.owner.username %>/<%= archive.name %>" class="app paste-dat">
-                    <div class="header">
-                      <h3>
-                        <a class="title" href="/<%= archive.owner.username %>/<%= archive.name %>">
-                          <%= archive.name %>
-                        </a>
+              <% if (archive.manifest && (archive.manifest.title || archive.name) && archive.manifest.description) { %>
+                <a href="/<%= archive.owner.username %>/<%= archive.name %>" class="app">
+                  <div class="archive-header">
+                    <h3 class="title">
+                      <span><%= archive.name %></span>
+                    </h3>
 
-                        <span class="author">
-                          by <a href="/<%= archive.owner.username %>"><%= archive.owner.username %></a>
-                        </span>
-                      </h3>
-                      <span class="peer-count" title="<%= archive.numPeers || 0 %> peers">
-                        <i class="fa fa-share-alt"></i>
-                        <%= archive.numPeers %>
-                      </span>
-                    </div>
-
-                    <p class="desc">
-                      <% if (archive.manifest && archive.manifest.description) { %>
-                        <%= archive.manifest.description %>
-                      <% } %>
-                    </p>
-
-                    <div class="archive-footer">
-                      <a href="https://<%= archive.niceUrl %>">
-                        https://
-                        <i class="fa fa-share"></i>
-                      </a>
-                      <a href="dat://<%= archive.niceUrl %>">
-                        dat://
-                        <i class="fa fa-share"></i>
-                      </a>
-                    </div>
+                    <span class="author">by <%= archive.owner.username %></span>
                   </div>
-                <% } %>
-              <% }) %>
-            </div>
-          </div>
 
-          <% if (session && sessionUser) { %>
-            <div class="sidebar logged-in">
-          <% } else { %>
-            <div class="sidebar">
-          <% } %>
-
-            <% if (session && sessionUser) { %>
-              <% if (sessionUser.archives.length) { %>
-                <% include com/your-archives.html %>
-              <% } else { %>
-                <div id="get-started-container">
-                  <i id="dismiss-get-started-btn" class="fa fa-close"></i>
-                  <p>
-                    Welcome! Get started by <a href="/new-archive">adding your first archive</a>.
+                  <p class="desc">
+                    <% if (archive.manifest && archive.manifest.description) { %>
+                      <%= archive.manifest.description %>
+                    <% } %>
                   </p>
-                  <div class="graphic-container">
-                    <i class="main fa fa-magic"></i>
-                  </div>
-                </div>
-              <% } %>
 
-              <p id="beaker-prompt-frontpage" class="beaker-prompt frontpage hidden">
-                <i id="dismiss-beaker-prompt-btn" class="fa fa-close"></i>
-                Use Hashbase in the Beaker browser <a href="https://beakerbrowser.com">Learn more</a>
-                <i class="fa fa-cubes"></i>
-              </p>
+                  <div class="archive-footer">
+                    <span class="peer-count" title="<%= archive.numPeers || 0 %> peers">
+                      <span class="main"><%= archive.numPeers %></span>
+                      <span class="label">peers</span>
+                    </span>
+
+                    <span class="last-updated">
+                      <span class="main"><%= 3.7 %></span>
+                      <span class="label">MB</span>
+                    </span>
+
+                    <span class="last-updated">
+                      <span class="main"><%= nicedate(archive.createdAt) %></span>
+                      <span class="label">ago</span>
+                    </span>
+
+                  </div>
+                </a>
+              <% } %>
+            <% }) %>
+          </div>
+        </div>
+
+          <!-- <% if (session && sessionUser) { %>
+            <% if (sessionUser.archives.length) { %>
+              <% include com/your-archives.html %>
+            <% } else { %>
+              <div id="get-started-container">
+                <i id="dismiss-get-started-btn" class="fa fa-close"></i>
+                <p>
+                  Welcome! Get started by <a href="/new-archive">adding your first archive</a>.
+                </p>
+                <div class="graphic-container">
+                  <i class="main fa fa-magic"></i>
+                </div>
+              </div>
             <% } %>
 
-            <% include com/tools-cta.html %>
-            </div>
+            <p id="beaker-prompt-frontpage" class="beaker-prompt frontpage hidden">
+              <i id="dismiss-beaker-prompt-btn" class="fa fa-close"></i>
+              Use Hashbase in the Beaker browser <a href="https://beakerbrowser.com">Learn more</a>
+              <i class="fa fa-cubes"></i>
+            </p>
+          <% } %>
+        -->
+
         </div>
       </div>
     </main>
