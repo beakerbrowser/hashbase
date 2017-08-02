@@ -3,17 +3,21 @@
 
     <div class="stats">
       <div class="stat">
-        <span class="value">10.2 MB</span><!-- todo -->
+        <span class="value"><%= bytes(diskUsage)%></span>
         <span class="label">hosted</span>
       </div>
 
       <div class="stat">
-        <span class="value">17</span> <!-- todo -->
+        <span class="value"><%= peerCount %></span>
         <span class="label">peers</span>
       </div>
 
       <a class="stat" href="/profile">
-        <span class="value">8</span> <!-- todo -->
+        <% if (sessionUser.archives) { %>
+          <span class="value"><%= sessionUser.archives.length %></span>
+        <% } else { %>
+          <span class="value">0</span>
+        <% } %>
         <span class="label">archives</span>
       </a>
     </div>
