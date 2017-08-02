@@ -23,41 +23,37 @@
     </div>
 
     <div class="tools">
-      <div class="header">
-        <h1>Hi, <a href="/profile"><%= sessionUser.username %></a></h1>
+      <div class="archives-container">
+        <div class="header">
+          <h1>Hi, <a href="/profile"><%= sessionUser.username %></a></h1>
 
-        <p><a href="/account">Account settings <i class="fa fa-gear"></i></a></p>
-      </div>
+          <p><a href="/account">Account settings <i class="fa fa-gear"></i></a></p>
+        </div>
 
-      <div class="your-archives">
-        <% if (!sessionUser.archives.length) { %>
-          <p class="no-archives">
-            <em>No archives</em>
-          </p>
-        <% } %>
+        <div class="your-archives">
+          <% if (!sessionUser.archives.length) { %>
+            <p class="no-archives">
+              <em>No archives</em>
+            </p>
+          <% } %>
 
-        <ul class="archives">
-          <% userArchives.forEach(archive => { %>
-            <a class="item archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
-              <span class="name">
-                <%= archive.title || archive.name %>
-              </span>
-              <span class="peer-count">
-                <%= archive.numPeers %> peers
-              </span>
+          <ul class="archives">
+            <% userArchives.slice(0, 2).forEach(archive => { %>
+              <a class="item archive" href="/<%= sessionUser.username%>/<%= archive.name %>">
+                <span class="name">
+                  <%= archive.title || archive.name %>
+                </span>
+                <span class="peer-count">
+                  <%= archive.numPeers %> peers
+                </span>
+              </a>
+            <% }) %>
+
+            <a href="/new-archive" class="item btn primary">
+              Upload archive +
             </a>
-          <% }) %>
-
-          <a href="/new-archive" class="item btn primary">
-            Upload archive +
-          </a>
-        </ul>
-
-        <% if (sessionUser.archives.length > 5) { %>
-          <a class="more archive" href="/<%= sessionUser.username %>">
-            View <%= sessionUser.archives.length - 10 %> more archives...
-          </a>
-        <% } %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

@@ -54,11 +54,15 @@
 
   .tools {
     &:extend(.flex);
-    &:extend(.card);
-    padding: 0;
+    align-items: flex-start;
     flex: 1;
-    width: 100%;
     color: rgba(0,0,0,.7);
+
+    .archives-container {
+      &:extend(.card);
+      padding: 0;
+      width: 100%;
+    }
 
     .header {
       &:extend(.flex);
@@ -67,7 +71,6 @@
       padding: 5px 10px;
       align-items: center;
       background: @color-bg--lightest-gray;
-      font-weight: 500;
 
       h1 {
         display: inline-block;
@@ -75,6 +78,7 @@
         font-size: .85rem;
         font-family: -apple-system, BlinkMacSystemFont;
         color: rgba(0,0,0,.75);
+        font-weight: 500;
       }
 
       i {
