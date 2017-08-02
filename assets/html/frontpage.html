@@ -71,7 +71,7 @@
           <div class="featured-apps-list">
             <% featured.forEach(archive => { %>
 
-              <% if (archive.manifest && (archive.manifest.title || archive.name) && archive.manifest.description) { %>
+              <% if (archive.manifest && (archive.manifest.title || archive.name) { %>
                 <a href="/<%= archive.owner.username %>/<%= archive.name %>" class="app">
                   <div class="archive-header">
                     <h3 class="title" title="<%= archive.name %>">
@@ -82,8 +82,10 @@
                   </div>
 
                   <p class="desc">
-                    <% if (archive.manifest && archive.manifest.description) { %>
+                    <% if (archive.manifest.description) { %>
                       <%= archive.manifest.description %>
+                    <% } else { %>
+                      <em>No description</em>
                     <% } %>
                   </p>
                 </a>
