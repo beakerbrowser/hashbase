@@ -86,24 +86,6 @@
                       <%= archive.manifest.description %>
                     <% } %>
                   </p>
-
-                  <div class="archive-footer">
-                    <span class="peer-count" title="<%= archive.numPeers || 0 %> peers">
-                      <span class="main"><%= archive.numPeers %></span>
-                      <span class="label">peers</span>
-                    </span>
-
-                    <span class="last-updated">
-                      <span class="main"><%= 3.7 %></span>
-                      <span class="label">MB</span>
-                    </span>
-
-                    <span class="last-updated">
-                      <span class="main"><%= nicedate(archive.createdAt) %></span>
-                      <span class="label">ago</span>
-                    </span>
-
-                  </div>
                 </a>
               <% } %>
             <% }) %>
