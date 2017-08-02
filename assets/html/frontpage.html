@@ -74,7 +74,7 @@
               <% if (archive.manifest && (archive.manifest.title || archive.name) && archive.manifest.description) { %>
                 <a href="/<%= archive.owner.username %>/<%= archive.name %>" class="app">
                   <div class="archive-header">
-                    <h3 class="title">
+                    <h3 class="title" title="<%= archive.name %>">
                       <span><%= archive.name %></span>
                     </h3>
 
