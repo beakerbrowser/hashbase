@@ -129,7 +129,7 @@ $(function () {
 
   function renderErrors (json) {
     // individual form errors
-    if (json.outOfSpace) {
+    if (json.outOfSpace || json.message) {
       $('#error-general').text(json.message)
     } else {
       var details = json.details || {}
@@ -140,7 +140,6 @@ $(function () {
             .parent()
             .addClass('warning')
         } else {
-          console.log(name)
           $('#add-archive-' + name + '-error')
             .text('')
             .parent()
