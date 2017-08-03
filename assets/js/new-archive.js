@@ -103,6 +103,7 @@ $(function () {
 
   addArchiveForm.on('submit', function (e) {
     e.preventDefault()
+    addArchiveKeyInput.val(getKeyVal())
 
     // serialize form values
     var values = {}
