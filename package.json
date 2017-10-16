@@ -76,6 +76,7 @@
     "subleveldown": "^2.1.0",
     "through2": "^2.0.3",
     "uuid": "^3.0.1",
+    "v8-profiler": "^5.7.0",
     "vhost": "^3.0.2"
   },
   "devDependencies": {
