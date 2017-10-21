@@ -54,7 +54,7 @@ module.exports = function (config) {
   if (config.rateLimiting) {
     app.use(new RateLimit({windowMs: 10e3, max: 100, delayMs: 0})) // general rate limit
     // app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
-    app.use('/v1/login', actionLimiter(1, 'Too many login attempts from this IP, please try again after an hour'))
+    app.use('/v1/login', actionLimiter(60 * 60 * 1000, 5, 'Too many login attempts from this IP, please try again after an hour'))
   }
 
   // monitoring
@@ -294,11 +294,11 @@ module.exports = function (config) {
   return app
 }
 
-function actionLimiter (perHour, message) {
+function actionLimiter (windowMs, max, message) {
   return new RateLimit({
-    windowMs: perHour * 60 * 60 * 1000,
+    windowMs,
     delayMs: 0,
-    max: 5, // start blocking after 5 requests
+    max,
     message
   })
 }
