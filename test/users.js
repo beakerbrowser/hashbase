@@ -106,6 +106,40 @@ test('register validation', async t => {
   await expectPass({ email: 'bob+foo@example.com', username: 'bobobobo', password: 'foobar', passwordConfirm: 'foobar' })
 })
 
+test('register usernames are case insensitive', async t => {
+  var res, lastMail
+
+  // register alice
+  res = await app.req.post({
+    uri: '/v1/register',
+    json: {
+      email: 'alice-insensitive@example.com',
+      username: 'AlIcENoCaSe',
+      password: 'foobar',
+      passwordConfirm: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 201, '201 created user')
+  t.truthy(res.body.id)
+  t.is(res.body.email, 'alice-insensitive@example.com')
+
+  // check sent mail and extract the verification nonce
+  lastMail = app.cloud.mailer.transport.sentMail.pop()
+  t.truthy(lastMail)
+  t.is(lastMail.data.subject, 'Verify your email address')
+  var emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+
+  // verify via POST
+  res = await app.req.post({
+    uri: '/v1/verify',
+    json: {
+      username: 'alICEnocase',
+      nonce: emailVerificationNonce
+    }
+  })
+  t.is(res.statusCode, 200, '200 verified user')
+})
+
 test('register blocks reserved usernames', async t => {
   async function run (inputs) {
     var res = await app.req.post({uri: '/v1/register', json: inputs})
@@ -232,6 +266,18 @@ test('login', async t => {
     uri: '/v1/login',
     json: {
       username: 'bob',
+      password: 'foobar'
+    }
+  })
+  t.is(res.statusCode, 200, '200 got token')
+  t.truthy(res.body.sessionToken, 'got token in response')
+})
+
+test('login is case insensitive', async t => {
+  var res = await app.req.post({
+    uri: '/v1/login',
+    json: {
+      username: 'BOB',
       password: 'foobar'
     }
   })
