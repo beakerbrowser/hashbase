@@ -21,8 +21,8 @@ function setupUsersTable () {
       {data: colValue('username')},
       {data: colValue('email')},
       {data: colValue('numArchives')},
-      {data: colValue('diskUsage')},
-      {data: colValue('diskQuota')},
+      {data: colValue('diskUsage'), type: 'file-size'},
+      {data: colValue('diskQuota'), type: 'file-size'},
       {data: colValue('plan')},
       {data: colBool('isEmailVerified')},
       {data: suspension},
@@ -30,7 +30,7 @@ function setupUsersTable () {
     ]
   })
   table.on('click', 'tr', function () {
-    window.location = '/v1/admin/users/' + table.row($(this)).data().id
+    window.open('/v1/admin/users/' + table.row($(this)).data().id)
   })
 }
 
