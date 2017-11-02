@@ -28,6 +28,7 @@ Before deploying the service, you absolutely *must* modify the following config.
 dir: ./.hashbase              # where to store the data
 brandname: Hashbase           # the title of your service
 hostname: hashbase.local      # the hostname of your service
+proxy: true                   # is there a reverse proxy (eg nginx) in front of the server?
 port: 8080                    # the port to run the service on
 rateLimiting: true            # rate limit the HTTP requests?
 csrf: true                    # use csrf tokens?

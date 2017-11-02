@@ -1,6 +1,7 @@
 dir: ./.hashbase
 brandname: Hashbase
 hostname: hashbase.local
+proxy: true
 port: 8080
 letsencrypt: false
 sites: false

@@ -23,6 +23,9 @@ module.exports = function (config) {
   cloud.setupAdminUser()
 
   var app = express()
+  if (config.proxy) {
+    app.set('trust proxy', 'loopback')
+  }
   app.cloud = cloud
   app.config = config
   app.approveDomains = approveDomains(config, cloud)
