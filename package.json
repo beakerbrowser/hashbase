@@ -72,11 +72,11 @@
     "request-promise-native": "^1.0.4",
     "rimraf": "^2.6.1",
     "stream-collector": "^1.0.1",
-    "stripe": "^4.22.0",
+    "stripe": "^4.25.0",
     "subleveldown": "^2.1.0",
     "through2": "^2.0.3",
     "uuid": "^3.0.1",
-    "v8-profiler": "^5.7.0",
+    "v8-profiler-node8": "^5.7.6",
     "vhost": "^3.0.2"
   },
   "devDependencies": {
