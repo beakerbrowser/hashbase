@@ -53,6 +53,11 @@ function createLocalApp (cb) {
       transport: 'mock',
       sender: '"Test Server" <noreply@test.local>'
     },
+    cache: {
+      metadataStorage: 65536,
+      contentStorage: 65536,
+      tree: 65536
+    },
     sessions: {
       algorithm: 'HS256',
       secret: 'super secret',

@@ -15,6 +15,12 @@ jobs:
   userDiskUsage: 5m
   deleteDeadArchives: 5m
 
+# cache settings
+cache:
+  metadataStorage: 65536
+  contentStorage: 65536
+  tree: 65536
+
 # monitoring
 pm2: true
 alerts:

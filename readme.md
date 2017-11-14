@@ -135,6 +135,18 @@ jobs:
   deleteDeadArchives: 5m     # delete removed archives from disk
 ```
 
+#### Cache sizes (advanced)
+
+You can tweak hashbase's memory usage to trade speed against memory usage.
+
+```yaml
+# cache settings
+cache:
+  metadataStorage: 65536   # number of memory slots
+  contentStorage: 65536    # number of memory slots
+  tree: 65536              # number of memory slots
+```
+
 #### Emailer
 
 *Todo, sorry*
