@@ -246,7 +246,7 @@ Request body. All fields required:
 
 ```
 {
-  email: String
+  username: String
   password: String
 }
 ```
