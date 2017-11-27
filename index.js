@@ -53,7 +53,6 @@ module.exports = function (config) {
   app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
-  app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
   if (config.rateLimiting) {
     app.use(new RateLimit({windowMs: 10e3, max: 100, delayMs: 0})) // general rate limit
     // app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
@@ -123,6 +122,15 @@ module.exports = function (config) {
   // ----------------------------------------------------------------------------------
   app.use(analytics.middleware(cloud))
 
+  // Create separater router for API
+  const api = createApiRouter(cloud)
+
+  // Use api routes before applying csurf middleware
+  app.use('/v1', api)
+
+  // Then apply csurf
+  app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
+
   // service apis
   // =
 
@@ -162,60 +170,6 @@ module.exports = function (config) {
   app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})', cloud.api.userContent.viewArchive)
   app.get('/:username([a-z0-9]{3,})', cloud.api.userContent.viewUser)
 
-  // user & auth apis
-  // =
-
-  app.post('/v1/register', cloud.api.users.doRegister)
-  app.all('/v1/verify', cloud.api.users.verify)
-  app.get('/v1/account', cloud.api.users.getAccount)
-  app.post('/v1/account', cloud.api.users.updateAccount)
-  app.post('/v1/account/password', cloud.api.users.updateAccountPassword)
-  app.post('/v1/account/email', cloud.api.users.updateAccountEmail)
-  app.post('/v1/account/upgrade', cloud.api.users.upgradePlan)
-  app.post('/v1/account/register/pro', cloud.api.users.registerPro)
-  app.post('/v1/account/update-card', cloud.api.users.updateCard)
-  app.post('/v1/account/cancel-plan', cloud.api.users.cancelPlan)
-  app.post('/v1/login', cloud.api.users.doLogin)
-  app.get('/v1/logout', cloud.api.users.doLogout)
-  app.post('/v1/forgot-password', cloud.api.users.doForgotPassword)
-  app.get('/v1/users/:username([^/]{3,})', cloud.api.users.get)
-
-  // archives apis
-  // =
-
-  app.post('/v1/archives/add', cloud.api.archives.add)
-  app.post('/v1/archives/remove', cloud.api.archives.remove)
-  app.get('/v1/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
-  app.get('/v1/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
-
-  // reports apis
-  app.post('/v1/reports/add', cloud.api.reports.add)
-
-  // admin apis
-  // =
-
-  app.get('/v1/admin', cloud.api.admin.getDashboard)
-  app.get('/v1/admin/users', cloud.api.admin.listUsers)
-  app.get('/v1/admin/users/:id', cloud.api.admin.getUser)
-  app.post('/v1/admin/users/:id', cloud.api.admin.updateUser)
-  app.post('/v1/admin/users/:id/suspend', cloud.api.admin.suspendUser)
-  app.post('/v1/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
-  app.post('/v1/admin/users/:id/resend-email-confirmation', cloud.api.admin.resendEmailConfirmation)
-  app.post('/v1/admin/users/:username/send-email', cloud.api.admin.sendEmail)
-  app.post('/v1/admin/archives/:key/feature', cloud.api.admin.featureArchive)
-  app.post('/v1/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
-  app.get('/v1/admin/archives/:key', cloud.api.admin.getArchive)
-  app.post('/v1/admin/archives/:key/remove', cloud.api.admin.removeArchive)
-  app.get('/v1/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
-  app.get('/v1/admin/analytics/events-count', cloud.api.admin.getAnalyticsEventsCount)
-  app.get('/v1/admin/analytics/events-stats', cloud.api.admin.getAnalyticsEventsStats)
-  app.get('/v1/admin/analytics/cohorts', cloud.api.admin.getAnalyticsCohorts)
-  app.get('/v1/admin/reports', cloud.api.admin.getReports)
-  app.get('/v1/admin/reports/:id', cloud.api.admin.getReport)
-  app.post('/v1/admin/reports/:id', cloud.api.admin.updateReport)
-  app.post('/v1/admin/reports/:id/close', cloud.api.admin.closeReport)
-  app.post('/v1/admin/reports/:id/open', cloud.api.admin.openReport)
-
   // (json) error-handling fallback
   // =
 
@@ -232,7 +186,6 @@ module.exports = function (config) {
         badCSRF: true
       })
     }
-
     // validation errors
     if ('isEmpty' in err) {
       return res.status(422).json({
@@ -296,7 +249,65 @@ module.exports = function (config) {
 
   return app
 }
+function createApiRouter (cloud) {
+  const router = new express.Router()
 
+  // user & auth apis
+  // =
+
+  router.post('/register', cloud.api.users.doRegister)
+  router.all('/verify', cloud.api.users.verify)
+  router.get('/account', cloud.api.users.getAccount)
+  router.post('/account', cloud.api.users.updateAccount)
+  router.post('/account/password', cloud.api.users.updateAccountPassword)
+  router.post('/account/email', cloud.api.users.updateAccountEmail)
+  router.post('/account/upgrade', cloud.api.users.upgradePlan)
+  router.post('/account/register/pro', cloud.api.users.registerPro)
+  router.post('/account/update-card', cloud.api.users.updateCard)
+  router.post('/account/cancel-plan', cloud.api.users.cancelPlan)
+  router.post('/login', cloud.api.users.doLogin)
+  router.get('/logout', cloud.api.users.doLogout)
+  router.post('/forgot-password', cloud.api.users.doForgotPassword)
+  router.get('/users/:username([^/]{3,})', cloud.api.users.get)
+
+  // archives apis
+  // =
+
+  router.post('/archives/add', cloud.api.archives.add)
+  router.post('/archives/remove', cloud.api.archives.remove)
+  router.get('/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
+  router.get('/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
+
+  // reports apis
+  router.post('/reports/add', cloud.api.reports.add)
+
+  // admin apis
+  // =
+
+  router.get('/admin', cloud.api.admin.getDashboard)
+  router.get('/admin/users', cloud.api.admin.listUsers)
+  router.get('/admin/users/:id', cloud.api.admin.getUser)
+  router.post('/admin/users/:id', cloud.api.admin.updateUser)
+  router.post('/admin/users/:id/suspend', cloud.api.admin.suspendUser)
+  router.post('/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
+  router.post('/admin/users/:id/resend-email-confirmation', cloud.api.admin.resendEmailConfirmation)
+  router.post('/admin/users/:username/send-email', cloud.api.admin.sendEmail)
+  router.post('/admin/archives/:key/feature', cloud.api.admin.featureArchive)
+  router.post('/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
+  router.get('/admin/archives/:key', cloud.api.admin.getArchive)
+  router.post('/admin/archives/:key/remove', cloud.api.admin.removeArchive)
+  router.get('/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
+  router.get('/admin/analytics/events-count', cloud.api.admin.getAnalyticsEventsCount)
+  router.get('/admin/analytics/events-stats', cloud.api.admin.getAnalyticsEventsStats)
+  router.get('/admin/analytics/cohorts', cloud.api.admin.getAnalyticsCohorts)
+  router.get('/admin/reports', cloud.api.admin.getReports)
+  router.get('/admin/reports/:id', cloud.api.admin.getReport)
+  router.post('/admin/reports/:id', cloud.api.admin.updateReport)
+  router.post('/admin/reports/:id/close', cloud.api.admin.closeReport)
+  router.post('/admin/reports/:id/open', cloud.api.admin.openReport)
+
+  return router
+}
 function actionLimiter (windowMs, max, message) {
   return new RateLimit({
     windowMs,
