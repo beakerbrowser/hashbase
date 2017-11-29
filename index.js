@@ -50,7 +50,6 @@ module.exports = function (config) {
 
   app.use(cookieParser())
   app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded())
   app.use(expressValidator({ customValidators, customSanitizers }))
   app.use(cloud.sessions.middleware())
   if (config.rateLimiting) {
