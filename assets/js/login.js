@@ -2,8 +2,23 @@
 
 // login page js
 $(function () {
-  var queryParams = new URLSearchParams(location.search)
-  var redirect = queryParams.get('redirect') || ''
+  var redirect;
+  if (window.URLSearchParams) {
+    var queryParams = new URLSearchParams(location.search)
+    redirect = queryParams.get('redirect') || ''
+  } else { // This is needed for older browsers (MS Edge on or before december 2017) that do not support URLSearchParams
+    var getQueryVariable = function(variable) {
+      var query = window.location.search.substring(1)
+      var vars = query.split('&')
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=')
+        if (decodeURIComponent(pair[0]) == variable) {
+          return decodeURIComponent(pair[1])
+        }
+      }
+    }
+    redirect = getQueryVariable('redirect') || ''
+  }
 
   $('.form-login').on('submit', function (e) {
     e.preventDefault()
