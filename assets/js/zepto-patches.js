@@ -1,8 +1,16 @@
+/* global $:false */
 {
   // monkey-patch $.post so that it always sends JSON
   function parseArguments (url, data, success, dataType) {
-    if ($.isFunction(data)) dataType = success, success = data, data = undefined
-    if (!$.isFunction(success)) dataType = success, success = undefined
+    if ($.isFunction(data)) {
+      dataType = success
+      success = data
+      data = undefined
+    }
+    if (!$.isFunction(success)) {
+      dataType = success
+      success = undefined
+    }
     return {
       url: url,
       data: data,
