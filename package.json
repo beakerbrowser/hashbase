@@ -6,7 +6,9 @@
   "scripts": {
     "install-transpiler": "npm install babel-preset-es2015",
     "start": "node bin.js",
-    "test": "ava test/*.js && standard"
+    "test": "npm run unit && npm run lint",
+    "unit": "ava test/*.js",
+    "lint": "standard"
   },
   "keywords": [
     "hyperdrive",
