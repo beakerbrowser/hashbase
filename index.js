@@ -23,6 +23,7 @@ module.exports = function (config) {
   cloud.setupAdminUser()
 
   var app = express()
+
   if (config.proxy) {
     app.set('trust proxy', 'loopback')
   }
@@ -44,18 +45,24 @@ module.exports = function (config) {
   }
 
   app.engine('html', ejs.renderFile)
-  app.engine('ejs', ejs.renderFile)
   app.set('view engine', 'html')
   app.set('views', path.join(__dirname, 'assets/html'))
 
-  app.use(cookieParser())
-  app.use(bodyParser.json())
-  app.use(expressValidator({ customValidators, customSanitizers }))
-  app.use(cloud.sessions.middleware())
+  var defaultApp = express()
+  defaultApp.locals = app.locals
+  defaultApp.engine('html', ejs.renderFile)
+  defaultApp.engine('ejs', ejs.renderFile)
+  defaultApp.set('view engine', 'html')
+  defaultApp.set('views', path.join(__dirname, 'assets/html'))
+
+  defaultApp.use(cookieParser())
+  defaultApp.use(bodyParser.json())
+  defaultApp.use(expressValidator({ customValidators, customSanitizers }))
+  defaultApp.use(cloud.sessions.middleware())
   if (config.rateLimiting) {
-    app.use(new RateLimit({windowMs: 10e3, max: 100, delayMs: 0})) // general rate limit
-    // app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
-    app.use('/v1/login', actionLimiter(60 * 60 * 1000, 5, 'Too many login attempts from this IP, please try again after an hour'))
+    defaultApp.use(new RateLimit({windowMs: 10e3, max: 100, delayMs: 0})) // general rate limit
+    // defaultApp.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
+    defaultApp.use('/v1/login', actionLimiter(60 * 60 * 1000, 5, 'Too many login attempts from this IP, please try again after an hour'))
   }
 
   // monitoring
@@ -74,105 +81,84 @@ module.exports = function (config) {
     require('./lib/monitoring').init(config, cloud, pmx)
   }
 
-  // http gateway
-  // =
-
-  if (config.sites) {
-    var httpGatewayApp = express()
-    httpGatewayApp.locals = app.locals
-    httpGatewayApp.engine('html', ejs.renderFile)
-    httpGatewayApp.set('view engine', 'html')
-    httpGatewayApp.set('views', path.join(__dirname, 'assets/html'))
-    httpGatewayApp.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
-    httpGatewayApp.get('*', cloud.api.archiveFiles.getFile)
-    httpGatewayApp.use((err, req, res, next) => {
-      if (err) {
-        res.json(err.body || err)
-      } else {
-        next()
-      }
-    })
-    app.use(vhost('*.' + config.hostname, httpGatewayApp))
-  }
-
   // assets
   // =
 
-  app.get('/assets/css/main.css', lessExpress(path.join(__dirname, 'assets/css/main.less')))
+  defaultApp.get('/assets/css/main.css', lessExpress(path.join(__dirname, 'assets/css/main.less')))
 
   // css for individual pages
-  app.get('/assets/css/about.css', lessExpress(path.join(__dirname, 'assets/css/pages/about.less')))
-  app.get('/assets/css/account.css', lessExpress(path.join(__dirname, 'assets/css/pages/account.less')))
-  app.get('/assets/css/admin-dashboard.css', lessExpress(path.join(__dirname, 'assets/css/pages/admin-dashboard.less')))
-  app.get('/assets/css/archive.css', lessExpress(path.join(__dirname, 'assets/css/pages/archive.less')))
-  app.get('/assets/css/error.css', lessExpress(path.join(__dirname, 'assets/css/pages/error.less')))
-  app.get('/assets/css/home.css', lessExpress(path.join(__dirname, 'assets/css/pages/home.less')))
-  app.get('/assets/css/pricing.css', lessExpress(path.join(__dirname, 'assets/css/pages/pricing.less')))
-  app.get('/assets/css/profile.css', lessExpress(path.join(__dirname, 'assets/css/pages/profile.less')))
-  app.get('/assets/css/support.css', lessExpress(path.join(__dirname, 'assets/css/pages/support.less')))
+  defaultApp.get('/assets/css/about.css', lessExpress(path.join(__dirname, 'assets/css/pages/about.less')))
+  defaultApp.get('/assets/css/account.css', lessExpress(path.join(__dirname, 'assets/css/pages/account.less')))
+  defaultApp.get('/assets/css/admin-dashboard.css', lessExpress(path.join(__dirname, 'assets/css/pages/admin-dashboard.less')))
+  defaultApp.get('/assets/css/archive.css', lessExpress(path.join(__dirname, 'assets/css/pages/archive.less')))
+  defaultApp.get('/assets/css/error.css', lessExpress(path.join(__dirname, 'assets/css/pages/error.less')))
+  defaultApp.get('/assets/css/home.css', lessExpress(path.join(__dirname, 'assets/css/pages/home.less')))
+  defaultApp.get('/assets/css/pricing.css', lessExpress(path.join(__dirname, 'assets/css/pages/pricing.less')))
+  defaultApp.get('/assets/css/profile.css', lessExpress(path.join(__dirname, 'assets/css/pages/profile.less')))
+  defaultApp.get('/assets/css/support.css', lessExpress(path.join(__dirname, 'assets/css/pages/support.less')))
 
-  app.use('/assets/css', express.static(path.join(__dirname, 'assets/css')))
-  app.use('/assets/js', express.static(path.join(__dirname, 'assets/js')))
-  app.use('/assets/fonts', express.static(path.join(__dirname, 'assets/fonts')))
-  app.use('/assets/images', express.static(path.join(__dirname, 'assets/images')))
+  defaultApp.use('/assets/css', express.static(path.join(__dirname, 'assets/css')))
+  defaultApp.use('/assets/js', express.static(path.join(__dirname, 'assets/js')))
+  defaultApp.use('/assets/fonts', express.static(path.join(__dirname, 'assets/fonts')))
+  defaultApp.use('/assets/images', express.static(path.join(__dirname, 'assets/images')))
 
   // ----------------------------------------------------------------------------------
   // add analytics for routes declared below here
   // ----------------------------------------------------------------------------------
-  app.use(analytics.middleware(cloud))
+  defaultApp.use(analytics.middleware(cloud))
 
   // Create separater router for API
   const api = createApiRouter(cloud)
 
   // Use api routes before applying csurf middleware
-  app.use('/v1', api)
+  defaultApp.use('/v1', api)
 
   // Then apply csurf
-  app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
+  defaultApp.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
 
   // service apis
   // =
 
-  app.get('/', cloud.api.service.frontpage)
-  app.get('/v1/explore', cloud.api.service.explore)
+  defaultApp.get('/', cloud.api.service.frontpage)
+  defaultApp.get('/v1/explore', cloud.api.service.explore)
 
   // pages
   // =
 
-  app.get('/', cloud.api.pages.frontpage)
-  app.get('/explore', cloud.api.pages.explore)
-  app.get('/new-archive', cloud.api.pages.newArchive)
-  app.get('/about', cloud.api.pages.about)
-  app.get('/pricing', cloud.api.pages.pricing)
-  app.get('/terms', cloud.api.pages.terms)
-  app.get('/privacy', cloud.api.pages.privacy)
-  app.get('/acceptable-use', cloud.api.pages.acceptableUse)
-  app.get('/support', cloud.api.pages.support)
-  app.get('/login', cloud.api.pages.login)
-  app.get('/forgot-password', cloud.api.pages.forgotPassword)
-  app.get('/reset-password', cloud.api.pages.resetPassword)
-  app.get('/register', cloud.api.pages.register)
-  app.get('/register/pro', cloud.api.pages.registerPro)
-  app.get('/registered', cloud.api.pages.registered)
-  app.get('/profile', cloud.api.pages.profileRedirect)
-  app.get('/account/upgrade', cloud.api.pages.accountUpgrade)
-  app.get('/account/upgraded', cloud.api.pages.accountUpgraded)
-  app.get('/account/cancel-plan', cloud.api.pages.accountCancelPlan)
-  app.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan)
-  app.get('/account/change-password', cloud.api.pages.accountChangePassword)
-  app.get('/account/update-email', cloud.api.pages.accountUpdateEmail)
-  app.get('/account', cloud.api.pages.account)
+  defaultApp.get('/', cloud.api.pages.frontpage)
+  defaultApp.get('/explore', cloud.api.pages.explore)
+  defaultApp.get('/new-archive', cloud.api.pages.newArchive)
+  defaultApp.get('/about', cloud.api.pages.about)
+  defaultApp.get('/pricing', cloud.api.pages.pricing)
+  defaultApp.get('/terms', cloud.api.pages.terms)
+  defaultApp.get('/privacy', cloud.api.pages.privacy)
+  defaultApp.get('/acceptable-use', cloud.api.pages.acceptableUse)
+  defaultApp.get('/support', cloud.api.pages.support)
+  defaultApp.get('/login', cloud.api.pages.login)
+  defaultApp.get('/forgot-password', cloud.api.pages.forgotPassword)
+  defaultApp.get('/reset-password', cloud.api.pages.resetPassword)
+  defaultApp.get('/register', cloud.api.pages.register)
+  defaultApp.get('/register/pro', cloud.api.pages.registerPro)
+  defaultApp.get('/registered', cloud.api.pages.registered)
+  defaultApp.get('/profile', cloud.api.pages.profileRedirect)
+  defaultApp.get('/account/upgrade', cloud.api.pages.accountUpgrade)
+  defaultApp.get('/account/upgraded', cloud.api.pages.accountUpgraded)
+  defaultApp.get('/account/cancel-plan', cloud.api.pages.accountCancelPlan)
+  defaultApp.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan)
+  defaultApp.get('/account/change-password', cloud.api.pages.accountChangePassword)
+  defaultApp.get('/account/update-email', cloud.api.pages.accountUpdateEmail)
+  defaultApp.get('/account', cloud.api.pages.account)
 
   // user pages
   // =
 
-  app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})', cloud.api.userContent.viewArchive)
-  app.get('/:username([a-z0-9]{3,})', cloud.api.userContent.viewUser)
+  defaultApp.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})', cloud.api.userContent.viewArchive)
+  defaultApp.get('/:username([a-z0-9]{3,})', cloud.api.userContent.viewUser)
 
   // (json) error-handling fallback
   // =
 
-  app.use((err, req, res, next) => {
+  defaultApp.use((err, req, res, next) => {
     var contentType = req.accepts(['json', 'html'])
     if (!contentType) {
       return next()
@@ -244,15 +230,31 @@ module.exports = function (config) {
   // shutdown
   // =
 
+  app.use(vhost(config.hostname, defaultApp))
+
+  app.get('/.well-known/dat', cloud.api.archiveFiles.getDNSFile)
+  app.get('*', cloud.api.archiveFiles.getFile)
+
+  app.use((err, req, res, next) => {
+    if (err) {
+      res.json(err.body || err)
+    } else {
+      next()
+    }
+  })
+
   app.close = cloud.close.bind(cloud)
 
   return app
 }
+
 function createApiRouter (cloud) {
   const router = new express.Router()
 
   // user & auth apis
   // =
+
+  router.use(cloud.config.csrf ? csurf({cookie: true}) : fakeCSRF)
 
   router.post('/register', cloud.api.users.doRegister)
   router.all('/verify', cloud.api.users.verify)
@@ -293,6 +295,8 @@ function createApiRouter (cloud) {
   router.post('/admin/users/:username/send-email', cloud.api.admin.sendEmail)
   router.post('/admin/archives/:key/feature', cloud.api.admin.featureArchive)
   router.post('/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
+  router.post('/admin/archives/:key/domain', cloud.api.archives.addCustomDomain)
+  router.post('/admin/archives/:key/removedomain', cloud.api.archives.removeCustomDomain)
   router.get('/admin/archives/:key', cloud.api.admin.getArchive)
   router.post('/admin/archives/:key/remove', cloud.api.admin.removeArchive)
   router.get('/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
@@ -335,32 +339,46 @@ function approveDomains (config, cloud) {
     if (domain === config.hostname) {
       return cb(null, {options, certs})
     }
+    if (config.customdomains && config.customdomains[domain]) {
+      return cb(null, {options, certs})
+    }
 
     // try looking up the site
-    try {
-      var archiveName
-      var userName
-      var domainParts = domain.split('.')
-      if (config.sites === 'per-user') {
-        // make sure the user record exists
-        userName = domainParts[0]
-        await cloud.usersDB.getByUsername(userName)
-        return cb(null, {options, certs})
-      } else if (config.sites === 'per-archive') {
-        // make sure the user and archive records exists
-        if (domainParts.length === 3) {
-          userName = archiveName = domainParts[0]
-        } else {
-          archiveName = domainParts[0]
-          userName = domainParts[1]
-        }
-        let userRecord = await cloud.usersDB.getByUsername(userName)
-        let archiveRecord = userRecord.archives.find(a => a.name === archiveName)
-        if (archiveRecord) {
+    if (domain.indexOf(config.hostname)) {
+      try {
+        var archiveName
+        var userName
+        var domainParts = domain.replace(/-/g, '.').split('.')
+        if (config.sites === 'per-user') {
+          // make sure the user record exists
+          userName = domainParts[0]
+          await cloud.usersDB.getByUsername(userName)
           return cb(null, {options, certs})
+        } else if (config.sites === 'per-archive') {
+          // make sure the user and archive records exists
+          if (domainParts.length === 3) {
+            userName = archiveName = domainParts[0]
+          } else {
+            archiveName = domainParts[0]
+            userName = domainParts[1]
+          }
+          let userRecord = await cloud.usersDB.getByUsername(userName)
+          let archiveRecord = userRecord.archives.find(a => a.name === archiveName)
+          if (archiveRecord) {
+            return cb(null, {options, certs})
+          }
         }
+      } catch (e) {}
+    }
+
+    var archive = await cloud.customDomainsDB.getByDomain(domain)
+    if (archive) {
+      if (!config.customdomains) {
+        config.customdomains = {}
       }
-    } catch (e) {}
+      config.customdomains[domain] = archive
+      return cb(null, {options, certs})
+    }
     cb(new Error('Invalid domain'))
   }
 }

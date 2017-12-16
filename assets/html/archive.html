@@ -39,6 +39,19 @@
               <p><em>No description</em></p>
             <% } %>
 
+            <% if (isOwner || (sessionUser && sessionUser.scopes.includes('admin:dats'))) { %>
+              <div>
+                <form id="custom-domain-form" action="/v1/archives/domain" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input name="key" type="hidden" value="<%= key %>"/>
+                  <input type="text" name="domain" value="<%= domain %>"/>
+                  <button type="submit" id="custom-domain-archive" class="btn outline">
+                    Set domain
+                  </button>
+                </form>
+              </div>
+            <% } %>
+
             <% if (isOwner) { %>
               <div>
                 <button id="show-remove-archive-form" class="link">Remove archive</button>
