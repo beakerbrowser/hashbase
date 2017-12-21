@@ -100,6 +100,29 @@
               </div>
             </section>
           </div>
+
+          <div class="card owner-controls labeled">
+            <section>
+              <h4>Domains</h4>
+              <ul class="domains-list">
+                <li class="domain default">
+                  <a>
+                    <span class="status-label">Default</span>
+                    <span class="url"><%= niceUrl %></span>
+                  </a>
+                </li>
+                <% domains.forEach(domainRecord => {%>
+                  <li class="domain custom">
+                    <a href="/<%= username %>/<%= archivename %>/domains/<%= domainRecord.domain %>" title="View domain: <%= domainRecord.domain %>">
+                      <span class="status-label <%= domainRecord.isVerified ? 'verified' : 'pending' %>"><%= domainRecord.isVerified ? 'Verified' : 'Pending' %></span>
+                      <span class="url"><%= domainRecord.domain %></span>
+                    </a>
+                  </li>
+                <% }) %>
+              </ul>
+              <div><a class="btn" href="/<%= username %>/<%= archivename %>/new-domain">+ Add custom domain</a></div>
+            </section>
+          </div>
         <% } %>
 
         <div class="archive-footer-links">
@@ -111,10 +134,10 @@
             <div class="modal-form-container">
               <form id="report-archive-form" class="form modal-form">
                 <p id="error-general" class="alert warning"></p>
-                <input type="hidden" name="archiveOwner" value="<%= username %>"/>
-                <input type="hidden" name="archiveKey" value="<%= key %>"/>
-                <h1 class="form-heading">Report this archive</h1>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="archiveOwner" value="<%= username %>">
+                <input type="hidden" name="archiveKey" value="<%= key %>">
+                <h1 class="form-heading">Report this archive</h1>
                 <p class="form-desc bordered">
                   Report this archive to the Hashbase admins.
                 </p>
@@ -162,10 +185,10 @@
                 <i class="fa fa-close"></i>
               </button>
             </div>
+          </div>
         <% } %>
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
 
     <% include com/footer.html %>
     <% include com/stdjs.html %>

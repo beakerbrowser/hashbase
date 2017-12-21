@@ -14,6 +14,7 @@ const Hypercloud = require('./lib')
 const customValidators = require('./lib/validators')
 const customSanitizers = require('./lib/sanitizers')
 const analytics = require('./lib/analytics')
+const {getRequestHostname} = require('./lib/helpers')
 const packageJson = require('./package.json')
 
 module.exports = function (config) {
@@ -92,7 +93,11 @@ module.exports = function (config) {
         next()
       }
     })
+
+    // subdomains
     app.use(vhost('*.' + config.hostname, httpGatewayApp))
+    // custom domains
+    app.use(customHost(cloud, httpGatewayApp))
   }
 
   // assets
@@ -105,6 +110,7 @@ module.exports = function (config) {
   app.get('/assets/css/account.css', lessExpress(path.join(__dirname, 'assets/css/pages/account.less')))
   app.get('/assets/css/admin-dashboard.css', lessExpress(path.join(__dirname, 'assets/css/pages/admin-dashboard.less')))
   app.get('/assets/css/archive.css', lessExpress(path.join(__dirname, 'assets/css/pages/archive.less')))
+  app.get('/assets/css/archive-domain.css', lessExpress(path.join(__dirname, 'assets/css/pages/archive-domain.less')))
   app.get('/assets/css/error.css', lessExpress(path.join(__dirname, 'assets/css/pages/error.less')))
   app.get('/assets/css/home.css', lessExpress(path.join(__dirname, 'assets/css/pages/home.less')))
   app.get('/assets/css/pricing.css', lessExpress(path.join(__dirname, 'assets/css/pages/pricing.less')))
@@ -166,6 +172,8 @@ module.exports = function (config) {
   // user pages
   // =
 
+  app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})/new-domain', cloud.api.userContent.viewDomain)
+  app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})/domains/:domain', cloud.api.userContent.viewDomain)
   app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})', cloud.api.userContent.viewArchive)
   app.get('/:username([a-z0-9]{3,})', cloud.api.userContent.viewUser)
 
@@ -248,6 +256,7 @@ module.exports = function (config) {
 
   return app
 }
+
 function createApiRouter (cloud) {
   const router = new express.Router()
 
@@ -277,7 +286,16 @@ function createApiRouter (cloud) {
   router.get('/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
   router.get('/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 
+  // domains apis
+  // =
+
+  router.post('/domains/add', cloud.api.domains.add)
+  router.post('/domains/validate', cloud.api.domains.validate)
+  router.post('/domains/remove', cloud.api.domains.remove)
+
   // reports apis
+  // =
+
   router.post('/reports/add', cloud.api.reports.add)
 
   // admin apis
@@ -307,6 +325,22 @@ function createApiRouter (cloud) {
 
   return router
 }
+
+function customHost (cloud, handler) {
+  return async function (req, res, next) {
+    const hostname = getRequestHostname(req)
+    if (!hostname) return next()
+
+    // lookup custom domain
+    var domainRecords = await cloud.domainsDB.listByDomain(hostname, {verifiedOnly: true})
+    if (!domainRecords[0]) return next()
+
+    // run given handler
+    res.locals.domainRecord = domainRecords[0]
+    handler(req, res, next)
+  }
+}
+
 function actionLimiter (windowMs, max, message) {
   return new RateLimit({
     windowMs,

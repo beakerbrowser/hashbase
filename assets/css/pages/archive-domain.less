@@ -1,0 +1,70 @@
+@import '../base/variables';
+
+main.archive-domain {
+  .archive-domain-content {
+    margin: 1rem 0;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .card {
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: disc;
+      margin: 1.25rem 0;
+
+      li {
+        margin-left: 1.75rem;
+        margin-bottom: 1.25rem;
+
+        .explanation {
+          font-size: 0.8em;
+          color: @color-text--muted;
+        }
+      }
+    }
+
+    code {
+      background: @color-bg--light-gray;
+      border: 1px solid @color-border--light-gray;
+      padding: 0 5px;
+      white-space: pre;
+
+      &.value {
+        display: block;
+        margin: 0.5rem 0 0.25rem;
+        padding: 0.5rem;
+        border-radius: 2px;
+      }
+    }
+
+    .domain-value {
+      background: tint(#000, 90%);
+      padding: 0.5rem 1rem;
+      border-radius: 2px;
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .status-label {
+        margin: 0 0.5rem;
+      }
+
+      .spacer {
+        flex: 1;
+      }
+    }
+
+    .aside {
+      color: @color-text--muted;
+      font-size: 0.85em;
+    }
+  }
+}
+

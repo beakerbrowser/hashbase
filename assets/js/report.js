@@ -3,16 +3,15 @@
 // report form js
 $(function () {
   $('#show-report-archive-form').on('click', showReportArchiveForm)
+  $('#cancel-report-btn').on('click', hideReportArchiveForm)
   $('#report-archive-form').on('submit', submitReport)
 
-  $('#cancel-report-btn').on('click', hideForm)
-
-  function hideForm () {
-    $('.modal-form-container').removeClass('visible')
+  function showReportArchiveForm () {
+    $('#report-archive-form').parent().addClass('visible')
   }
 
-  function showReportArchiveForm () {
-    $('.modal-form-container').addClass('visible')
+  function hideReportArchiveForm () {
+    $('#report-archive-form').parent().removeClass('visible')
   }
 
   function submitReport (e) {
@@ -26,7 +25,7 @@ $(function () {
 
     var xhr = $.post('/v1/reports/add', values)
     xhr.done(function (res) {
-      hideForm()
+      hideReportArchiveForm()
       $('#feedback-general').text('Thanks, your report has been sent to the Hashbase admins')
     })
 
@@ -41,7 +40,11 @@ $(function () {
   }
 
   function renderErrors (json) {
-    // general error
-    $('form #error-general').text(json.message || json)
+    if (json.invalidInputs) {
+      $('#report-archive-form #error-general').text('Please select a reason')
+    } else {
+      // general error
+      $('#report-archive-form #error-general').text(json.message || json)
+    }
   }
 })

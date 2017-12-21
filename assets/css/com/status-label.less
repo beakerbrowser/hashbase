@@ -1,0 +1,22 @@
+
+.status-label {
+  &:extend(.rounded);
+  display: inline-block;
+  padding: 4px 0;
+  margin-right: 1rem;
+  width: 100px;
+  text-align: center;
+  font-size: 0.8em;
+  background: tint(#000, 88%);
+  color: @color-text--muted;
+
+  &.verified {
+    background: tint(@green, 65%);
+    color: mix(@color-text, @green, 35%);
+  }
+
+  &.pending {
+    background: tint(@pink, 85%);
+    color: mix(@color-text, @pink, 25%);
+  }
+}
