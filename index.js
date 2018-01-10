@@ -327,14 +327,19 @@ function addConfigHelpers (config) {
 
 function approveDomains (config, cloud) {
   var domainReg
-  // Dots in domains are normal but dots in a regexp would be replaced with "any character"
-  var regHost = config.hostName.replace(/\./g, '\\.')
-  if (config.sites === 'per-archive') {
-    domainReg = new RegExp(`^(([^-]+)\-([^.]+)\\.)?${regHost}$`, 'g')
-  } else if (config.sites === 'per-user') {
-    domainReg = new RegExp(`^(()([^.]+)\\.)?${regHost}$`, 'g')
+  if (config.hostname) {
+    // Dots in domains are normal but dots in a regexp would be replaced with "any character"
+    var regHost = (config.hostName || '').replace(/\./g, '\\.')
+    if (config.sites === 'per-archive') {
+      domainReg = new RegExp(`^(([^-]+)\-([^.]+)\\.)?${regHost}$`, 'g')
+    } else if (config.sites === 'per-user') {
+      domainReg = new RegExp(`^(()([^.]+)\\.)?${regHost}$`, 'g')
+    } else {
+      domainReg = new RegExp(`^${regHost}$`, 'g')
+    }
   } else {
-    domainReg = new RegExp(`^${regHost}$`, 'g')
+    // Allow any domain
+    domainReg = /.?/g
   }
   return async (options, certs, cb) => {
     var {domain} = options
