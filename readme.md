@@ -149,7 +149,18 @@ cache:
 
 #### Emailer
 
-*Todo, sorry*
+Hashbase relies on [NodeMailer](https://nodemailer.com/about/) to send out mails _(for example: required to verify a new user)_. The `email` property of the configuration will be passed _as-is_ to NodeMailer.
+
+In the [default configuration](./config.defaults.yml#L46-L49) we use the [`stub`](https://www.npmjs.com/package/nodemailer-stub) transport which [offers a code API for tests](https://github.com/LimeDeck/nodemailer-stub/blob/8f03f86828de75ee2ccc32b98c8bc3d78e6abb00/lib/stubTransport.js#L44-L46).
+
+```yaml
+# email settings
+email:
+  transport: stub
+  sender: '"Hashbase" <noreply@hashbase.local>'
+```
+
+`hashbase` has a dependency on the [`ses`](https://www.npmjs.com/package/nodemailer-ses-transport) and [`smtp`](https://www.npmjs.com/package/nodemailer-smtp-transport) transport, which means you can use those out-of-the-box. For other transports you need to install those first.
 
 ## Tests
 
