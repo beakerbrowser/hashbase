@@ -2,8 +2,6 @@
 
 // admin user tools
 $(function () {
-  var _csrf = $('[name=_csrf]').val()
-
   // auto-size the record content
   var textarea = $('textarea')
   textarea.height(textarea[0].scrollHeight)
@@ -12,7 +10,6 @@ $(function () {
   $('#save-btn').on('click', function () {
     try {
       var data = JSON.parse(textarea.val())
-      data._csrf = _csrf
     } catch (e) {
       return onError({responseText: e.toString()}, 0, 'Error parsing JSON')
     }
@@ -25,7 +22,7 @@ $(function () {
   // close
   $('#close-btn').on('click', function () {
     $('#error-general').text('')
-    $.ajax(window.location.pathname + '/close', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/close', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({})})
       .done(onUpdate)
       .fail(onError)
   })
@@ -33,7 +30,7 @@ $(function () {
   // open
   $('#open-btn').on('click', function () {
     $('#error-general').text('')
-    $.ajax(window.location.pathname + '/open', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/open', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({})})
       .done(onUpdate)
       .fail(onError)
   })
