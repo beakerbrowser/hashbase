@@ -2,7 +2,6 @@
 
 // admin user tools
 $(function () {
-
   // auto-size the record content
   var textarea = $('.record-content textarea')
   textarea.height(textarea[0].scrollHeight)
