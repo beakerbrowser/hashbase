@@ -28,8 +28,8 @@ $(function () {
   }
 
   function onPickDat () {
-    DatArchive.selectArchive().then(url => {
-      addArchiveKeyInput.val(url)
+    DatArchive.selectArchive().then(archive => {
+      addArchiveKeyInput.val(archive.url)
     })
   }
 
