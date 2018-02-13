@@ -34,6 +34,9 @@ module.exports = function (config) {
     session: false, // default session value
     sessionUser: false,
     errors: false, // common default value
+    // Using the stripe publishable key to identify whether or not to show pricing related information
+    // on any page
+    stripePK: config.stripe ? config.stripe.publishableKey : null,
     appInfo: {
       version: cloud.version,
       brandname: config.brandname,
@@ -122,7 +125,7 @@ module.exports = function (config) {
   app.use(analytics.middleware(cloud))
 
   // Create separater router for API
-  const api = createApiRouter(cloud)
+  const api = createApiRouter(cloud, config)
 
   // Use api routes before applying csurf middleware
   app.use('/v1', api)
@@ -152,13 +155,17 @@ module.exports = function (config) {
   app.get('/forgot-password', cloud.api.pages.forgotPassword)
   app.get('/reset-password', cloud.api.pages.resetPassword)
   app.get('/register', cloud.api.pages.register)
-  app.get('/register/pro', cloud.api.pages.registerPro)
+  if (config.stripe) {
+    app.get('/register/pro', cloud.api.pages.registerPro)
+  }
   app.get('/registered', cloud.api.pages.registered)
   app.get('/profile', cloud.api.pages.profileRedirect)
-  app.get('/account/upgrade', cloud.api.pages.accountUpgrade)
-  app.get('/account/upgraded', cloud.api.pages.accountUpgraded)
-  app.get('/account/cancel-plan', cloud.api.pages.accountCancelPlan)
-  app.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan)
+  if (config.stripe) {
+    app.get('/account/upgrade', cloud.api.pages.accountUpgrade)
+    app.get('/account/upgraded', cloud.api.pages.accountUpgraded)
+    app.get('/account/cancel-plan', cloud.api.pages.accountCancelPlan)
+    app.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan)
+  }
   app.get('/account/change-password', cloud.api.pages.accountChangePassword)
   app.get('/account/update-email', cloud.api.pages.accountUpdateEmail)
   app.get('/account', cloud.api.pages.account)
@@ -248,7 +255,7 @@ module.exports = function (config) {
 
   return app
 }
-function createApiRouter (cloud) {
+function createApiRouter (cloud, config) {
   const router = new express.Router()
 
   // user & auth apis
@@ -260,10 +267,12 @@ function createApiRouter (cloud) {
   router.post('/account', cloud.api.users.updateAccount)
   router.post('/account/password', cloud.api.users.updateAccountPassword)
   router.post('/account/email', cloud.api.users.updateAccountEmail)
-  router.post('/account/upgrade', cloud.api.users.upgradePlan)
-  router.post('/account/register/pro', cloud.api.users.registerPro)
-  router.post('/account/update-card', cloud.api.users.updateCard)
-  router.post('/account/cancel-plan', cloud.api.users.cancelPlan)
+  if (config.stripe) {
+    router.post('/account/upgrade', cloud.api.users.upgradePlan)
+    router.post('/account/register/pro', cloud.api.users.registerPro)
+    router.post('/account/update-card', cloud.api.users.updateCard)
+    router.post('/account/cancel-plan', cloud.api.users.cancelPlan)
+  }
   router.post('/login', cloud.api.users.doLogin)
   router.get('/logout', cloud.api.users.doLogout)
   router.post('/forgot-password', cloud.api.users.doForgotPassword)
