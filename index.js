@@ -329,7 +329,7 @@ function approveDomains (config, cloud) {
   var domainReg
   if (config.hostname) {
     // Dots in domains are normal but dots in a regexp would be replaced with "any character"
-    var regHost = (config.hostName || '').replace(/\./g, '\\.')
+    var regHost = (config.hostname || '').replace(/\./g, '\\.')
     if (config.sites === 'per-archive') {
       domainReg = new RegExp(`^((.+)-([^.]+)\\.)?${regHost}$`, 'g')
     } else if (config.sites === 'per-user') {
