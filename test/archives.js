@@ -1,7 +1,7 @@
 var test = require('ava')
 var path = require('path')
 var fs = require('fs')
-var promisify = require('es6-promisify')
+var { promisify } = require('es6-promisify')
 var createTestServer = require('./lib/server.js')
 var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
 
@@ -41,7 +41,7 @@ test('register and login bob', async t => {
       passwordConfirm: 'foobar'
     }
   })
-  if (res.statusCode !== 201) throw new Error('Failed to register bob user')
+  t.is(res.statusCode, 201, 'Failed to register bob user')
 
   // check sent mail and extract the verification nonce
   var lastMail = app.cloud.mailer.transport.sentMail.pop()
@@ -56,7 +56,7 @@ test('register and login bob', async t => {
     },
     json: true
   })
-  if (res.statusCode !== 200) throw new Error('Failed to verify bob user')
+  t.is(res.statusCode, 200, 'Failed to verify bob user')
 
   // login bob
   res = await app.req.post({
@@ -66,7 +66,7 @@ test('register and login bob', async t => {
       'password': 'foobar'
     }
   })
-  if (res.statusCode !== 200) throw new Error('Failed to login as bob')
+  t.is(res.statusCode, 200, 'Failed to login as bob')
   sessionToken = res.body.sessionToken
   authUser = { bearer: sessionToken }
 })
@@ -391,11 +391,11 @@ test('archive status wont stall on archive that fails to sync', async t => {
   var fakeKey = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
   var json = {key: fakeKey}
   var res = await app.req({uri: '/v1/archives/add', method: 'POST', json, auth})
-  t.same(res.statusCode, 200, '200 status')
+  t.is(res.statusCode, 200, '200 status')
 
   // now ask for the status. since the archive is never found, this should timeout
   res = await app.req({uri: `/v1/archives/${fakeKey}`, qs: {view: 'status'}})
-  t.ok(res.statusCode === 200 || res.statusCode === 404, '200 or 404 status')
+  t.is(res.statusCode === 200 || res.statusCode === 404, true, '200 or 404 status')
 })
 
 test.cb('stop test server', t => {

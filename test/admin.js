@@ -35,7 +35,7 @@ test.cb('share test-dat', t => {
   })
 })
 
-async function registerUser (username) {
+async function registerUser (t, username) {
   // register
   var res = await app.req.post({
     uri: '/v1/register',
@@ -46,7 +46,7 @@ async function registerUser (username) {
       passwordConfirm: 'foobar'
     }
   })
-  if (res.statusCode !== 201) throw new Error(`Failed to register ${username} user`)
+  t.is(res.statusCode, 201, `Failed to register ${username} user`)
 
   // check sent mail and extract the verification nonce
   var lastMail = app.cloud.mailer.transport.sentMail.pop()
@@ -58,13 +58,13 @@ async function registerUser (username) {
     qs: {username, nonce},
     json: true
   })
-  if (res.statusCode !== 200) throw new Error(`Failed to verify ${username} user`)
+  t.is(res.statusCode, 200, `Failed to verify ${username} user`)
 }
 
 test('register alice, bob, and carla', async t => {
-  await registerUser('alice')
-  await registerUser('carla')
-  await registerUser('bob')
+  await registerUser(t, 'alice')
+  await registerUser(t, 'carla')
+  await registerUser(t, 'bob')
 })
 
 test('list users', async t => {

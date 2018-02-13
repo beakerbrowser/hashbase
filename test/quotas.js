@@ -38,7 +38,7 @@ test('register and login bob', async t => {
       passwordConfirm: 'foobar'
     }
   })
-  if (res.statusCode !== 201) throw new Error('Failed to register bob user')
+  t.is(res.statusCode, 201, 'Failed to register bob user')
 
   // check sent mail and extract the verification nonce
   var lastMail = app.cloud.mailer.transport.sentMail.pop()
@@ -53,7 +53,7 @@ test('register and login bob', async t => {
     },
     json: true
   })
-  if (res.statusCode !== 200) throw new Error('Failed to verify bob user')
+  t.is(res.statusCode, 200, 'Failed to verify bob user')
 
   // login bob
   res = await app.req.post({
@@ -63,7 +63,7 @@ test('register and login bob', async t => {
       'password': 'foobar'
     }
   })
-  if (res.statusCode !== 200) throw new Error('Failed to login as bob')
+  t.is(res.statusCode, 200, 'Failed to login as bob')
   sessionToken = res.body.sessionToken
   authUser = { bearer: sessionToken }
 })
