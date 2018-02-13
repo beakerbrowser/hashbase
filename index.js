@@ -164,7 +164,7 @@ module.exports = function (config) {
     app.get('/account/upgrade', cloud.api.pages.accountUpgrade)
     app.get('/account/upgraded', cloud.api.pages.accountUpgraded)
     app.get('/account/cancel-plan', cloud.api.pages.accountCancelPlan)
-    app.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan) 
+    app.get('/account/canceled-plan', cloud.api.pages.accountCanceledPlan)
   }
   app.get('/account/change-password', cloud.api.pages.accountChangePassword)
   app.get('/account/update-email', cloud.api.pages.accountUpdateEmail)
