@@ -19,7 +19,10 @@ test.cb('start test server', t => {
         'password': 'foobar'
       }
     })
-    if (res.statusCode !== 200) throw new Error('Failed to login as admin')
+    if (res.statusCode !== 200) {
+      console.error('Login response', res.statusCode, res.body)
+      throw new Error('Failed to login as admin')
+    }
     sessionToken = res.body.sessionToken
     auth = { bearer: sessionToken }
 
