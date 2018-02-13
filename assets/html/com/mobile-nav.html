@@ -23,7 +23,7 @@
       <li class="nav-item">
         <a href="/account">Manage account</a>
       </li>
-      <% if (sessionUser.plan === 'basic') { %>
+      <% if (sessionUser.plan === 'basic' && stripePK) { %>
         <li class="nav-item">
           <a href="/account/upgrade">
             Upgrade to pro

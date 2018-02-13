@@ -21,7 +21,7 @@
               <% } %>
               <a class="dropdown-item" href="/profile">View profile</a>
               <a class="dropdown-item" href="/account">Manage account</a>
-              <% if (sessionUser.plan === 'basic') { %>
+              <% if (stripePK && sessionUser.plan === 'basic') { %>
                 <a class="dropdown-item" href="/account/upgrade">
                   <span>Upgrade to pro</span>
                   <span class="pro-tag">pro</span>

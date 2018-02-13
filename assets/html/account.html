@@ -21,7 +21,9 @@
       <nav class="subnav">
         <a href="#storage">Storage</a>
         <a href="#settings">Settings</a>
+        <% if (stripePK) { %>
         <a href="#plan">Plan</a>
+        <% } %>
       </nav>
 
       <div class="section usage">
@@ -87,6 +89,8 @@
         </div>
       </div>
 
+      <% if (stripePK) { %>
+
       <div class="section plan">
         <h2 id="plan">Plan</h2>
 
@@ -137,11 +141,13 @@
         <% } %>
 
       </div>
+      <% } %>
     </div>
     </main>
 
     <% include com/footer.html %>
     <% include com/stdjs.html %>
+    <% if (stripePK) { %>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
       window.params = {
@@ -149,6 +155,7 @@
       }
     </script>
     <script src="/assets/js/account.js"></script>
+    <% } %>
 
   </body>
 </html>
