@@ -1,7 +1,7 @@
 var test = require('ava')
 var path = require('path')
 var fs = require('fs')
-var promisify = require('es6-promisify')
+var { promisify } = require('es6-promisify')
 var createTestServer = require('./lib/server.js')
 var { makeDatFromFolder, downloadDatFromSwarm } = require('./lib/dat.js')
 

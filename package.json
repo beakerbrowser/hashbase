@@ -40,7 +40,7 @@
     "deep-extend": "^0.5.0",
     "discovery-server": "^1.1.0",
     "ejs": "^2.5.7",
-    "es6-promisify": "^5.0.0",
+    "es6-promisify": "^6.0.0",
     "express": "^4.16.2",
     "express-rate-limit": "^2.11.0",
     "express-server-sent-events": "^1.1.0",
