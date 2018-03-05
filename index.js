@@ -244,6 +244,8 @@ module.exports = function (config) {
   // error handling
   // =
 
+  process.on('uncaughtException', console.error)
+
   process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
   })
