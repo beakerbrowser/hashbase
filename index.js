@@ -351,9 +351,9 @@ function createV2ApiRouter (cloud, config) {
   // archives apis
   // =
 
-  // router.get('/archives', cloud.api.archives.list) TODO
   router.post('/archives/add', cloud.api.archives.add)
   router.post('/archives/remove', cloud.api.archives.remove)
+  router.get('/archives', cloud.api.archives.list)
   router.get('/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
   router.get('/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 

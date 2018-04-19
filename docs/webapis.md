@@ -216,6 +216,8 @@ Reponse when `Accept: application/json`:
   items: [{
     url: String, dat url
     name: String, optional shortname assigned by the user
+    title: String, optional title extracted from the dat's manifest file
+    description: String, optional description extracted from the dat's manifest file
     additionalUrls: Array of Strings, optional list of URLs the dat can be accessed at
   }]
 }
@@ -231,6 +233,8 @@ Reponse when `Accept: application/json`:
 {
   url: String, dat url
   name: String, optional shortname assigned by the user
+  title: String, optional title extracted from the dat's manifest file
+  description: String, optional description extracted from the dat's manifest file
   additionalUrls: Array of Strings, optional list of URLs the dat can be accessed at
 }
 ```

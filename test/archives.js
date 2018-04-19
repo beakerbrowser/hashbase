@@ -131,6 +131,26 @@ test('read back archive', async t => {
     title: 'Test Dat 1',
     description: 'The first test dat'
   })
+
+  res = await app.req.get({url: '/v2/archives/' + testDatKey, json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body, {
+    url: `dat://${testDatKey}`,
+    name: null,
+    title: 'Test Dat 1',
+    description: 'The first test dat',
+    additionalUrls: []
+  })
+
+  res = await app.req.get({url: '/v2/archives', json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body.items[0], {
+    url: `dat://${testDatKey}`,
+    name: null,
+    title: 'Test Dat 1',
+    description: 'The first test dat',
+    additionalUrls: []
+  })
 })
 
 test('user disk usage is now non-zero', async t => {
@@ -232,6 +252,26 @@ test('change archive name', async t => {
     name: 'test-archive',
     title: 'Test Dat 1',
     description: 'The first test dat'
+  })
+
+  res = await app.req.get({url: '/v2/archives/' + testDatKey, json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body, {
+    url: `dat://${testDatKey}`,
+    name: 'test-archive',
+    title: 'Test Dat 1',
+    description: 'The first test dat',
+    additionalUrls: ['dat://test-archive-admin.test.local', 'https://test-archive-admin.test.local']
+  })
+
+  res = await app.req.get({url: '/v2/archives', json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data')
+  t.deepEqual(res.body.items[0], {
+    url: `dat://${testDatKey}`,
+    name: 'test-archive',
+    title: 'Test Dat 1',
+    description: 'The first test dat',
+    additionalUrls: ['dat://test-archive-admin.test.local', 'https://test-archive-admin.test.local']
   })
 
   // change to invalid names
