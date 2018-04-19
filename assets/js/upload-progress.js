@@ -10,7 +10,7 @@ $(function () {
 
   onProgress(window.params.progress)
 
-  var events = new EventSource('/v2/archives/' + key + '?view=status')
+  var events = new EventSource('/v2/archives/item/' + key + '?view=status')
   events.addEventListener('message', function (e) {
     onProgress((+e.data * 100) | 0)
   })

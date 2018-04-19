@@ -400,7 +400,7 @@ test('remove an archive', async t => {
   t.is(res.statusCode, 200, '200 removed dat')
 
   // check that the archive was removed
-  res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, auth})
+  res = await app.req({uri: `/v2/archives/item/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 404, '404 not found')
 })
 

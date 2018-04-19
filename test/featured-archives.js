@@ -48,7 +48,7 @@ test.cb('check archive status and wait till synced', t => {
 
   checkStatus()
   async function checkStatus () {
-    var res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
+    var res = await app.req({uri: `/v2/archives/item/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
     var progress = res.body && res.body.progress ? res.body.progress : 0
     if (progress === 1) {
       clearTimeout(to)

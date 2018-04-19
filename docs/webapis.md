@@ -15,10 +15,10 @@ Archive APIs
 ```
 GET /v2/users/:username/:archiveName
 GET /v2/archives
-GET /v2/archives/:archiveKey
+GET /v2/archives/item/:archiveKey
 POST /v2/archives/add
 POST /v2/archives/remove
-POST /v2/archives/:archiveKey
+POST /v2/archives/item/:archiveKey
 ```
 
 User APIs
@@ -29,6 +29,7 @@ POST /v2/accounts/register
 GET /v2/accounts/verify
 POST /v2/accounts/verify
 POST /v2/accounts/login
+GET /v2/accounts/logout
 POST /v2/accounts/logout
 GET  /v2/accounts/account - get my info & settings
 POST /v2/accounts/account - update my settings
@@ -223,7 +224,7 @@ Reponse when `Accept: application/json`:
 }
 ```
 
-### GET /v2/archives/:archiveKey
+### GET /v2/archives/item/:archiveKey
 
 Fetch the archive info.
 
@@ -279,7 +280,7 @@ Request body. Can supply `key` or `url`:
 
 Removes the archive from the user's account. If no users are hosting the archive anymore, the archive will be deleted.
 
-### POST /v2/archives/:archiveKey
+### POST /v2/archives/item/:archiveKey
 
 Update the archive info.
 

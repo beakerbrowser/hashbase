@@ -141,6 +141,7 @@ module.exports = function (config) {
   // =
 
   app.get('/', cloud.api.service.frontpage)
+  app.get('/.well-known/psa', cloud.api.service.psaDoc)
   app.get('/v1/explore', cloud.api.service.explore)
   app.get('/v2/explore', cloud.api.service.explore)
 
@@ -345,6 +346,7 @@ function createV2ApiRouter (cloud, config) {
   }
   router.post('/accounts/login', cloud.api.users.doLogin)
   router.get('/accounts/logout', cloud.api.users.doLogout)
+  router.post('/accounts/logout', cloud.api.users.doLogout)
   router.post('/accounts/forgot-password', cloud.api.users.doForgotPassword)
   router.get('/users/:username([^/]{3,})', cloud.api.users.get)
 
@@ -354,7 +356,8 @@ function createV2ApiRouter (cloud, config) {
   router.post('/archives/add', cloud.api.archives.add)
   router.post('/archives/remove', cloud.api.archives.remove)
   router.get('/archives', cloud.api.archives.list)
-  router.get('/archives/:key([0-9a-f]{64})', cloud.api.archives.get)
+  router.get('/archives/item/:key([0-9a-f]{64})', cloud.api.archives.get)
+  router.post('/archives/item/:key([0-9a-f]{64})', cloud.api.archives.update)
   router.get('/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
 
   // reports apis

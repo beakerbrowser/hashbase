@@ -99,7 +99,7 @@ test.cb('check archive status and wait till synced', t => {
 
   checkStatus()
   async function checkStatus () {
-    var res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
+    var res = await app.req({uri: `/v2/archives/item/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
     var progress = res.body && res.body.progress ? res.body.progress : 0
     if (progress === 1) {
       clearTimeout(to)
@@ -132,7 +132,7 @@ test('read back archive', async t => {
     description: 'The first test dat'
   })
 
-  res = await app.req.get({url: '/v2/archives/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v2/archives/item/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     url: `dat://${testDatKey}`,
@@ -254,7 +254,7 @@ test('change archive name', async t => {
     description: 'The first test dat'
   })
 
-  res = await app.req.get({url: '/v2/archives/' + testDatKey, json: true, auth})
+  res = await app.req.get({url: '/v2/archives/item/' + testDatKey, json: true, auth})
   t.is(res.statusCode, 200, '200 got dat data')
   t.deepEqual(res.body, {
     url: `dat://${testDatKey}`,
@@ -383,7 +383,7 @@ test('remove archive', async t => {
 
 // TEMPORARY only 1 owner per archive allowed
 // test('check archive status after removed by one user, not all', async t => {
-//   var res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, auth})
+//   var res = await app.req({uri: `/v2/archives/item/${testDatKey}`, qs: {view: 'status'}, auth})
 //   t.is(res.statusCode, 200, '200 got dat')
 // })
 
@@ -400,7 +400,7 @@ test('remove archive that was already removed', async t => {
 })
 
 test('check archive status after removed', async t => {
-  var res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, auth})
+  var res = await app.req({uri: `/v2/archives/item/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 404, '404 not found')
 
   res = await app.req.get({url: '/v2/users/admin?view=archives', json: true, auth})
@@ -434,7 +434,7 @@ test('archive status wont stall on archive that fails to sync', async t => {
   t.same(res.statusCode, 200, '200 status')
 
   // now ask for the status. since the archive is never found, this should timeout
-  res = await app.req({uri: `/v2/archives/${fakeKey}`, qs: {view: 'status'}})
+  res = await app.req({uri: `/v2/archives/item/${fakeKey}`, qs: {view: 'status'}})
   t.ok(res.statusCode === 200 || res.statusCode === 404, '200 or 404 status')
 })
 
