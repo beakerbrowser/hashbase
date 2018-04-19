@@ -1,58 +1,56 @@
-# Web APIs v2 Overview
+# Web APIs v1 Overview
 
-Conforms to https://www.datprotocol.com/deps/0003-http-pinning-service-api
+This API spec is deprecated and will be removed in the future.
+See the [most recent web API spec](./webapis.md).
 
 Service APIs
 
 ```
 GET / - entry endpoint
-GET /.well-known/psa - services description document
-GET /v2/explore - get info about activity on the server
+GET /v1/explore - get info about activity on the server
 ```
 
 Archive APIs
 
 ```
-GET /v2/users/:username/:archiveName
-GET /v2/archives
-GET /v2/archives/:archiveKey
-POST /v2/archives/add
-POST /v2/archives/remove
-POST /v2/archives/:archiveKey
+GET /v1/archives/:archiveKey
+GET /v1/users/:username/:archiveName
+POST /v1/archives/add
+POST /v1/archives/remove
 ```
 
 User APIs
 
 ```
-GET /v2/users/:username
-POST /v2/accounts/register
-GET /v2/accounts/verify
-POST /v2/accounts/verify
-POST /v2/accounts/login
-POST /v2/accounts/logout
-GET  /v2/accounts/account - get my info & settings
-POST /v2/accounts/account - update my settings
-POST /v2/accounts/account/password - change my password
-POST /v2/accounts/account/email - change my email
-POST /v2/accounts/account/upgrade - upgrade my plan
-POST /v2/accounts/account/register/pro - upgrade my plan (in the register flow)
-POST /v2/accounts/account/update-card - update my card details
-POST /v2/accounts/account/cancel-plan - cancel my plan
+GET /v1/users/:username
+POST /v1/register
+GET /v1/verify
+POST /v1/verify
+POST /v1/login
+POST /v1/logout
+GET  /v1/account - get my info & settings
+POST /v1/account - update my settings
+POST /v1/account/password - change my password
+POST /v1/account/email - change my email
+POST /v1/account/upgrade - upgrade my plan
+POST /v1/account/register/pro - upgrade my plan (in the register flow)
+POST /v1/account/update-card - update my card details
+POST /v1/account/cancel-plan - cancel my plan
 ```
 
 Admin APIs
 
 ```
-GET  /v2/admin/users - query users
-GET  /v2/admin/users/:id - get user info & settings
-POST /v2/admin/users/:id - update user settings
-POST /v2/admin/users/:id/suspend - suspend a user account
-POST /v2/admin/users/:id/unsuspend - unsuspend a user account
-POST /v2/admin/archives/:key/feature - add an archive to featured
-POST /v2/admin/archives/:key/unfeature - remove an archive from featured
-GET /v2/admin/archives/:key - get archive information
-POST /v2/admin/archives/:key/remove - remove an archive
-POST /v2/admin/users/:username/send-email - send an email to the user
+GET  /v1/admin/users - query users
+GET  /v1/admin/users/:id - get user info & settings
+POST /v1/admin/users/:id - update user settings
+POST /v1/admin/users/:id/suspend - suspend a user account
+POST /v1/admin/users/:id/unsuspend - unsuspend a user account
+POST /v1/admin/archives/:key/feature - add an archive to featured
+POST /v1/admin/archives/:key/unfeature - remove an archive from featured
+GET /v1/admin/archives/:key - get archive information
+POST /v1/admin/archives/:key/remove - remove an archive
+POST /v1/admin/users/:username/send-email - send an email to the user
 ```
 
 ## Service APIs
@@ -63,11 +61,7 @@ Home page.
 
 Response: TODO
 
-### GET /.well-known/psa
-
-Services description document. See [PSA Web Service Discovery Protocol](https://github.com/beakerbrowser/beaker/wiki/PSA-Web-Service-Discovery-Protocol).
-
-### GET /v2/users/:username
+### GET /v1/users/:username
 
 Lookup user profile.
 
@@ -111,7 +105,7 @@ Additional query params when `?view=activity`:
 
  - start: For pagination. The key of the event to start after.
 
-### GET /v2/users/:username/:archivename
+### GET /v1/users/:username/:archivename
 
 Lookup archive info. `archivename` can be the user-specified shortname, or the archive key.
 
@@ -127,7 +121,7 @@ Response:
 }
 ```
 
-### GET /v2/explore
+### GET /v1/explore
 
 Response body when `?view=activity`:
 
@@ -205,35 +199,7 @@ Additional query params when `?view=recent`:
 
 ## Archive APIs
 
-### GET /v2/archives
-
-List the current user's archives.
-
-Reponse when `Accept: application/json`:
-
-```
-{
-  items: [{
-    url: String, dat url
-    name: String, optional shortname assigned by the user
-    additionalUrls: Array of Strings, optional list of URLs the dat can be accessed at
-  }]
-}
-```
-
-### GET /v2/archives/:archiveKey
-
-Fetch the archive info.
-
-Reponse when `Accept: application/json`:
-
-```
-{
-  url: String, dat url
-  name: String, optional shortname assigned by the user
-  additionalUrls: Array of Strings, optional list of URLs the dat can be accessed at
-}
-```
+### GET /v1/archives/:archiveKey
 
 Response when `?view=status` and `Accept: text/event-stream`:
 
@@ -248,7 +214,7 @@ Response when `?view=status` and `Accept: application/json`:
 }
 ```
 
-### POST /v2/archives/add
+### POST /v1/archives/add
 
 Request body. Can supply `key` or `url`:
 
@@ -262,7 +228,7 @@ Request body. Can supply `key` or `url`:
 
 Adds the archive to the user's account. If the archive already exists, the request will update the settings (eg the name).
 
-### POST /v2/archives/remove
+### POST /v1/archives/remove
 
 Request body. Can supply `key` or `url`:
 
@@ -275,21 +241,9 @@ Request body. Can supply `key` or `url`:
 
 Removes the archive from the user's account. If no users are hosting the archive anymore, the archive will be deleted.
 
-### POST /v2/archives/:archiveKey
-
-Update the archive info.
-
-Request body.
-
-```
-{
-  name: String, optional shortname for the archive
-}
-```
-
 ## User APIs
 
-### POST /v2/accounts/login
+### POST /v1/login
 
 Request body. All fields required:
 
@@ -302,7 +256,7 @@ Request body. All fields required:
 
 Generates a session JWT and provides it in response headers.
 
-### POST /v2/accounts/register
+### POST /v1/register
 
 [Step 1 of the register flow](./flows/registration.md#step-1-register-post-v1register)
 
@@ -316,7 +270,7 @@ Request body. All fields required:
 }
 ```
 
-### GET|POST /v2/accounts/verify
+### GET|POST /v1/verify
 
 [Step 2 of the register flow](./flows/registration.md#step-2-verify-get-or-post-v1verify)
 
@@ -329,9 +283,9 @@ Request body. All fields required:
 }
 ```
 
-Like `/v2/accounts/login`, generates a session JWT and provides it in response headers.
+Like `/v1/login`, generates a session JWT and provides it in response headers.
 
-### GET /v2/accounts/account
+### GET /v1/account
 
 Responds with the authenticated user's [account object](https://github.com/datprotocol/hypercloud/wiki/Users-Schema#account-object).
 
@@ -341,14 +295,14 @@ Response body:
 {
   email: String, the user's email address
   username: String, the chosen username
-  diskUsage: Number, the number of bytes currently used by this account's accounts
-  diskQuota: Number, the number of bytes allowed to be used by this account's accounts
+  diskUsage: Number, the number of bytes currently used by this account's archives
+  diskQuota: Number, the number of bytes allowed to be used by this account's archives
   updatedAt: Number, the timestamp of the last update to the account
   createdAt: Number, the timestamp of when the account was created
 }
 ```
 
-### POST /v2/accounts/account
+### POST /v1/account
 
 Updates the authenticated user's [account object](https://github.com/datprotocol/hypercloud/wiki/Users-Schema#account-object)
 
@@ -362,7 +316,7 @@ All fields are optional. If a field is omitted, no change is made.
 }
 ```
 
-### POST /v2/accounts/account/password
+### POST /v1/account/password
 
 Updates the authenticated user's password.
 
@@ -387,7 +341,7 @@ Request body if using the forgotten-password flow:
 }
 ```
 
-### POST /v2/accounts/account/email
+### POST /v1/account/email
 
 Initiates a flow to update the authenticated user's email.
 
@@ -400,7 +354,7 @@ Request body:
 }
 ```
 
-### POST /v2/accounts/account/upgrade
+### POST /v1/account/upgrade
 
 Validates the given payment information, starts a subscription plan with Stripe, and upgrades the authenticated user's plan.
 
@@ -412,7 +366,7 @@ Request body:
 }
 ```
 
-### POST /v2/accounts/account/register/pro - upgrade my plan (in the register flow)
+### POST /v1/account/register/pro - upgrade my plan (in the register flow)
 
 Validates the given payment information, starts a subscription plan with Stripe, and upgrades the given user's plan. Used as part of the registration flow.
 
@@ -427,7 +381,7 @@ Request body:
 
 The id may be given through the query string instead of the body.
 
-### POST /v2/accounts/account/update-card - update my card details
+### POST /v1/account/update-card - update my card details
 
 Validates the given payment information and updates the subscription plan with Stripe for authenticated user.
 
@@ -439,13 +393,13 @@ Request body:
 }
 ```
 
-### POST /v2/accounts/account/cancel-plan
+### POST /v1/account/cancel-plan
 
 Stops the subscription plan with Stripe, and downgrades the authenticated user's plan.
 
 ## Admin APIs
 
-### GET /v2/admin/users
+### GET /v1/admin/users
 
 Run queries against the users DB.
 
@@ -475,7 +429,7 @@ Response body:
 
 Scope: `admin:users`
 
-### GET /v2/admin/users/:id
+### GET /v1/admin/users/:id
 
 Response body:
 
@@ -495,7 +449,7 @@ Response body:
 
 Scope: `admin:users`
 
-### POST /v2/admin/users/:id
+### POST /v1/admin/users/:id
 
 Request body:
 
@@ -512,23 +466,23 @@ All fields are optional. If a field is omitted, no change is made.
 
 Scope: `admin:users`
 
-### POST /v2/admin/users/:id/suspend
+### POST /v1/admin/users/:id/suspend
 
 Scope: `admin:users`
 
-### POST /v2/admin/users/:id/unsuspend
+### POST /v1/admin/users/:id/unsuspend
 
 Scope: `admin:users`
 
-### POST /v2/admin/archives/:id/feature
+### POST /v1/admin/archives/:id/feature
 
 Scope: `admin:dats`
 
-### POST /v2/admin/archives/:id/unfeature
+### POST /v1/admin/archives/:id/unfeature
 
 Scope: `admin:dats`
 
-### GET /v2/admin/archives/:key
+### GET /v1/admin/archives/:key
 
 Response body:
 

@@ -8,7 +8,7 @@ $(function () {
 function setupVisitorsTable () {
   $('.visits-table').DataTable({
     ajax: {
-      url: '/v1/admin/analytics/visits-count',
+      url: '/v2/admin/analytics/visits-count',
       data: {groupBy: 'url', unique: '1'},
       dataSrc: ''
     },

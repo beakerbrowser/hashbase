@@ -112,7 +112,7 @@ $(function () {
     })
 
     // post to api
-    var xhr = $.post('/v1/archives/add', values)
+    var xhr = $.post('/v2/archives/add', values)
     xhr.done(function (res) {
       // success, redirect
       window.location = '/' + window.params.username + '/' + addArchiveNameInput.val()

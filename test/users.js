@@ -20,7 +20,7 @@ test('register and POST verify', async t => {
 
   // register alice
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'alice@example.com',
       username: 'alice',
@@ -40,7 +40,7 @@ test('register and POST verify', async t => {
 
   // verify via POST
   res = await app.req.post({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     json: {
       username: 'alice',
       nonce: emailVerificationNonce
@@ -54,7 +54,7 @@ test('register and GET verify', async t => {
 
   // register bob
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'bob@example.com',
       username: 'bob',
@@ -72,7 +72,7 @@ test('register and GET verify', async t => {
 
   // verify via GET
   res = await app.req.get({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
@@ -84,11 +84,11 @@ test('register and GET verify', async t => {
 
 test('register validation', async t => {
   async function expectPass (inputs) {
-    var res = await app.req.post({uri: '/v1/register', json: inputs})
+    var res = await app.req.post({uri: '/v2/accounts/register', json: inputs})
     t.is(res.statusCode, 201, '201 good input')
   }
   async function expectFail (inputs, badParam) {
-    var res = await app.req.post({uri: '/v1/register', json: inputs})
+    var res = await app.req.post({uri: '/v2/accounts/register', json: inputs})
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.invalidInputs, true, 'invalidInputs')
   }
@@ -111,7 +111,7 @@ test('register usernames are case insensitive', async t => {
 
   // register alice
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'alice-insensitive@example.com',
       username: 'AlIcENoCaSe',
@@ -131,7 +131,7 @@ test('register usernames are case insensitive', async t => {
 
   // verify via POST
   res = await app.req.post({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     json: {
       username: 'alICEnocase',
       nonce: emailVerificationNonce
@@ -142,7 +142,7 @@ test('register usernames are case insensitive', async t => {
 
 test('register blocks reserved usernames', async t => {
   async function run (inputs) {
-    var res = await app.req.post({uri: '/v1/register', json: inputs})
+    var res = await app.req.post({uri: '/v2/accounts/register', json: inputs})
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.reservedName, true, 'reservedName')
   }
@@ -155,15 +155,15 @@ test('register blocks reserved usernames', async t => {
 test('verify validation', async t => {
   async function run (type, inputs, badParam) {
     var res = await (type === 'post'
-      ? app.req.post({uri: '/v1/verify', json: inputs})
-      : app.req.get({url: '/v1/verify', qs: inputs, json: true}))
+      ? app.req.post({uri: '/v2/accounts/verify', json: inputs})
+      : app.req.get({url: '/v2/accounts/verify', qs: inputs, json: true}))
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.invalidInputs, true, 'invalidInputs')
   }
 
   // register carla
   var res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'carla@example.com',
       username: 'carla',
@@ -184,7 +184,7 @@ test('cant register an already-registered user', async t => {
 
   // email collision on fully-registered account
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'alice@example.com',
       username: 'rando',
@@ -197,7 +197,7 @@ test('cant register an already-registered user', async t => {
 
   // username collision on fully-registered account
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'rando@example.com',
       username: 'alice',
@@ -210,7 +210,7 @@ test('cant register an already-registered user', async t => {
 
   // email collision on half-registered account
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'carla@example.com',
       username: 'rando',
@@ -223,7 +223,7 @@ test('cant register an already-registered user', async t => {
 
   // username collision on half-registered account
   res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'rando@example.com',
       username: 'carla',
@@ -237,7 +237,7 @@ test('cant register an already-registered user', async t => {
 
 test('cant verify a username that hasnt been registered', async t => {
   var res = await app.req.get({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     json: true,
     qs: {
       username: 'rando',
@@ -250,7 +250,7 @@ test('cant verify a username that hasnt been registered', async t => {
 
 test('verify fails with incorrect nonce', async t => {
   var res = await app.req.get({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     json: true,
     qs: {
       username: 'carla',
@@ -263,7 +263,7 @@ test('verify fails with incorrect nonce', async t => {
 
 test('login', async t => {
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobar'
@@ -275,7 +275,7 @@ test('login', async t => {
 
 test('login is case insensitive', async t => {
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'BOB',
       password: 'foobar'
@@ -287,7 +287,7 @@ test('login is case insensitive', async t => {
 
 test('login configured admin user', async t => {
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'admin',
       password: 'foobar'
@@ -299,7 +299,7 @@ test('login configured admin user', async t => {
 
 test('login validation', async t => {
   async function run (inputs, badParam) {
-    var res = await app.req.post({uri: '/v1/login', json: inputs})
+    var res = await app.req.post({uri: '/v2/accounts/login', json: inputs})
     t.is(res.statusCode, 422, '422 bad input')
     t.is(res.body.invalidInputs, true, 'invalidInputs')
   }
@@ -312,7 +312,7 @@ test('cant login with invalid credentials', async t => {
   var res
 
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'rando',
       password: 'foobar'
@@ -322,7 +322,7 @@ test('cant login with invalid credentials', async t => {
   t.truthy(res.body.invalidCredentials, 'invalidCredentials')
 
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'asdfasdf'
@@ -335,7 +335,7 @@ test('cant login with invalid credentials', async t => {
 test('login and get profile', async t => {
   // login
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobar'
@@ -345,7 +345,7 @@ test('login and get profile', async t => {
 
   // get profile
   var auth = {bearer: res.body.sessionToken}
-  res = await app.req.get({url: '/v1/account', auth, json: true})
+  res = await app.req.get({url: '/v2/accounts/account', auth, json: true})
   t.is(res.statusCode, 200, '200 got profile')
   t.is(res.body.email, 'bob@example.com', 'email is included')
   t.is(res.body.username, 'bob', 'username is included')
@@ -356,7 +356,7 @@ test('login and change email', async t => {
 
   // login
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobar'
@@ -370,7 +370,7 @@ test('login and change email', async t => {
 
   // try to change email to a duplicate email address
   res = await app.req.post({
-    url: '/v1/account/email',
+    url: '/v2/accounts/account/email',
     auth,
     json: {
       newEmail: 'bob@example.com',
@@ -381,7 +381,7 @@ test('login and change email', async t => {
 
   // try to change email with invalid password
   res = await app.req.post({
-    url: '/v1/account/email',
+    url: '/v2/accounts/account/email',
     auth,
     json: {
       newEmail: 'bob@example.com',
@@ -392,7 +392,7 @@ test('login and change email', async t => {
 
   // change the email address
   res = await app.req.post({
-    url: '/v1/account/email',
+    url: '/v2/accounts/account/email',
     auth,
     json: {
       newEmail: 'bob2@example.com',
@@ -402,7 +402,7 @@ test('login and change email', async t => {
   t.is(res.statusCode, 200)
 
   // verify that the user's email address does not change until it's verified
-  res = await app.req.get({url: '/v1/account', auth, json: true})
+  res = await app.req.get({url: '/v2/accounts/account', auth, json: true})
   t.is(res.body.email, 'bob@example.com')
 
   // check sent mail and extract the verification nonce
@@ -413,7 +413,7 @@ test('login and change email', async t => {
 
   // verify via POST
   res = await app.req.post({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     json: {
       username: 'bob',
       nonce: emailVerificationNonce
@@ -422,14 +422,14 @@ test('login and change email', async t => {
   t.is(res.statusCode, 200, '200 verified user')
 
   // verify that the user's email was updated
-  res = await app.req.get({url: '/v1/account', auth, json: true})
+  res = await app.req.get({url: '/v2/accounts/account', auth, json: true})
   t.is(res.body.email, 'bob2@example.com')
 })
 
 test('login and change password', async t => {
   // login
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobar'
@@ -441,7 +441,7 @@ test('login and change password', async t => {
   // change password
   var auth = {bearer: res.body.sessionToken}
   res = await app.req.post({
-    url: '/v1/account/password',
+    url: '/v2/accounts/account/password',
     auth,
     json: {
       oldPassword: 'foobar',
@@ -452,7 +452,7 @@ test('login and change password', async t => {
 
   // login with new password
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobaz'
@@ -467,7 +467,7 @@ test('forgot password flow', async t => {
 
   // start the flow
   res = await app.req.post({
-    uri: '/v1/forgot-password',
+    uri: '/v2/accounts/forgot-password',
     json: {
       email: 'bob@example.com'
     }
@@ -484,7 +484,7 @@ test('forgot password flow', async t => {
 
   // update password
   res = await app.req.post({
-    uri: '/v1/account/password',
+    uri: '/v2/accounts/account/password',
     json: {
       username: 'bob',
       nonce: forgotPasswordNonce,
@@ -495,7 +495,7 @@ test('forgot password flow', async t => {
 
   // login with new password
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'fooblah'
@@ -510,7 +510,7 @@ test('forgot password flow rejects bad nonces', async t => {
 
   // update password
   res = await app.req.post({
-    uri: '/v1/account/password',
+    uri: '/v2/accounts/account/password',
     json: {
       username: 'bob',
       nonce: 'bs',

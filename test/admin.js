@@ -13,7 +13,7 @@ test.cb('start test server', t => {
 
     // login
     var res = await app.req.post({
-      uri: '/v1/login',
+      uri: '/v2/accounts/login',
       json: {
         'username': 'admin',
         'password': 'foobar'
@@ -38,7 +38,7 @@ test.cb('share test-dat', t => {
 async function registerUser (username) {
   // register
   var res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: `${username}@example.com`,
       username: username,
@@ -54,7 +54,7 @@ async function registerUser (username) {
 
   // verify via GET
   res = await app.req.get({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     qs: {username, nonce},
     json: true
   })
@@ -72,7 +72,7 @@ test('list users', async t => {
 
   // no params
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     json: true,
     auth
   })
@@ -85,7 +85,7 @@ test('list users', async t => {
 
   // reverse sort
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {reverse: 1},
     json: true,
     auth
@@ -99,7 +99,7 @@ test('list users', async t => {
 
   // with limit
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {limit: 1},
     json: true,
     auth
@@ -110,7 +110,7 @@ test('list users', async t => {
 
   // with limit and offset
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {limit: 1, cursor: res.body.users[0].id},
     json: true,
     auth
@@ -121,7 +121,7 @@ test('list users', async t => {
 
   // reverse with limit
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {limit: 1, reverse: 1},
     json: true,
     auth
@@ -132,7 +132,7 @@ test('list users', async t => {
 
   // reverse with limit and offset
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {limit: 1, reverse: 1, cursor: res.body.users[0].id},
     json: true,
     auth
@@ -143,7 +143,7 @@ test('list users', async t => {
 
   // by username
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username'},
     json: true,
     auth
@@ -158,7 +158,7 @@ test('list users', async t => {
 
   // by username reverse sort
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username', reverse: 1},
     json: true,
     auth
@@ -172,7 +172,7 @@ test('list users', async t => {
 
   // by username with limit
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username', limit: 1},
     json: true,
     auth
@@ -183,7 +183,7 @@ test('list users', async t => {
 
   // by username with offset
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username', cursor: 'admin'},
     json: true,
     auth
@@ -196,7 +196,7 @@ test('list users', async t => {
 
   // by username with limit and offset
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username', limit: 1, cursor: 'admin'},
     json: true,
     auth
@@ -207,7 +207,7 @@ test('list users', async t => {
 
   // by username reverse with limit
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username', limit: 1, reverse: 1},
     json: true,
     auth
@@ -218,7 +218,7 @@ test('list users', async t => {
 
   // by username reverse with limit and offset
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     qs: {sort: 'username', limit: 1, reverse: 1, cursor: res.body.users[0].username},
     json: true,
     auth
@@ -233,7 +233,7 @@ test('get user', async t => {
 
   // fetch listing
   res = await app.req.get({
-    uri: '/v1/admin/users',
+    uri: '/v2/admin/users',
     json: true,
     auth
   })
@@ -243,7 +243,7 @@ test('get user', async t => {
 
   // by id
   res = await app.req.get({
-    uri: `/v1/admin/users/${testUser.id}`,
+    uri: `/v2/admin/users/${testUser.id}`,
     json: true,
     auth
   })
@@ -252,7 +252,7 @@ test('get user', async t => {
 
   // by username
   res = await app.req.get({
-    uri: `/v1/admin/users/${testUser.username}`,
+    uri: `/v2/admin/users/${testUser.username}`,
     json: true,
     auth
   })
@@ -261,7 +261,7 @@ test('get user', async t => {
 
   // by email
   res = await app.req.get({
-    uri: `/v1/admin/users/${testUser.email}`,
+    uri: `/v2/admin/users/${testUser.email}`,
     json: true,
     auth
   })
@@ -271,7 +271,7 @@ test('get user', async t => {
 
 test('fully update carla', async t => {
   var res = await app.req.post({
-    uri: '/v1/admin/users/carla',
+    uri: '/v2/admin/users/carla',
     json: {
       username: 'carlita',
       email: 'carlita@example.com',
@@ -283,7 +283,7 @@ test('fully update carla', async t => {
   t.is(res.statusCode, 200, '200 updated')
 
   res = await app.req.get({
-    uri: '/v1/admin/users/carlita',
+    uri: '/v2/admin/users/carlita',
     json: true,
     auth
   })
@@ -296,7 +296,7 @@ test('fully update carla', async t => {
 
 test('partially update carlita', async t => {
   var res = await app.req.post({
-    uri: '/v1/admin/users/carlita',
+    uri: '/v2/admin/users/carlita',
     json: {
       scopes: ['user']
     },
@@ -305,7 +305,7 @@ test('partially update carlita', async t => {
   t.is(res.statusCode, 200, '200 updated')
 
   res = await app.req.get({
-    uri: '/v1/admin/users/carlita',
+    uri: '/v2/admin/users/carlita',
     json: true,
     auth
   })
@@ -318,7 +318,7 @@ test('partially update carlita', async t => {
 
 test('suspend bob', async t => {
   var res = await app.req.post({
-    uri: '/v1/admin/users/bob/suspend',
+    uri: '/v2/admin/users/bob/suspend',
     json: {reason: 'A total jerk'},
     auth
   })
@@ -327,7 +327,7 @@ test('suspend bob', async t => {
 
 test('bob cant login when suspended', async t => {
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobar'
@@ -338,7 +338,7 @@ test('bob cant login when suspended', async t => {
 
 test('unsuspend bob', async t => {
   var res = await app.req.post({
-    uri: '/v1/admin/users/bob/unsuspend',
+    uri: '/v2/admin/users/bob/unsuspend',
     json: true,
     auth
   })
@@ -347,7 +347,7 @@ test('unsuspend bob', async t => {
 
 test('bob can login when unsuspended', async t => {
   var res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       username: 'bob',
       password: 'foobar'
@@ -360,7 +360,7 @@ test('send support email', async t => {
   var res, lastMail
 
   res = await app.req.post({
-    uri: '/v1/admin/users/alice/send-email',
+    uri: '/v2/admin/users/alice/send-email',
     json: {
       username: 'alice',
       subject: 'The subject line',
@@ -382,7 +382,7 @@ test('remove an archive', async t => {
 
   // upload the test archive
   res = await app.req.post({
-    uri: '/v1/archives/add',
+    uri: '/v2/archives/add',
     json: {key: testDatKey},
     auth
   })
@@ -391,7 +391,7 @@ test('remove an archive', async t => {
 
   // remove the archive
   res = await app.req.post({
-    uri: `/v1/admin/archives/${testDatKey}/remove`,
+    uri: `/v2/admin/archives/${testDatKey}/remove`,
     json: {
       key: testDatKey
     },
@@ -400,14 +400,14 @@ test('remove an archive', async t => {
   t.is(res.statusCode, 200, '200 removed dat')
 
   // check that the archive was removed
-  res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, auth})
+  res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, auth})
   t.is(res.statusCode, 404, '404 not found')
 })
 
 test('create a report', async t => {
   // create the report
   var res = await app.req.post({
-    uri: '/v1/reports/add/',
+    uri: '/v2/reports/add/',
     json: {
       archiveKey: testDatKey,
       archiveOwner: 'admin',
@@ -421,7 +421,7 @@ test('create a report', async t => {
 test('update a report', async t => {
   // get the ID of the first report
   var res = await app.req.get({
-    uri: '/v1/admin/reports/',
+    uri: '/v2/admin/reports/',
     json: true,
     auth
   })
@@ -429,7 +429,7 @@ test('update a report', async t => {
 
   // update a field that shouldn't be edited
   res = await app.req.post({
-    uri: `/v1/admin/reports/${report.id}`,
+    uri: `/v2/admin/reports/${report.id}`,
     json: {
       id: '123',
       auth
@@ -439,7 +439,7 @@ test('update a report', async t => {
 
   // update a property that admins can edit
   res = await app.req.post({
-    uri: `/v1/admin/reports/${report.id}`,
+    uri: `/v2/admin/reports/${report.id}`,
     json: {
       notes: 'This is a note'
     },
@@ -449,7 +449,7 @@ test('update a report', async t => {
 
   // check if the report was updated
   res = await app.req.get({
-    uri: `/v1/admin/reports/${report.id}`,
+    uri: `/v2/admin/reports/${report.id}`,
     json: true,
     auth
   })

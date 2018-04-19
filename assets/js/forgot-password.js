@@ -12,7 +12,7 @@ $(function () {
     })
 
     // post to api
-    var xhr = $.post('/v1/forgot-password', values)
+    var xhr = $.post('/v2/accounts/forgot-password', values)
     xhr.done(function (res) {
       // success, tell user
       $('#success-msg').text('Check your email inbox for a reset link. Didn’t get one? Check that you entered your email address correctly.')

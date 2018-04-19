@@ -13,7 +13,7 @@ test.cb('start test server', t => {
 
     // login
     var res = await app.req.post({
-      uri: '/v1/login',
+      uri: '/v2/accounts/login',
       json: {
         'username': 'admin',
         'password': 'foobar'
@@ -30,7 +30,7 @@ test.cb('start test server', t => {
 test('register and login bob', async t => {
   // register bob
   var res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'bob@example.com',
       username: 'bob',
@@ -46,7 +46,7 @@ test('register and login bob', async t => {
 
   // verify via GET
   res = await app.req.get({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
@@ -57,7 +57,7 @@ test('register and login bob', async t => {
 
   // login bob
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       'username': 'bob',
       'password': 'foobar'
@@ -78,14 +78,14 @@ test.cb('share test-dat 1', t => {
 })
 
 test('user disk usage is zero', async t => {
-  var res = await app.req.get({url: '/v1/admin/users/bob', json: true, auth})
+  var res = await app.req.get({url: '/v2/admin/users/bob', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.deepEqual(res.body.diskUsage, 0, 'disk usage is zero')
 })
 
 test('add archive', async t => {
   var json = {key: testDatKey}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
+  var res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 })
 
@@ -96,7 +96,7 @@ test.cb('check archive status and wait till synced', t => {
 
   checkStatus()
   async function checkStatus () {
-    var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
+    var res = await app.req({uri: `/v2/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
     var progress = res.body && res.body.progress ? res.body.progress : 0
     if (progress === 1) {
       clearTimeout(to)
@@ -111,7 +111,7 @@ test.cb('check archive status and wait till synced', t => {
 
 test('set bobs quota to something really small', async t => {
   var res = await app.req.post({
-    uri: '/v1/admin/users/bob',
+    uri: '/v2/admin/users/bob',
     json: {diskQuota: '5b'},
     auth
   })
@@ -120,19 +120,19 @@ test('set bobs quota to something really small', async t => {
 
 test('user disk usage now exceeds the disk quota', async t => {
   // check user record
-  var res = await app.req.get({url: '/v1/admin/users/bob', json: true, auth})
+  var res = await app.req.get({url: '/v2/admin/users/bob', json: true, auth})
   t.is(res.statusCode, 200, '200 got user data')
   t.truthy(res.body.diskUsage > res.body.diskQuota, 'disk quota is exceeded')
 
   // check archive record
-  res = await app.req.get({url: `/v1/admin/archives/${testDatKey}`, json: true, auth})
+  res = await app.req.get({url: `/v2/admin/archives/${testDatKey}`, json: true, auth})
   t.is(res.statusCode, 200, '200 got archive data')
   t.truthy(res.body.diskUsage > 0, 'response has disk usage')
 })
 
 test('add archive now fails', async t => {
   var json = {key: 'f'.repeat(64)}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
+  var res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 422, '422 denied')
   t.truthy(res.body.outOfSpace, 'disk quota is exceeded')
 })

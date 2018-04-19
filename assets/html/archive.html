@@ -42,7 +42,7 @@
             <% if (isOwner) { %>
               <div>
                 <button id="show-remove-archive-form" class="link">Remove archive</button>
-                <form id="remove-archive-form" action="/v1/archives/remove" method="POST">
+                <form id="remove-archive-form" action="/v2/archives/remove" method="POST">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <input name="key" type="hidden" value="<%= key %>"/>
                   <button type="button" id="cancel-remove-archive" class="btn outline">

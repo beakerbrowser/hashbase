@@ -12,7 +12,7 @@ $(function () {
     })
 
     // post to api
-    var xhr = $.post('/v1/account/email', values)
+    var xhr = $.post('/v2/accounts/account/email', values)
     xhr.done(function (res) {
       $('#success-msg').text('Click the verification link sent to ' + values.newEmail + ' to finish updating your account.')
       $('#error-general').text('')
