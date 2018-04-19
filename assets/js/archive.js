@@ -27,7 +27,7 @@ $(function () {
       values[value.name] = value.value
     })
 
-    var xhr = $.post('/v1/archives/remove', values)
+    var xhr = $.post('/v2/archives/remove', values)
     xhr.done(function (res) {
       // success, redirect
       window.location = '/profile'

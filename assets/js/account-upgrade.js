@@ -43,7 +43,7 @@ $(function () {
 
       // post to api
       var token = result.token
-      var xhr = $.post('/v1/account/upgrade', {
+      var xhr = $.post('/v2/accounts/account/upgrade', {
         _csrf: $('#form-account-upgrade [name=_csrf]').val(),
         token: token
       })

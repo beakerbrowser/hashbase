@@ -59,6 +59,8 @@ module.exports = function (config) {
     app.use(new RateLimit({windowMs: 10e3, max: 100, delayMs: 0})) // general rate limit
     // app.use('/v1/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
     app.use('/v1/login', actionLimiter(60 * 60 * 1000, 5, 'Too many login attempts from this IP, please try again after an hour'))
+    // app.use('/v2/accounts/verify', actionLimiter(24, 'Too many accounts created from this IP, please try again after an hour'))
+    app.use('/v2/accounts/login', actionLimiter(60 * 60 * 1000, 5, 'Too many login attempts from this IP, please try again after an hour'))
   }
 
   // monitoring
@@ -125,10 +127,12 @@ module.exports = function (config) {
   app.use(analytics.middleware(cloud))
 
   // Create separater router for API
-  const api = createApiRouter(cloud, config)
+  const apiv1 = createV1ApiRouter(cloud, config)
+  const apiv2 = createV2ApiRouter(cloud, config)
 
   // Use api routes before applying csurf middleware
-  app.use('/v1', api)
+  app.use('/v1', apiv1)
+  app.use('/v2', apiv2)
 
   // Then apply csurf
   app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
@@ -137,7 +141,9 @@ module.exports = function (config) {
   // =
 
   app.get('/', cloud.api.service.frontpage)
+  app.get('/.well-known/psa', cloud.api.service.psaDoc)
   app.get('/v1/explore', cloud.api.service.explore)
+  app.get('/v2/explore', cloud.api.service.explore)
 
   // pages
   // =
@@ -257,7 +263,8 @@ module.exports = function (config) {
 
   return app
 }
-function createApiRouter (cloud, config) {
+
+function createV1ApiRouter (cloud, config) {
   const router = new express.Router()
 
   // user & auth apis
@@ -318,6 +325,72 @@ function createApiRouter (cloud, config) {
 
   return router
 }
+
+function createV2ApiRouter (cloud, config) {
+  const router = new express.Router()
+
+  // user & auth apis
+  // =
+
+  router.post('/accounts/register', cloud.api.users.doRegister)
+  router.all('/accounts/verify', cloud.api.users.verify)
+  router.get('/accounts/account', cloud.api.users.getAccount)
+  router.post('/accounts/account', cloud.api.users.updateAccount)
+  router.post('/accounts/account/password', cloud.api.users.updateAccountPassword)
+  router.post('/accounts/account/email', cloud.api.users.updateAccountEmail)
+  if (config.stripe) {
+    router.post('/accounts/account/upgrade', cloud.api.users.upgradePlan)
+    router.post('/accounts/account/register/pro', cloud.api.users.registerPro)
+    router.post('/accounts/account/update-card', cloud.api.users.updateCard)
+    router.post('/accounts/account/cancel-plan', cloud.api.users.cancelPlan)
+  }
+  router.post('/accounts/login', cloud.api.users.doLogin)
+  router.get('/accounts/logout', cloud.api.users.doLogout)
+  router.post('/accounts/logout', cloud.api.users.doLogout)
+  router.post('/accounts/forgot-password', cloud.api.users.doForgotPassword)
+  router.get('/users/:username([^/]{3,})', cloud.api.users.get)
+
+  // archives apis
+  // =
+
+  router.post('/archives/add', cloud.api.archives.add)
+  router.post('/archives/remove', cloud.api.archives.remove)
+  router.get('/archives', cloud.api.archives.list)
+  router.get('/archives/item/:key([0-9a-f]{64})', cloud.api.archives.get)
+  router.post('/archives/item/:key([0-9a-f]{64})', cloud.api.archives.update)
+  router.get('/users/:username([^/]{3,})/:archivename', cloud.api.archives.getByName)
+
+  // reports apis
+  router.post('/reports/add', cloud.api.reports.add)
+
+  // admin apis
+  // =
+
+  router.get('/admin', cloud.api.admin.getDashboard)
+  router.get('/admin/users', cloud.api.admin.listUsers)
+  router.get('/admin/users/:id', cloud.api.admin.getUser)
+  router.post('/admin/users/:id', cloud.api.admin.updateUser)
+  router.post('/admin/users/:id/suspend', cloud.api.admin.suspendUser)
+  router.post('/admin/users/:id/unsuspend', cloud.api.admin.unsuspendUser)
+  router.post('/admin/users/:id/resend-email-confirmation', cloud.api.admin.resendEmailConfirmation)
+  router.post('/admin/users/:username/send-email', cloud.api.admin.sendEmail)
+  router.post('/admin/archives/:key/feature', cloud.api.admin.featureArchive)
+  router.post('/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
+  router.get('/admin/archives/:key', cloud.api.admin.getArchive)
+  router.post('/admin/archives/:key/remove', cloud.api.admin.removeArchive)
+  router.get('/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)
+  router.get('/admin/analytics/events-count', cloud.api.admin.getAnalyticsEventsCount)
+  router.get('/admin/analytics/events-stats', cloud.api.admin.getAnalyticsEventsStats)
+  router.get('/admin/analytics/cohorts', cloud.api.admin.getAnalyticsCohorts)
+  router.get('/admin/reports', cloud.api.admin.getReports)
+  router.get('/admin/reports/:id', cloud.api.admin.getReport)
+  router.post('/admin/reports/:id', cloud.api.admin.updateReport)
+  router.post('/admin/reports/:id/close', cloud.api.admin.closeReport)
+  router.post('/admin/reports/:id/open', cloud.api.admin.openReport)
+
+  return router
+}
+
 function actionLimiter (windowMs, max, message) {
   return new RateLimit({
     windowMs,

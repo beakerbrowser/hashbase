@@ -1,8 +1,8 @@
 # User Registration Flow
 
-## Step 1. Register (POST /v1/register)
+## Step 1. Register (POST /v2/accounts/register)
 
-User POSTS to `/v1/register` with body:
+User POSTS to `/v2/accounts/register` with body:
 
 ```
 {
@@ -22,9 +22,9 @@ Server sends an email to the user with the `emailVerifyNonce`.
 
 Server responds 200 with HTML/JSON indicating to check email.
 
-## Step 2. Verify (GET or POST /v1/verify)
+## Step 2. Verify (GET or POST /v2/accounts/verify)
 
-User GETS or POSTS `/v1/verify` with query-params or body:
+User GETS or POSTS `/v2/accounts/verify` with query-params or body:
 
 ```
 {

@@ -4,9 +4,9 @@ This describes a process for asserting ownership of a Dat by writing a pre-defin
 
 > This spec was originally part of the registration flow. It's now being preserved, as a general-purpose flow, until we have a deployment plan for it.
 
-## Step 1. Claim ownership (POST /v1/archives/claim)
+## Step 1. Claim ownership (POST /v2/archives/claim)
 
-User POSTS `/v1/archives/claim` while authenticated with body (JSON):
+User POSTS `/v2/archives/claim` while authenticated with body (JSON):
 
 ```
 {
@@ -37,7 +37,7 @@ Server responds 200 with the body:
 
 User writes the `proof` to the `/proofs/:hostname` file of their profile dat. User then syncs the updated dat to the service.
 
-User GETS `/v1/archives/:key?view=proofs` periodically to watch for successful sync.
+User GETS `/v2/archives/item/:key?view=proofs` periodically to watch for successful sync.
 
 ## Step 3. Validate claim
 

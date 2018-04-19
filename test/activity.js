@@ -12,7 +12,7 @@ test.cb('start test server', t => {
 
     // login
     var res = await app.req.post({
-      uri: '/v1/login',
+      uri: '/v2/accounts/login',
       json: {
         'username': 'admin',
         'password': 'foobar'
@@ -29,7 +29,7 @@ test.cb('start test server', t => {
 test('register and login bob', async t => {
   // register bob
   var res = await app.req.post({
-    uri: '/v1/register',
+    uri: '/v2/accounts/register',
     json: {
       email: 'bob@example.com',
       username: 'bob',
@@ -45,7 +45,7 @@ test('register and login bob', async t => {
 
   // verify via GET
   res = await app.req.get({
-    uri: '/v1/verify',
+    uri: '/v2/accounts/verify',
     qs: {
       username: 'bob',
       nonce: emailVerificationNonce
@@ -56,7 +56,7 @@ test('register and login bob', async t => {
 
   // login bob
   res = await app.req.post({
-    uri: '/v1/login',
+    uri: '/v2/accounts/login',
     json: {
       'username': 'bob',
       'password': 'foobar'
@@ -73,23 +73,23 @@ test('do some activity', async t => {
 
   // add an archive as admin
   json = {key: fakeDatKey1, name: 'fakedat1'}
-  res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  res = await app.req.post({uri: '/v2/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
   // add an archive as bob
   json = {key: fakeDatKey2, name: 'fakedat2'}
-  res = await app.req.post({uri: '/v1/archives/add', json, auth: authUser})
+  res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
   // remove an archive as admin
   json = {key: fakeDatKey1}
-  res = await app.req.post({uri: '/v1/archives/remove', json, auth})
+  res = await app.req.post({uri: '/v2/archives/remove', json, auth})
   t.is(res.statusCode, 200, '200 removed dat')
 })
 
 test('get global activity', async t => {
   // no offset
-  var res = await app.req.get({url: '/v1/explore?view=activity', json: true})
+  var res = await app.req.get({url: '/v2/explore?view=activity', json: true})
   var start = res.body.activity[0].key
   res.body.activity.sort((a, b) => (a.username + a.action).localeCompare(b.username + b.action))
   t.is(res.statusCode, 200, '200 got activity')
@@ -108,7 +108,7 @@ test('get global activity', async t => {
   t.is(res.body.activity[2].params.key, fakeDatKey2)
 
   // with offset
-  res = await app.req.get({url: '/v1/explore', qs: {view: 'activity', start}, json: true})
+  res = await app.req.get({url: '/v2/explore', qs: {view: 'activity', start}, json: true})
   res.body.activity.sort((a, b) => a.username.localeCompare(b.username))
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 2)
@@ -124,7 +124,7 @@ test('get global activity', async t => {
 
 test('get user activity', async t => {
   // no offset
-  var res = await app.req.get({url: '/v1/users/admin?view=activity', json: true})
+  var res = await app.req.get({url: '/v2/users/admin?view=activity', json: true})
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 2)
   t.is(res.body.activity[0].username, 'admin')
@@ -137,7 +137,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[1].params.name, 'fakedat1')
   var start = res.body.activity[0].key
 
-  res = await app.req.get({url: '/v1/users/bob?view=activity', json: true})
+  res = await app.req.get({url: '/v2/users/bob?view=activity', json: true})
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 1)
   t.is(res.body.activity[0].username, 'bob')
@@ -146,7 +146,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].params.name, 'fakedat2')
 
   // with offset
-  res = await app.req.get({url: '/v1/users/admin', qs: {view: 'activity', start}, json: true})
+  res = await app.req.get({url: '/v2/users/admin', qs: {view: 'activity', start}, json: true})
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 1)
   t.is(res.body.activity[0].username, 'admin')
@@ -154,7 +154,7 @@ test('get user activity', async t => {
   t.is(res.body.activity[0].params.key, fakeDatKey1)
   t.is(res.body.activity[0].params.name, 'fakedat1')
 
-  res = await app.req.get({url: '/v1/users/bob', qs: {view: 'activity', start}, json: true})
+  res = await app.req.get({url: '/v2/users/bob', qs: {view: 'activity', start}, json: true})
   t.is(res.statusCode, 200, '200 got activity')
   t.is(res.body.activity.length, 1)
   t.is(res.body.activity[0].username, 'bob')

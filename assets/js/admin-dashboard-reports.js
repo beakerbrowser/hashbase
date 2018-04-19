@@ -11,7 +11,7 @@ function setupReportsTable () {
     order: [[ 1, 'desc' ]],
     pageLength: 50,
     ajax: {
-      url: '/v1/admin/reports?view=dashboard',
+      url: '/v2/admin/reports?view=dashboard',
       headers: {accept: 'application/json'},
       data: {},
       dataSrc: 'reports'
@@ -27,7 +27,7 @@ function setupReportsTable () {
     ]
   })
   table.on('click', 'tr', function () {
-    window.location = '/v1/admin/reports/' + table.row($(this)).data().id
+    window.location = '/v2/admin/reports/' + table.row($(this)).data().id
   })
 }
 

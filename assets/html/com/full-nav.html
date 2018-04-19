@@ -16,7 +16,7 @@
             <i class="fa fa-caret-down"></i>
             <div class="dropdown-menu">
               <% if (sessionUser.scopes.includes('admin:dats')) { %>
-                <a class="dropdown-item" href="/v1/admin">Admin Dashboard</a>
+                <a class="dropdown-item" href="/v2/admin">Admin Dashboard</a>
                 <hr>
               <% } %>
               <a class="dropdown-item" href="/profile">View profile</a>
@@ -28,7 +28,7 @@
                 </a>
               <% } %>
               <hr>
-              <a class="dropdown-item" href="/v1/logout">Logout</a>
+              <a class="dropdown-item" href="/v2/accounts/logout">Logout</a>
             </div>
           </div>
         </div>

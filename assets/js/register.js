@@ -41,7 +41,7 @@ $(function () {
     })
 
     // post to api
-    var xhr = $.post('/v1/register', values)
+    var xhr = $.post('/v2/accounts/register', values)
     xhr.done(function (res) {
       // success, redirect
       if (location.search && location.search.substring(1).split('=').indexOf('pro') !== -1) {

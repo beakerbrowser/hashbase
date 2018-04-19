@@ -30,7 +30,7 @@ $(function () {
     })
 
     // post to api
-    var xhr = $.post('/v1/login', values)
+    var xhr = $.post('/v2/accounts/login', values)
     xhr.done(function (res) {
       // success, redirect
       window.location = '/' + redirect

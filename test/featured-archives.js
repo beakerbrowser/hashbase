@@ -13,7 +13,7 @@ test.cb('start test server', t => {
 
     // login
     var res = await app.req.post({
-      uri: '/v1/login',
+      uri: '/v2/accounts/login',
       json: {
         'username': 'admin',
         'password': 'foobar'
@@ -37,7 +37,7 @@ test.cb('share test-dat', t => {
 
 test('add archive', async t => {
   var json = {key: testDatKey, name: 'my-dat'}
-  var res = await app.req.post({uri: '/v1/archives/add', json, auth})
+  var res = await app.req.post({uri: '/v2/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 })
 
@@ -48,7 +48,7 @@ test.cb('check archive status and wait till synced', t => {
 
   checkStatus()
   async function checkStatus () {
-    var res = await app.req({uri: `/v1/archives/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
+    var res = await app.req({uri: `/v2/archives/item/${testDatKey}`, qs: {view: 'status'}, json: true, auth})
     var progress = res.body && res.body.progress ? res.body.progress : 0
     if (progress === 1) {
       clearTimeout(to)
@@ -62,12 +62,12 @@ test.cb('check archive status and wait till synced', t => {
 })
 
 test('add archive to featured', async t => {
-  var res = await app.req.post({uri: `/v1/admin/archives/${testDatKey}/feature`, auth})
+  var res = await app.req.post({uri: `/v2/admin/archives/${testDatKey}/feature`, auth})
   t.is(res.statusCode, 200, '200 added dat to featured')
 })
 
 test('get populated featured', async t => {
-  var res = await app.req.get({uri: '/v1/explore?view=featured', json: true})
+  var res = await app.req.get({uri: '/v2/explore?view=featured', json: true})
   t.is(res.statusCode, 200, '200 got featured dats')
   t.is(res.body.featured.length, 1, 'got 1 archive')
   for (var i = 0; i < 1; i++) {
@@ -83,12 +83,12 @@ test('get populated featured', async t => {
 })
 
 test('remove archive from featured', async t => {
-  var res = await app.req.post({uri: `/v1/admin/archives/${testDatKey}/unfeature`, auth})
+  var res = await app.req.post({uri: `/v2/admin/archives/${testDatKey}/unfeature`, auth})
   t.is(res.statusCode, 200, '200 removed dat from featured')
 })
 
 test('get unpopulated featured', async t => {
-  var res = await app.req.get({uri: '/v1/explore?view=featured', json: true})
+  var res = await app.req.get({uri: '/v2/explore?view=featured', json: true})
   t.is(res.statusCode, 200, '200 got featured dats')
   t.is(res.body.featured.length, 0, 'got 0 archives')
 })

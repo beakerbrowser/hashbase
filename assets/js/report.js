@@ -24,7 +24,7 @@ $(function () {
       values[value.name] = value.value
     })
 
-    var xhr = $.post('/v1/reports/add', values)
+    var xhr = $.post('/v2/reports/add', values)
     xhr.done(function (res) {
       hideForm()
       $('#feedback-general').text('Thanks, your report has been sent to the Hashbase admins')
