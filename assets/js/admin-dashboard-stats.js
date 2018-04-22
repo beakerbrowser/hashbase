@@ -5,13 +5,17 @@ $(function () {
   setupStats()
   setupCohortsChart()
   setupBarChart()
-  setupVisitorsTable()
-  setupReferersTable()
+  $('.visits-table').hide()
+  $('.show-visits-table').click(setupVisitorsTable)
+  $('.referers-table').hide()
+  $('.show-referers-table').click(setupReferersTable)
   $('#stats-time-select').on('change', setupStats)
   $('#chart-source-select').on('change', setupBarChart)
 })
 
 function setupVisitorsTable () {
+  $('.show-visits-table').hide()
+  $('.visits-table').show()
   $('.visits-table').DataTable({
     order: [[ 0, 'desc' ]],
     ajax: {
@@ -30,6 +34,8 @@ function setupVisitorsTable () {
 }
 
 function setupReferersTable () {
+  $('.show-referers-table').hide()
+  $('.referers-table').show()
   $('.referers-table').DataTable({
     order: [[ 0, 'desc' ]],
     ajax: {
