@@ -9,6 +9,7 @@ const vhost = require('vhost')
 const bytes = require('bytes')
 const lessExpress = require('less-express')
 const ejs = require('ejs')
+const figures = require('figures')
 
 const Hypercloud = require('./lib')
 const customValidators = require('./lib/validators')
@@ -17,11 +18,14 @@ const analytics = require('./lib/analytics')
 const packageJson = require('./package.json')
 
 module.exports = function (config) {
+  console.log(figures.heart, 'Hello friend')
+  console.log(figures.pointerSmall, 'Instantiating backend')
   addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version
   cloud.setupAdminUser()
 
+  console.log(figures.pointerSmall, 'Instantiating server')
   var app = express()
   if (config.proxy) {
     app.set('trust proxy', 'loopback')
