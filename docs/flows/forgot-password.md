@@ -1,8 +1,8 @@
 # Forgot Password Flow
 
-## Step 1. Trigger flow (POST /v1/forgot-password)
+## Step 1. Trigger flow (POST /v2/accounts/forgot-password)
 
-User POSTS to `/v1/forgot-password` with body:
+User POSTS to `/v2/accounts/forgot-password` with body:
 
 ```
 {
@@ -20,9 +20,9 @@ Server sends an email to the user with the `forgotPasswordNonce`.
 
 Server responds 200 with JSON indicating to check email.
 
-## Step 2. Update password (POST /v1/account/password)
+## Step 2. Update password (POST /v2/accounts/account/password)
 
-User POSTS `/v1/account/password` with body:
+User POSTS `/v2/accounts/account/password` with body:
 
 ```
 {

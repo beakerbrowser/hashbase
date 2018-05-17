@@ -17,7 +17,7 @@ $(function () {
     values.nonce = url.searchParams.get('nonce')
 
     // post to api
-    var xhr = $.post('/v1/account/password', values)
+    var xhr = $.post('/v2/accounts/account/password', values)
     xhr.done(function (res) {
       // success, redirect to login
       window.location = '/login?reset=1'

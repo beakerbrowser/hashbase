@@ -28,8 +28,8 @@ $(function () {
   }
 
   function onPickDat () {
-    DatArchive.selectArchive().then(url => {
-      addArchiveKeyInput.val(url)
+    DatArchive.selectArchive().then(archive => {
+      addArchiveKeyInput.val(archive.url)
     })
   }
 
@@ -112,7 +112,7 @@ $(function () {
     })
 
     // post to api
-    var xhr = $.post('/v1/archives/add', values)
+    var xhr = $.post('/v2/archives/add', values)
     xhr.done(function (res) {
       // success, redirect
       window.location = '/' + window.params.username + '/' + addArchiveNameInput.val()
@@ -129,9 +129,9 @@ $(function () {
 
   function renderErrors (json) {
     // individual form errors
-    if (json.outOfSpace || json.message) {
+    if (json.outOfSpace) {
       $('#error-general').text(json.message)
-    } else {
+    } else if (Object.keys(json.details).length > 0) {
       var details = json.details || {}
       ;(['key', 'name']).forEach(function (name) {
         if (details[name]) {
@@ -146,6 +146,8 @@ $(function () {
             .removeClass('warning')
         }
       })
+    } else {
+      $('#error-general').text(json.message || 'There was an error processing your submission')
     }
   }
 })

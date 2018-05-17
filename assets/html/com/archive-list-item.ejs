@@ -16,6 +16,9 @@
           <% } %>
         </a>
         <span>by <a href="/<%= archive.owner.username %>"><%= archive.owner.username %></a></span>
+        <% if (archive.diskUsage) { %>
+          <span>(<%= archive.diskUsage %>)</span>
+        <% } %>
       </div>
 
       <% if (archive.manifest && archive.manifest.description) { %>

@@ -34,7 +34,6 @@ function createLocalApp (cb) {
     hostname: 'test.local',
     dir: tmpdir,
     port: portCounter++,
-    csrf: false, // disable to make tests work
     defaultDiskUsageLimit: '100mb',
     pm2: false,
     admin: {
@@ -52,6 +51,11 @@ function createLocalApp (cb) {
     email: {
       transport: 'mock',
       sender: '"Test Server" <noreply@test.local>'
+    },
+    cache: {
+      metadataStorage: 65536,
+      contentStorage: 65536,
+      tree: 65536
     },
     sessions: {
       algorithm: 'HS256',

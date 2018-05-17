@@ -5,17 +5,21 @@ $(function () {
   setupStats()
   setupCohortsChart()
   setupBarChart()
-  setupVisitorsTable()
-  setupReferersTable()
+  $('.visits-table').hide()
+  $('.show-visits-table').click(setupVisitorsTable)
+  $('.referers-table').hide()
+  $('.show-referers-table').click(setupReferersTable)
   $('#stats-time-select').on('change', setupStats)
   $('#chart-source-select').on('change', setupBarChart)
 })
 
 function setupVisitorsTable () {
+  $('.show-visits-table').hide()
+  $('.visits-table').show()
   $('.visits-table').DataTable({
     order: [[ 0, 'desc' ]],
     ajax: {
-      url: '/v1/admin/analytics/events-count',
+      url: '/v2/admin/analytics/events-count',
       data: {groupBy: 'url', unique: '1'},
       dataSrc: ''
     },
@@ -30,10 +34,12 @@ function setupVisitorsTable () {
 }
 
 function setupReferersTable () {
+  $('.show-referers-table').hide()
+  $('.referers-table').show()
   $('.referers-table').DataTable({
     order: [[ 0, 'desc' ]],
     ajax: {
-      url: '/v1/admin/analytics/events-count',
+      url: '/v2/admin/analytics/events-count',
       data: {groupBy: 'referer', unique: '1'},
       dataSrc: ''
     },
@@ -50,7 +56,7 @@ function setupReferersTable () {
 
 function setupStats () {
   var time = $('#stats-time-select').val()
-  var url = '/v1/admin/analytics/events-stats?period=' + time
+  var url = '/v2/admin/analytics/events-stats?period=' + time
   $.get(url, stats => {
     $('#stats tbody').html(`
       <tr>
@@ -65,7 +71,7 @@ function setupStats () {
 }
 
 function setupCohortsChart () {
-  var url = '/v1/admin/analytics/cohorts'
+  var url = '/v2/admin/analytics/cohorts'
   $('#cohorts-source').attr('href', url)
   $('#cohorts').html('')
   d3.json(url, function (cohortsRaw) {
@@ -176,7 +182,7 @@ function setupCohortsChart () {
 
 function setupBarChart () {
   var event = $('#chart-source-select').val()
-  var url = '/v1/admin/analytics/events-count?groupBy=date&unique=1&event=' + event
+  var url = '/v2/admin/analytics/events-count?groupBy=date&unique=1&event=' + event
   $('#chart-source').attr('href', url)
   $('#chart').html('')
   d3.json(url, function (visitsRaw) {

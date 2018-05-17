@@ -11,7 +11,7 @@ function setupUsersTable () {
     order: [[ 9, 'desc' ]],
     pageLength: 50,
     ajax: {
-      url: '/v1/admin/users?view=dashboard',
+      url: '/v2/admin/users?view=dashboard',
       headers: {accept: 'application/json'},
       data: {},
       dataSrc: 'users'
@@ -30,7 +30,7 @@ function setupUsersTable () {
     ]
   })
   table.on('click', 'tr', function () {
-    window.open('/v1/admin/users/' + table.row($(this)).data().id)
+    window.open('/v2/admin/users/' + table.row($(this)).data().id)
   })
 }
 

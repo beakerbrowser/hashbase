@@ -23,7 +23,7 @@
       <li class="nav-item">
         <a href="/account">Manage account</a>
       </li>
-      <% if (sessionUser.plan === 'basic') { %>
+      <% if (sessionUser.plan === 'basic' && stripePK) { %>
         <li class="nav-item">
           <a href="/account/upgrade">
             Upgrade to pro
@@ -32,7 +32,7 @@
         </li>
       <% } %>
       <li class="nav-item">
-        <a href="/v1/logout">Logout</a>
+        <a href="/v2/accounts/logout">Logout</a>
       </li>
       <li class="nav-item">
         <a href="/new-archive">Upload archive</a>

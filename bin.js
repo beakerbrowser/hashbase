@@ -2,6 +2,7 @@ require('./nodecompat')
 var config = require('./lib/config')
 var createApp = require('./index')
 var log = require('debug')('LE')
+var figures = require('figures')
 
 var app = createApp(config)
 if (config.letsencrypt) {
@@ -16,6 +17,6 @@ if (config.letsencrypt) {
   }).listen(80, 443)
 } else {
   app.listen(config.port, () => {
-    console.log(`server started on http://127.0.0.1:${config.port}`)
+    console.log(figures.tick, `Server started on http://127.0.0.1:${config.port}`)
   })
 }

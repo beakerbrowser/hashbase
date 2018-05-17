@@ -9,7 +9,7 @@ $(function () {
     toggleSpinner(true)
 
     // post to api
-    var xhr = $.post('/v1/account/cancel-plan', {
+    var xhr = $.post('/v2/accounts/account/cancel-plan', {
       _csrf: $('[name=_csrf]').val()
     })
     xhr.done(function (res) {

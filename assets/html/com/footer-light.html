@@ -10,7 +10,7 @@
       </p>
 
       <p>
-        Version <%= appInfo.version %>. Code licensed MIT (<a href="https://github.com/datprotocol/hypercloud">source</a>).
+        Version <%= appInfo.version %>. Code licensed MIT (<a href="https://github.com/beakerbrowser/hashbase">source</a>).
       </p>
     </div>
 
@@ -19,7 +19,9 @@
         <h2>Links</h2>
         <ul>
           <li><a href="/about">About</a></li>
+          <% if (stripePK) { %>
           <li><a href="/pricing">Pricing</a></li>
+          <% } %>
           <li><a href="/terms">Terms</a></li>
           <li><a href="/privacy">Privacy</a></li>
           <li><a href="/support">Support</a></li>

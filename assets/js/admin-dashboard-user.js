@@ -2,8 +2,6 @@
 
 // admin user tools
 $(function () {
-  var _csrf = $('[name=_csrf]').val()
-
   // auto-size the record content
   var textarea = $('.record-content textarea')
   textarea.height(textarea[0].scrollHeight)
@@ -12,7 +10,6 @@ $(function () {
   $('#save-btn').on('click', function () {
     try {
       var data = JSON.parse(textarea.val())
-      data._csrf = _csrf
     } catch (e) {
       return onError({responseText: e.toString()}, 0, 'Error parsing JSON')
     }
@@ -25,7 +22,7 @@ $(function () {
 
   // suspend
   $('#suspend-btn').on('click', function () {
-    var data = {reason: window.prompt('Reason?'), _csrf}
+    var data = {reason: window.prompt('Reason?')}
     if (!data.reason) return
     data = JSON.stringify(data)
     $('#error-general').text('')
@@ -38,7 +35,7 @@ $(function () {
   $('#unsuspend-btn').on('click', function () {
     if (!window.confirm('Unsuspend?')) return
     $('#error-general').text('')
-    $.ajax(window.location.pathname + '/unsuspend', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/unsuspend', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({})})
       .done(onUpdate)
       .fail(onError)
   })
@@ -47,7 +44,7 @@ $(function () {
   $('#resend-email-confirmation-btn').on('click', function () {
     if (!window.confirm('Resend confirmation email?')) return
     $('#error-general').text('')
-    $.ajax(window.location.pathname + '/resend-email-confirmation', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({_csrf})})
+    $.ajax(window.location.pathname + '/resend-email-confirmation', {method: 'post', contentType: 'application/json; charset=utf-8', data: JSON.stringify({})})
       .done(onUpdate)
       .fail(onError)
   })
