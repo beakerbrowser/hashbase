@@ -39,7 +39,7 @@
               <p><em>No description</em></p>
             <% } %>
             <p>
-              <strong>Size:</strong> <%= diskUsage %>
+              <strong>Size:</strong> <span id="archive-size"><%= diskUsage %></span>
             </p>
 
             <% if (isOwner) { %>

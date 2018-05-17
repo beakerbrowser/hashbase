@@ -131,7 +131,7 @@ $(function () {
     // individual form errors
     if (json.outOfSpace) {
       $('#error-general').text(json.message)
-    } else if (Object.keys(json.details).length > 0) {
+    } else if (json.details && Object.keys(json.details).length > 0) {
       var details = json.details || {}
       ;(['key', 'name']).forEach(function (name) {
         if (details[name]) {
