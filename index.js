@@ -183,8 +183,8 @@ module.exports = function (config) {
   // user pages
   // =
 
-  app.get('/:username([a-z0-9]{3,})/:archivename([a-z0-9-]{3,})', cloud.api.userContent.viewArchive)
-  app.get('/:username([a-z0-9]{3,})', cloud.api.userContent.viewUser)
+  app.get('/:username([a-z0-9]{1,})/:archivename([a-z0-9-]{1,})', cloud.api.userContent.viewArchive)
+  app.get('/:username([a-z0-9]{1,})', cloud.api.userContent.viewUser)
 
   // (json) error-handling fallback
   // =
