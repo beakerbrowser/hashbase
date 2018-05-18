@@ -47,7 +47,7 @@
     "express-validator": "^3.2.1",
     "get-folder-size": "^1.0.1",
     "greenlock-express": "^2.1.1",
-    "hyperdrive": "^9.12.3",
+    "hyperdrive": "^9.13.0",
     "identify-filetype": "^1.0.0",
     "js-yaml": "^3.11.0",
     "jsonwebtoken": "^7.4.3",
