@@ -69,7 +69,7 @@
     "nodemailer-stub-transport": "^1.1.0",
     "pauls-dat-api": "^4.5.0",
     "pauls-embedded-analytics": "^2.0.1",
-    "pauls-log-utils": "^1.0.0",
+    "pauls-log-utils": "^1.1.0",
     "pmx": "^1.6.4",
     "pretty-bytes": "^4.0.2",
     "pump": "^1.0.3",
