@@ -26,6 +26,7 @@
   "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
   "license": "MIT",
   "dependencies": {
+    "append-tree": "^2.4.3",
     "await-lock": "^1.1.2",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-register": "^6.26.0",
