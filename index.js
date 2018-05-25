@@ -414,42 +414,50 @@ function addConfigHelpers (config) {
 }
 
 function approveDomains (config, cloud) {
+  var domainReg
+  if (config.hostname) {
+    // Dots in domains are normal but dots in a regexp would be replaced with "any character"
+    var regHost = (config.hostname || '').replace(/\./g, '\\.')
+    if (config.sites === 'per-archive') {
+      domainReg = new RegExp(`^((.+)-([^.]+)\\.)?${regHost}$`, 'g')
+    } else if (config.sites === 'per-user') {
+      domainReg = new RegExp(`^(()([^.]+)\\.)?${regHost}$`, 'g')
+    } else {
+      domainReg = new RegExp(`^${regHost}$`, 'g')
+    }
+  } else {
+    // Allow any domain
+    domainReg = /.?/g
+  }
   return async (options, certs, cb) => {
     var {domain} = options
     options.agreeTos = true
     options.email = config.letsencrypt.email
 
-    // toplevel domain?
-    if (domain === config.hostname) {
-      return cb(null, {options, certs})
+    var domainParts = domainReg.exec(domain)
+    if (!domainParts) {
+      return cb(new Error('invalid domain'))
     }
+    var archiveName = domainParts[2]
+    var userName = domainParts[3]
 
-    // try looking up the site
     try {
-      var archiveName
-      var userName
-      var domainParts = domain.split('.')
-      if (config.sites === 'per-user') {
-        // make sure the user record exists
-        userName = domainParts[0]
-        await cloud.usersDB.getByUsername(userName)
-        return cb(null, {options, certs})
-      } else if (config.sites === 'per-archive') {
-        // make sure the user and archive records exists
-        if (domainParts.length === 3) {
-          userName = archiveName = domainParts[0]
-        } else {
-          archiveName = domainParts[0]
-          userName = domainParts[1]
+      if (userName) {
+        var userRecord = await cloud.usersDB.getByUsername(userName)
+        if (!userRecord) {
+          return cb(new Error(`${userName} is not a user`))
         }
-        let userRecord = await cloud.usersDB.getByUsername(userName)
-        let archiveRecord = userRecord.archives.find(a => a.name === archiveName)
-        if (archiveRecord) {
-          return cb(null, {options, certs})
+        if (archiveName) {
+          var archiveRecord = userRecord.archives.find(a => a.name === archiveName)
+          if (!archiveRecord) {
+            return cb(new Error(`Archive ${archiveName} for user ${userName} not found!`))
+          }
         }
       }
-    } catch (e) {}
-    cb(new Error('Invalid domain'))
+    } catch (e) {
+      return cb(e)
+    }
+    cb(null, {options, certs})
   }
 }
 
