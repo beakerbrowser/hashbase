@@ -380,6 +380,7 @@ function createV2ApiRouter (cloud, config) {
   router.post('/admin/users/:username/send-email', cloud.api.admin.sendEmail)
   router.post('/admin/archives/:key/feature', cloud.api.admin.featureArchive)
   router.post('/admin/archives/:key/unfeature', cloud.api.admin.unfeatureArchive)
+  router.get('/admin/archives', cloud.api.admin.listArchives)
   router.get('/admin/archives/:key', cloud.api.admin.getArchive)
   router.post('/admin/archives/:key/remove', cloud.api.admin.removeArchive)
   router.get('/admin/analytics/events', cloud.api.admin.getAnalyticsEventsList)

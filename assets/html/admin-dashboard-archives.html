@@ -14,41 +14,33 @@
       <h1>Admin Dashboard
         <span class="admin-nav">
           <a href="/v2/admin">stats</a> |
-          <strong>users</strong> |
-          <a href="/v2/admin/archives">archives</a> |
+          <a href="/v2/admin/users">users</a> |
+          <strong>archives</strong> |
           <a href="/v2/admin/reports">reports</a>
         </span>
       </h1>
 
       <p>Admins only. Weirdos get out.</p>
 
-      <table class="users-table display" cellspacing="0" width="100%">
+      <table class="archives-table display" cellspacing="0" width="100%">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Archives</th>
-            <th>Usage</th>
-            <th>Quota</th>
-            <th>Plan</th>
-            <th>Verified?</th>
-            <th>Suspended?</th>
-            <th>Join Date</th>
+            <th>Key</th>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>Disk Usage</th>
+            <th>Total Size</th>
+            <th>Upload date</th>
           </tr>
         </thead>
         <tfoot>
           <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Archives</th>
-            <th>Usage</th>
-            <th>Quota</th>
-            <th>Plan</th>
-            <th>Verified?</th>
-            <th>Suspended?</th>
-            <th>Join Date</th>
+            <th>Key</th>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>Disk Usage</th>
+            <th>Total Size</th>
+            <th>Upload date</th>
           </tr>
         </tfoot>
       </table>
@@ -63,6 +55,6 @@
     <script src="/assets/js/jquery.dataTables.min.js"></script>
     <script src="/assets/js/jquery.dataTables.file-size-sorting-plugin.js"></script>
     <script src="/assets/js/moment.min.js"></script>
-    <script src="/assets/js/admin-dashboard-users.js"></script>
+    <script src="/assets/js/admin-dashboard-archives.js"></script>
   </body>
 </html>
