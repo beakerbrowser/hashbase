@@ -17,12 +17,14 @@ const customSanitizers = require('./lib/sanitizers')
 const analytics = require('./lib/analytics')
 const packageJson = require('./package.json')
 
-module.exports = function (config) {
+module.exports = async function (config) {
   console.log(figures.heart, 'Hello friend')
   console.log(figures.pointerSmall, 'Instantiating backend')
   addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version
+  await cloud.setupDatabase() // pause all loading during DB setup
+  cloud.loadAllArchives()
   cloud.setupAdminUser()
 
   console.log(figures.pointerSmall, 'Instantiating server')

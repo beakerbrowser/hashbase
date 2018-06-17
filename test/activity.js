@@ -7,8 +7,9 @@ var fakeDatKey1 = 'a'.repeat(64)
 var fakeDatKey2 = 'b'.repeat(64)
 
 test.cb('start test server', t => {
-  app = createTestServer(async err => {
+  createTestServer(async (err, _app) => {
     t.ifError(err)
+    app = _app
 
     // login
     var res = await app.req.post({

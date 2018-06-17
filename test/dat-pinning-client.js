@@ -5,8 +5,9 @@ const createTestServer = require('./lib/server.js')
 var app
 
 test.cb('start test server', t => {
-  app = createTestServer(async err => {
+  createTestServer(async (err, _app) => {
     t.ifError(err)
+    app = _app
 
     t.pass('started')
     t.end()
@@ -75,8 +76,8 @@ test.cb('add & remove dats', t => {
           title: '',
           description: '',
           additionalUrls: [
-            'dat://mysite-admin.test.local',
-            'https://mysite-admin.test.local'
+            'dat://mysite.test.local',
+            'https://mysite.test.local'
           ]
         })
 
@@ -95,8 +96,8 @@ test.cb('add & remove dats', t => {
               title: '',
               description: '',
               additionalUrls: [
-                'dat://my-site-admin.test.local',
-                'https://my-site-admin.test.local'
+                'dat://my-site.test.local',
+                'https://my-site.test.local'
               ]
             })
 
@@ -110,8 +111,8 @@ test.cb('add & remove dats', t => {
                   title: '',
                   description: '',
                   additionalUrls: [
-                    'dat://my-site-admin.test.local',
-                    'https://my-site-admin.test.local'
+                    'dat://my-site.test.local',
+                    'https://my-site.test.local'
                   ]
                 }
               ])

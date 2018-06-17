@@ -9,8 +9,9 @@ var app
 // - carla (invalid, never verifies email)
 
 test.cb('start test server', t => {
-  app = createTestServer(err => {
+  createTestServer((err, _app) => {
     t.ifError(err)
+    app = _app
     t.end()
   })
 })
