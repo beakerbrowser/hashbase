@@ -222,17 +222,33 @@ test('enforce name archives limit', async t => {
   res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
+  // dont allow
   json = {key: '3'.repeat(64), name: 'd'}
   res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 422, '422 too many named dats')
 
+  // allow with no name
   json = {key: '3'.repeat(64)}
   res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 200, '200 added dat')
 
+  // dont allow rename
   json = {name: 'd'}
   res = await app.req.post({uri: '/v2/archives/item/' + ('3'.repeat(64)), json, auth: authUser})
   t.is(res.statusCode, 422, '422 too many named dats')
+
+  // bump their limit
+  res = await app.req.post({
+    uri: '/v2/admin/users/bob',
+    json: {namedArchiveQuota: 5},
+    auth
+  })
+  t.is(res.statusCode, 200, '200 updated')
+
+  // now all rename
+  json = {name: 'd'}
+  res = await app.req.post({uri: '/v2/archives/item/' + ('3'.repeat(64)), json, auth: authUser})
+  t.is(res.statusCode, 200, '200 added dat')
 })
 
 test.cb('stop test server', t => {

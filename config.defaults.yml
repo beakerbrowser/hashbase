@@ -7,8 +7,11 @@ letsencrypt: false
 sites: false
 rateLimiting: true
 csrf: true
+
 defaultDiskUsageLimit: 100mb
-defaultNamedArchivesLimit: 25
+defaultNamedArchivesLimit: 15
+proDiskUsageLimit: 10gb
+proNamedArchivesLimit: 100
 
 # processing jobs
 jobs:
