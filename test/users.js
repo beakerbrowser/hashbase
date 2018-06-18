@@ -84,10 +84,10 @@ test('register and GET verify', async t => {
 })
 
 test('register validation', async t => {
-  async function expectPass (inputs) {
-    var res = await app.req.post({uri: '/v2/accounts/register', json: inputs})
-    t.is(res.statusCode, 201, '201 good input')
-  }
+  // async function expectPass (inputs) {
+  //   var res = await app.req.post({uri: '/v2/accounts/register', json: inputs})
+  //   t.is(res.statusCode, 201, '201 good input')
+  // }
   async function expectFail (inputs, badParam) {
     var res = await app.req.post({uri: '/v2/accounts/register', json: inputs})
     t.is(res.statusCode, 422, '422 bad input')
@@ -101,10 +101,8 @@ test('register validation', async t => {
   await expectFail({ email: 'bob@example.com', username: 'a', password: 'foobar', passwordConfirm: 'foobar' }, 'username') // username too short
   await expectFail({ email: 'bob@example.com', username: 'bob.boy', password: 'foobar', passwordConfirm: 'foobar' }, 'username') // username has invalid chars
   await expectFail({ email: 'asdf', username: 'bob', password: 'foobar', passwordConfirm: 'foobar' }, 'email') // invalid email
+  await expectFail({ email: 'bob+foo@example.com', username: 'bobobobo', password: 'foobar', passwordConfirm: 'foobar' }) // invalid email
   // await expectFail({ email: 'bob@example.com', username: 'bob', password: 'foobar', passwordConfirm: 'foobaz' }, 'passwordConfirm') // invalid passwordConfirm TODO
-
-  // now allowed:
-  await expectPass({ email: 'bob+foo@example.com', username: 'bobobobo', password: 'foobar', passwordConfirm: 'foobar' })
 })
 
 test('register usernames are case insensitive', async t => {
