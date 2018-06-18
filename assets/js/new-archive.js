@@ -72,7 +72,7 @@ $(function () {
     if (nameVal === window.params.username) {
       addArchiveNameOutput.text('')
     } else {
-      addArchiveNameOutput.text((nameVal || '') + '-')
+      addArchiveNameOutput.text(nameVal || '')
     }
 
     // update submit button disabled state

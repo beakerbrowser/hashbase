@@ -8,6 +8,7 @@ sites: false
 rateLimiting: true
 csrf: true
 defaultDiskUsageLimit: 100mb
+defaultNamedArchivesLimit: 25
 
 # processing jobs
 jobs:

@@ -8,8 +8,9 @@ var sessionToken, auth, authUser
 var testDat, testDatKey
 
 test.cb('start test server', t => {
-  app = createTestServer(async err => {
+  createTestServer(async (err, _app) => {
     t.ifError(err)
+    app = _app
 
     // login
     var res = await app.req.post({
@@ -135,6 +136,103 @@ test('add archive now fails', async t => {
   var res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
   t.is(res.statusCode, 422, '422 denied')
   t.truthy(res.body.outOfSpace, 'disk quota is exceeded')
+})
+
+test.cb('stop test server', t => {
+  app.close(() => {
+    testDat.close(() => {
+      t.pass('closed')
+      t.end()
+    })
+  })
+})
+
+test.cb('start test server', t => {
+  createTestServer(async (err, _app) => {
+    t.ifError(err)
+    app = _app
+
+    // login
+    var res = await app.req.post({
+      uri: '/v2/accounts/login',
+      json: {
+        'username': 'admin',
+        'password': 'foobar'
+      }
+    })
+    if (res.statusCode !== 200) throw new Error('Failed to login as admin')
+    sessionToken = res.body.sessionToken
+    auth = { bearer: sessionToken }
+
+    t.end()
+  })
+})
+
+test('register and login bob', async t => {
+  // register bob
+  var res = await app.req.post({
+    uri: '/v2/accounts/register',
+    json: {
+      email: 'bob@example.com',
+      username: 'bob',
+      password: 'foobar',
+      passwordConfirm: 'foobar'
+    }
+  })
+  if (res.statusCode !== 201) throw new Error('Failed to register bob user')
+
+  // check sent mail and extract the verification nonce
+  var lastMail = app.cloud.mailer.transport.sentMail.pop()
+  var emailVerificationNonce = /([0-9a-f]{64})/.exec(lastMail.data.text)[0]
+
+  // verify via GET
+  res = await app.req.get({
+    uri: '/v2/accounts/verify',
+    qs: {
+      username: 'bob',
+      nonce: emailVerificationNonce
+    },
+    json: true
+  })
+  if (res.statusCode !== 200) throw new Error('Failed to verify bob user')
+
+  // login bob
+  res = await app.req.post({
+    uri: '/v2/accounts/login',
+    json: {
+      'username': 'bob',
+      'password': 'foobar'
+    }
+  })
+  if (res.statusCode !== 200) throw new Error('Failed to login as bob')
+  sessionToken = res.body.sessionToken
+  authUser = { bearer: sessionToken }
+})
+
+test('enforce name archives limit', async t => {
+  var json = {key: '0'.repeat(64), name: 'a'}
+  var res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  json = {key: '1'.repeat(64), name: 'b'}
+  res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  json = {key: '2'.repeat(64), name: 'c'}
+  res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  json = {key: '3'.repeat(64), name: 'd'}
+  res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
+  t.is(res.statusCode, 422, '422 too many named dats')
+
+  json = {key: '3'.repeat(64)}
+  res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  json = {name: 'd'}
+  res = await app.req.post({uri: '/v2/archives/item/' + ('3'.repeat(64)), json, auth: authUser})
+  t.is(res.statusCode, 422, '422 too many named dats')
 })
 
 test.cb('stop test server', t => {

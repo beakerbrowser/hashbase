@@ -11,8 +11,9 @@ var testDat, testDatKey
 var fsstat = promisify(fs.stat, fs)
 
 test.cb('start test server', t => {
-  app = createTestServer(async err => {
+  createTestServer(async (err, _app) => {
     t.ifError(err)
+    app = _app
 
     // login
     var res = await app.req.post({
@@ -261,7 +262,7 @@ test('change archive name', async t => {
     name: 'test-archive',
     title: 'Test Dat 1',
     description: 'The first test dat',
-    additionalUrls: ['dat://test-archive-admin.test.local', 'https://test-archive-admin.test.local']
+    additionalUrls: ['dat://test-archive.test.local', 'https://test-archive.test.local']
   })
 
   res = await app.req.get({url: '/v2/archives', json: true, auth})
@@ -271,7 +272,7 @@ test('change archive name', async t => {
     name: 'test-archive',
     title: 'Test Dat 1',
     description: 'The first test dat',
-    additionalUrls: ['dat://test-archive-admin.test.local', 'https://test-archive-admin.test.local']
+    additionalUrls: ['dat://test-archive.test.local', 'https://test-archive.test.local']
   })
 
   // change to invalid names
@@ -317,15 +318,48 @@ test('change archive name', async t => {
   t.is(res.statusCode, 404, '404 old name not found')
 })
 
-test('dont allow two archives with same name for given user', async t => {
+test('dont allow two archives with same name', async t => {
+  var key = 'b'.repeat(64)
+  var key2 = 'c'.repeat(64)
+
   // add archive
-  var json = {key: testDatKey, name: 'test-duplicate-archive'}
+  var json = {key, name: 'test-duplicate-archive'}
   var res = await app.req.post({uri: '/v2/archives/add', json, auth})
   t.is(res.statusCode, 200, '200 added dat')
 
-  // add the archive again
+  // add the archive again (no change)
+  res = await app.req.post({uri: '/v2/archives/add', json, auth})
+  t.is(res.statusCode, 200, '200 no change')
+
+  // add a reserved name (fail)
+  json = {key, name: 'reserved'}
   res = await app.req.post({uri: '/v2/archives/add', json, auth})
   t.is(res.statusCode, 422, '422 name already in use')
+
+  // add as a different user (fail)
+  json = {key: key2, name: 'test-duplicate-archive'}
+  res = await app.req.post({uri: '/v2/archives/add', json, auth: authUser})
+  t.is(res.statusCode, 422, '422 name already in use')
+
+  // rename to self (no change)
+  json = {name: 'test-duplicate-archive'}
+  res = await app.req.post({uri: '/v2/archives/item/' + key, json, auth})
+  t.is(res.statusCode, 200, '200 can rename to self')
+
+  // rename to existing (fail)
+  json = {name: 'test--dat'}
+  res = await app.req.post({uri: '/v2/archives/item/' + key, json, auth})
+  t.is(res.statusCode, 422, '422 name already in use')
+
+  // rename to reserved (no change)
+  json = {name: 'reserved'}
+  res = await app.req.post({uri: '/v2/archives/item/' + key, json, auth})
+  t.is(res.statusCode, 422, '422 name already in use')
+
+  // remove the archive
+  json = {key}
+  res = await app.req.post({uri: '/v2/archives/remove', json, auth})
+  t.is(res.statusCode, 200, '200 removed')
 })
 
 test.cb('archive is accessable via dat swarm', t => {

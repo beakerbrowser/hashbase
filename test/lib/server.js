@@ -21,11 +21,10 @@ function createRemoteApp (cb) {
     req: request.defaults({ baseUrl: url, timeout: 10e3, resolveWithFullResponse: true, simple: false }),
     close: cb => cb()
   }
-  cb()
-  return app
+  cb(null, app)
 }
 
-function createLocalApp (cb) {
+async function createLocalApp (cb) {
   // setup config
   // =
 
@@ -35,6 +34,7 @@ function createLocalApp (cb) {
     dir: tmpdir,
     port: portCounter++,
     defaultDiskUsageLimit: '100mb',
+    defaultNamedArchivesLimit: 3,
     pm2: false,
     admin: {
       password: 'foobar'
@@ -75,10 +75,10 @@ function createLocalApp (cb) {
   // create server
   // =
 
-  var app = createApp(config)
+  var app = await createApp(config)
   var server = app.listen(config.port, (err) => {
     console.log(`server started on http://127.0.0.1:${config.port}`)
-    app.cloud.whenAdminCreated(() => cb(err))
+    app.cloud.whenAdminCreated(() => cb(err, app))
   })
 
   app.isRemote = false

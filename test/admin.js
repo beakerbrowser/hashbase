@@ -8,8 +8,9 @@ var app
 var sessionToken, auth, testDatKey
 
 test.cb('start test server', t => {
-  app = createTestServer(async err => {
+  createTestServer(async (err, _app) => {
     t.ifError(err)
+    app = _app
 
     // login
     var res = await app.req.post({
