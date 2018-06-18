@@ -33,6 +33,7 @@ port: 8080                    # the port to run the service on
 rateLimiting: true            # rate limit the HTTP requests?
 csrf: true                    # use csrf tokens?
 defaultDiskUsageLimit: 100mb  # default maximum disk usage for each user
+defaultNamedArchivesLimit: 25 # how many names can a user take?
 ```
 
 #### Lets Encrypt
@@ -59,23 +60,13 @@ admin:
 
 #### HTTP Sites
 
-Hashbase can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](https://npm.im/dat-dns) for the archives. There are two possible schemes:
-
-```yaml
-sites: per-user
-```
-
-Per-user will host archives at `username.hostname/archivename`, in a scheme similar to GitHub Pages. If the archive-name is == to the username, it will be hosted at `username.hostname`.
-
-Note that, in this scheme, a DNS shortname is only provided for the user archive (`username.hostname`).
+Hashbase can host the archives as HTTP sites. This has the added benefit of enabling [dat-dns shortnames](https://npm.im/dat-dns) for the archives.
 
 ```yaml
 sites: per-archive
 ```
 
-Per-archive will host archives at `archivename-username.hostname`. If the archive-name is == to the username, it will be hosted at `username.hostname`.
-
-By default, HTTP Sites are disabled.
+This will host archives at `archivename.hostname`. By default, HTTP Sites are disabled.
 
 #### Closed Registration
 
