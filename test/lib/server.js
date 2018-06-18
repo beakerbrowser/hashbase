@@ -34,6 +34,7 @@ async function createLocalApp (cb) {
     dir: tmpdir,
     port: portCounter++,
     defaultDiskUsageLimit: '100mb',
+    defaultNamedArchivesLimit: 3,
     pm2: false,
     admin: {
       password: 'foobar'
