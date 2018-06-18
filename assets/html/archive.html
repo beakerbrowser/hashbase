@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%= username %>/<%= archivename %> - <%= appInfo.brandname %></title>
+    <title><%= username %>/<%= archivename || (key.slice(0, 6) + '..' + key.slice(-2)) %> - <%= appInfo.brandname %></title>
     <% include com/stdhead.html %>
     <link rel="stylesheet" href="/assets/css/archive.css">
   </head>
