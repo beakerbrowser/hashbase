@@ -8,11 +8,13 @@
 
     <div class="info">
       <div class="archive-heading">
-        <a href="/<%= archive.owner.username %>/<%= archive.name %>" class="title">
-          <% if (archive.manifest) { %>
-            <%= archive.manifest.title || archive.name %>
-          <% } else { %>
+        <a href="/<%= archive.owner.username %>/<%= archive.name || archive.key %>" class="title">
+          <% if (archive.manifest && archive.manifest.title) { %>
+            <%= archive.manifest.title %>
+          <% } else if (archive.name) { %>
             <%= archive.name %>
+          <% } else { %>
+            <%= archive.key.slice(0, 6) + '..' + archive.key.slice(-2) %>
           <% } %>
         </a>
         <span>by <a href="/<%= archive.owner.username %>"><%= archive.owner.username %></a></span>
@@ -36,9 +38,13 @@
       </span>
 
       <div class="metadata">
-        <code><%= archive.niceUrl %></code>
-        <a href="https://<%= archive.niceUrl %>">web</a> &bull;
-        <a href="dat://<%= archive.niceUrl %>">p2p</a>
+        <% if (archive.name) { %>
+          <code><%= archive.niceUrl %></code>
+          <a href="https://<%= archive.niceUrl %>">web</a> &bull;
+          <a href="dat://<%= archive.niceUrl %>">p2p</a>
+        <% } else { %>
+          <a href="dat://<%= archive.key %>">p2p</a>
+        <% } %>
       </div>
     </div>
 

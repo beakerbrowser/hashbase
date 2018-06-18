@@ -12,7 +12,7 @@
       <div class="container medium">
         <p class="breadcrumbs">
           <a href="/<%= username %>"><%= username %></a>
-          <span><%= archivename %></span>
+          <span><%= archivename || (key.slice(0, 6) + '..' + key.slice(-2)) %></span>
         </p>
 
         <div class="archive-content">
@@ -63,11 +63,13 @@
           <div class="links">
             <i class="fa fa-link"></i>
 
-            <a id="dat-nice-url" class="url" href="dat://<%= niceUrl %>">
-              <code>dat://</code>
-              <span class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-container="#dat-short-container" data-feedback-el="#url-copy-feedback-datShort" title="Copy to clipboard"></span>
-              <span id="url-copy-feedback-datShort"></span>
-            </a>
+            <% if (archivename) { %>
+              <a id="dat-nice-url" class="url" href="dat://<%= niceUrl %>">
+                <code>dat://</code>
+                <span class="fa fa-clipboard copy-to-clipboard" data-target="#dat-nice-url" data-container="#dat-short-container" data-feedback-el="#url-copy-feedback-datShort" title="Copy to clipboard"></span>
+                <span id="url-copy-feedback-datShort"></span>
+              </a>
+            <% } %>
 
             <a id="dat-raw-url" class="url" href="<%= rawUrl %>">
               <code>dat:// (raw)</code>
@@ -75,11 +77,13 @@
               <span id="url-copy-feedback-datRaw"></span>
             </a>
 
-            <a id="https-nice-url" class="url" href="https://<%= niceUrl %>">
-              <code>https://</code>
-              <span class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-container="#https-container" data-feedback-el="#url-copy-feedback-https" title="Copy to clipboard"></span>
-              <span id="url-copy-feedback-https"></span>
-            </a>
+            <% if (archivename) { %>
+              <a id="https-nice-url" class="url" href="https://<%= niceUrl %>">
+                <code>https://</code>
+                <span class="copy-to-clipboard fa fa-clipboard" data-target="#https-nice-url" data-container="#https-container" data-feedback-el="#url-copy-feedback-https" title="Copy to clipboard"></span>
+                <span id="url-copy-feedback-https"></span>
+              </a>
+            <% } %>
           </div>
         </div>
 

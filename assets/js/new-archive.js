@@ -110,12 +110,15 @@ $(function () {
     $(this).serializeArray().forEach(function (value) {
       values[value.name] = value.value
     })
+    if (values.name === '') {
+      delete values.name
+    }
 
     // post to api
     var xhr = $.post('/v2/archives/add', values)
     xhr.done(function (res) {
       // success, redirect
-      window.location = '/' + window.params.username + '/' + addArchiveNameInput.val()
+      window.location = '/' + window.params.username + '/' + (values.name || values.key)
     })
     xhr.fail(function (res) {
       // failure, render errors

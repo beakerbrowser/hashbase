@@ -11,8 +11,9 @@
       <span>removed</span>
     <% } %>
 
-    <a href="/<%= event.username %>/<%= event.params.name %>" class="archive-name">
-      <%= event.params.name %>
+    <% var name = event.params.name || (event.params.key.slice(0, 6) + '..' + event.params.key.slice(-2)) %>
+    <a href="/<%= event.username %>/<%= event.params.name || event.params.key %>" class="archive-name">
+      <%= name %>
     </a>
 
     <span class="time">
