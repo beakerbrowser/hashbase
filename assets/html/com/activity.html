@@ -7,12 +7,14 @@
 
     <% if (event.action === 'add-archive') { %>
       <span>added</span>
+    <% } else if (event.action === 'update-archive') { %>
+      <span>updated</span>
     <% } else if (event.action === 'del-archive') { %>
       <span>removed</span>
     <% } %>
 
     <% var name = event.params.name || (event.params.key.slice(0, 6) + '..' + event.params.key.slice(-2)) %>
-    <a href="/<%= event.username %>/<%= event.params.name || event.params.key %>" class="archive-name">
+    <a href="/<%= event.username %>/<%= event.params.key %>" class="archive-name">
       <%= name %>
     </a>
 
