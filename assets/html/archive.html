@@ -107,6 +107,28 @@
               </div>
             </section>
           </div>
+
+          <div class="card owner-controls">
+            <section>
+              <form id="rename-form" class="form form-archive-settings">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <p class="form-group">
+                  <label for="input-name">Sub-domain name</label>
+                  <input type="text" name="name" class="form-control" id="input-name" placeholder="Optional" value="<%= archivename %>" />
+                  <span id="error-name" class="form-control-feedback"></span>
+                  <span id="feedback-name" class="form-control-feedback">
+                    Your URL <span class="is-will-be">is</span>
+                    <a href="dat://<%= archivename ? niceUrl : rawUrl %>" class="link"><%= archivename ? ('dat://' + niceUrl) : (rawUrl.slice(0, 12) + '..' + rawUrl.slice(-2)) %></a>
+                  </span>
+                </p>
+
+                <div class="actions">
+                  <button id="submit-btn" class="btn success" disabled type="submit">Rename</button>
+                </div>
+              </form>
+            </section>
+          </div>
         <% } %>
 
         <div class="archive-footer-links">
@@ -183,6 +205,8 @@
       window.params = {
         key: "<%= key %>",
         owner: "<%= username %>",
+        name: "<%= archivename || '' %>",
+        hostname: "<%= appInfo.hostname || '' %>",
         progress: <%= progress %>,
         isFeatured: <%= isFeatured %>
       }
