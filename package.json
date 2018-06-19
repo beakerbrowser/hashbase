@@ -8,7 +8,7 @@
     "start": "node bin.js",
     "test": "npm run unit && npm run lint",
     "unit": "ava test/*.js --fail-fast",
-    "lint": "standard"
+    "lint": "standard --fix"
   },
   "keywords": [
     "hyperdrive",
