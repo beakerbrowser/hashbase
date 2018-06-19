@@ -1,4 +1,4 @@
-/* global $ */
+/* global $ params */
 
 // archive page js
 $(function () {
@@ -24,7 +24,7 @@ $(function () {
     var name = renameFormInput.val()
     var isChanged = name !== params.name
     var url = 'dat://' + (name ? (name + '.' + params.hostname) : params.key)
-    $('#feedback-name .is-will-be').text(isChanged ? 'will be': 'is')
+    $('#feedback-name .is-will-be').text(isChanged ? 'will be' : 'is')
     $('#feedback-name .link').attr('href', url)
     $('#feedback-name .link').text(name ? url : (url.slice(0, 12) + '..' + url.slice(-2)))
     if (isChanged) $('#rename-form .btn').removeAttr('disabled')
