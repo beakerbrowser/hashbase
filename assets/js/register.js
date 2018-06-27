@@ -8,15 +8,6 @@ $(function () {
     $('input[name="email"]').val(decodeURIComponent(email))
   }
 
-  // auto-render profile url on user changes
-  var usernameInput = $('#input-username')
-  var usernameOutput = $('#output-username')
-  output()
-  usernameInput.on('keyup', output)
-  function output () {
-    usernameOutput.text(usernameInput.val() || 'username')
-  }
-
   $('#input-password-confirm').on('blur', function (e) {
     if (e.target.value !== $('#input-password')[0].value) {
       $('#error-password-confirm')
