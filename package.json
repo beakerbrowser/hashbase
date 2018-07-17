@@ -1,10 +1,9 @@
 {
-  "name": "hypercloud",
-  "version": "0.0.2",
+  "name": "hashbase",
+  "version": "1.0.0",
   "description": "a p2p ☁",
   "main": "index.js",
   "scripts": {
-    "install-transpiler": "npm install babel-preset-es2015",
     "start": "node bin.js",
     "test": "npm run unit && npm run lint",
     "unit": "ava test/*.js --fail-fast",
@@ -18,18 +17,13 @@
     "p2p"
   ],
   "ava": {
-    "serial": true,
-    "require": [
-      "./nodecompat.js"
-    ]
+    "serial": true
   },
   "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
   "license": "MIT",
   "dependencies": {
     "append-tree": "^2.4.3",
     "await-lock": "^1.1.2",
-    "babel-plugin-transform-async-to-generator": "^6.16.0",
-    "babel-register": "^6.26.0",
     "body-parser": "^1.18.2",
     "bytes": "^2.5.0",
     "co-express": "^1.2.2",
@@ -38,7 +32,7 @@
     "dat-encoding": "^4.0.2",
     "datland-swarm-defaults": "^1.0.2",
     "debug": "^2.6.9",
-    "deep-extend": "^0.4.2",
+    "deep-extend": "^0.6.0",
     "discovery-server": "^1.1.0",
     "ejs": "^2.5.9",
     "es6-promisify": "^5.0.0",
@@ -53,7 +47,7 @@
     "js-yaml": "^3.11.0",
     "jsonwebtoken": "^7.4.3",
     "less-express": "^1.1.0",
-    "level": "^1.7.0",
+    "level": "^4.0.0",
     "level-promise": "^2.1.1",
     "level-simple-indexes": "^2.2.0",
     "lodash.throttle": "^4.1.1",
@@ -68,7 +62,7 @@
     "nodemailer-ses-transport": "^1.5.0",
     "nodemailer-stub-transport": "^1.1.0",
     "pauls-dat-api": "^4.5.0",
-    "pauls-embedded-analytics": "^2.0.1",
+    "pauls-embedded-analytics": "^2.0.2",
     "pauls-log-utils": "^1.1.0",
     "pmx": "^1.6.4",
     "pretty-bytes": "^4.0.2",
@@ -79,10 +73,9 @@
     "rimraf": "^2.6.2",
     "stream-collector": "^1.0.1",
     "stripe": "^4.25.0",
-    "subleveldown": "^2.1.0",
+    "subleveldown": "^3.0.0",
     "through2": "^2.0.3",
     "uuid": "^3.2.1",
-    "v8-profiler-node8": "^5.7.7",
     "vhost": "^3.0.2"
   },
   "devDependencies": {

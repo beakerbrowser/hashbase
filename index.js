@@ -17,6 +17,11 @@ const customSanitizers = require('./lib/sanitizers')
 const analytics = require('./lib/analytics')
 const packageJson = require('./package.json')
 
+process.on('uncaughtException', console.error)
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
+})
+
 module.exports = async function (config) {
   console.log(figures.heart, 'Hello friend')
   console.log(figures.pointerSmall, 'Instantiating backend')
@@ -251,15 +256,6 @@ module.exports = async function (config) {
     } else {
       res.render('error', { error })
     }
-  })
-
-  // error handling
-  // =
-
-  process.on('uncaughtException', console.error)
-
-  process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
   })
 
   // shutdown

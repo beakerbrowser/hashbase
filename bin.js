@@ -1,4 +1,3 @@
-require('./nodecompat')
 var config = require('./lib/config')
 var createApp = require('./index')
 var log = require('debug')('LE')
