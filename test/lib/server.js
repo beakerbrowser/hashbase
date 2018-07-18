@@ -35,6 +35,7 @@ async function createLocalApp (cb) {
     port: portCounter++,
     defaultDiskUsageLimit: '100mb',
     defaultNamedArchivesLimit: 3,
+    bandwidthLimit: {up: '600kb', down: '600kb'},
     pm2: false,
     admin: {
       password: 'foobar'

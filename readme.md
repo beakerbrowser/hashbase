@@ -34,6 +34,9 @@ rateLimiting: true            # rate limit the HTTP requests?
 csrf: true                    # use csrf tokens?
 defaultDiskUsageLimit: 100mb  # default maximum disk usage for each user
 defaultNamedArchivesLimit: 25 # how many names can a user take?
+bandwidthLimit:
+  up: 1mb                     # maximum bytes/s upload speed
+  down: 1mb                   # maximum bytes/s download speed
 ```
 
 #### Lets Encrypt

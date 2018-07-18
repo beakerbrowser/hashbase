@@ -8,10 +8,14 @@ sites: false
 rateLimiting: true
 csrf: true
 
+# usage limits
 defaultDiskUsageLimit: 100mb
 defaultNamedArchivesLimit: 15
 proDiskUsageLimit: 10gb
 proNamedArchivesLimit: 100
+bandwidthLimit:
+  up: 1mb
+  down: 1mb
 
 # processing jobs
 jobs:

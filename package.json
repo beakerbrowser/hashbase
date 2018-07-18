@@ -75,6 +75,7 @@
     "stream-collector": "^1.0.1",
     "stripe": "^4.25.0",
     "subleveldown": "^3.0.0",
+    "throttle": "^1.0.3",
     "through2": "^2.0.3",
     "uuid": "^3.2.1",
     "vhost": "^3.0.2"
