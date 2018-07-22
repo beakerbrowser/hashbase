@@ -73,6 +73,7 @@
     "request-promise-native": "^1.0.5",
     "rimraf": "^2.6.2",
     "stream-collector": "^1.0.1",
+    "stream-each": "^1.2.2",
     "stripe": "^4.25.0",
     "subleveldown": "^3.0.0",
     "throttle": "^1.0.3",
