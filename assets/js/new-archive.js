@@ -76,7 +76,7 @@ $(function () {
     else addArchiveSubmitBtn.attr('disabled', true)
 
     // provide initial feedback about archive name
-    if (!nameVal.match(/^([0-9a-zA-Z-]*)$/i)) {
+    if (nameVal && !nameVal.match(/^([0-9a-zA-Z-]*)$/i)) {
       renderErrors({
         details: {
           name: {
