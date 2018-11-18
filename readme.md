@@ -9,6 +9,15 @@ Links:
 
 ## Setup
 
+Make sure you have the following dependencies installed:
+```
+make
+g++
+python
+autoconf
+libtool
+```
+
 Clone this repository, then run
 
 ```
@@ -46,6 +55,7 @@ You can enable lets-encrypt to automatically provision TLS certs using this conf
 ```yaml
 letsencrypt:
   debug: false          # debug mode? must be set to 'false' to use live config
+  agreeTos: true
   email: 'foo@bar.com'  # email to register domains under
 ```
 
