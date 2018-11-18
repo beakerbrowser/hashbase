@@ -8,9 +8,12 @@ async function start () {
   if (config.letsencrypt) {
     var greenlockExpress = require('greenlock-express')
     var debug = config.letsencrypt.debug !== false
+    var agreeTos = config.letsencrypt.agreeTos !== false
     greenlockExpress.create({
-      server: debug ? 'staging' : 'https://acme-v01.api.letsencrypt.org/directory',
+      version: 'draft-11',
+      server: debug ? 'https://acme-staging-v02.api.letsencrypt.org/directory' : 'https://acme-v02.api.letsencrypt.org/directory',
       debug,
+      agreeTos,
       approveDomains: app.approveDomains,
       app,
       log
