@@ -9,7 +9,7 @@ Links:
 
 ## Setup
 
-Make sure you have the following dependencies installed:
+On some platforms, you will need to have the following dependencies installed:
 ```
 make
 g++
