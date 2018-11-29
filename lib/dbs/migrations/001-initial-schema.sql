@@ -89,7 +89,8 @@ CREATE TABLE users_archives (
 );
 
 -- Down
-DROP TABLE activity;
-DROP TABlE archives;
-DROP TABLE reports;
+DROP TABLE users_archives;
 DROP TABLE users;
+DROP TABLE reports;
+DROP TABlE archives;
+DROP TABLE activity;
