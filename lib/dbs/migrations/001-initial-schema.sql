@@ -80,6 +80,9 @@ CREATE TABLE users (
   updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
   createdAt INTEGER DEFAULT (strftime('%s', 'now'))
 );
+CREATE INDEX users_email_idx ON users(email);
+CREATE INDEX users_username_idx ON users(username);
+CREATE INDEX users_profileURL_idx ON users(profileURL);
 CREATE TABLE users_archives (
   userid TEXT NOT NULL,
   key TEXT NOT NULL,
@@ -93,6 +96,9 @@ CREATE UNIQUE INDEX users_archives_name_idx ON users_archives(name);
 -- Down
 DROP INDEX users_archives_name_idx;
 DROP TABLE users_archives;
+DROP INDEX users_profileURL_idx;
+DROP INDEX users_email_idx;
+DROP INDEX users_username_idx;
 DROP TABLE users;
 DROP INDEX reports_archiveOwner_idx;
 DROP INDEX reports_reportingUser_idx;
