@@ -33,6 +33,7 @@ CREATE TABLE reports (
   status TEXT DEFAULT 'open',
   notes TEXT,
 
+  updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
   createdAt INTEGER DEFAULT (strftime('%s', 'now')),
 
   FOREIGN KEY (archiveKey) REFERENCES archives (key)
