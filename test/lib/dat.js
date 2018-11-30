@@ -8,6 +8,7 @@ exports.makeDatFromFolder = function (dir, cb) {
   Dat(dir, (err, dat) => {
     if (err) return cb(err)
 
+    dat.archive.on('error', console.log)
     dat.importFiles(() => {
       dat.joinNetwork()
 
@@ -22,6 +23,8 @@ exports.downloadDatFromSwarm = function (key, { timeout = 5e3 }, cb) {
   var dir = util.mktmpdir()
   Dat(dir, {key}, (err, dat) => {
     if (err) return cb(err)
+
+    dat.archive.on('error', console.log)
 
     dat.joinNetwork()
     dat.network.once('connection', (...args) => {

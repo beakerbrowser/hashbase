@@ -60,6 +60,7 @@ CREATE TABLE users (
 
   isEmailVerified INTEGER DEFAULT 0, -- flag
   emailVerificationNonce TEXT,
+  pendingEmail TEXT,
 
   forgotPasswordNonce TEXT,
 
