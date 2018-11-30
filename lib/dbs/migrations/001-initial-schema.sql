@@ -19,8 +19,8 @@ CREATE TABlE archives (
   numBytes INTEGER DEFAULT 0,
   numFiles INTEGER DEFAULT 0,
 
-  updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
-  createdAt INTEGER DEFAULT (strftime('%s', 'now'))
+  updatedAt INTEGER,
+  createdAt INTEGER
 );
 CREATE INDEX archives_createdAt_idx ON archives(createdAt);
 CREATE TABLE reports (
@@ -33,8 +33,8 @@ CREATE TABLE reports (
   status TEXT DEFAULT 'open',
   notes TEXT,
 
-  updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
-  createdAt INTEGER DEFAULT (strftime('%s', 'now')),
+  updatedAt INTEGER,
+  createdAt INTEGER,
 
   FOREIGN KEY (archiveKey) REFERENCES archives (key)
 );
@@ -78,8 +78,8 @@ CREATE TABLE users (
   stripeCardExpYear TEXT,
   stripeCardLast4 TEXT,
 
-  updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
-  createdAt INTEGER DEFAULT (strftime('%s', 'now'))
+  updatedAt INTEGER,
+  createdAt INTEGER
 );
 CREATE INDEX users_email_idx ON users(email);
 CREATE INDEX users_username_idx ON users(username);
