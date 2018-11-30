@@ -14,11 +14,11 @@ User POSTS to `/v2/accounts/register` with body:
 
 Server creates a new account for the user. A random 32-byte email-verification nonce is created. The user record indicates:
 
-scopes|isEmailVerified|emailVerifyNonce
+scopes|isEmailVerified|emailVerificationNonce
 ------|---------------|----------------
 none|false|XXX
 
-Server sends an email to the user with the `emailVerifyNonce`. 
+Server sends an email to the user with the `emailVerificationNonce`. 
 
 Server responds 200 with HTML/JSON indicating to check email.
 
@@ -35,7 +35,7 @@ User GETS or POSTS `/v2/accounts/verify` with query-params or body:
 
 Server updates user record to indicate:
 
-scopes|isEmailVerified|emailVerifyNonce
+scopes|isEmailVerified|emailVerificationNonce
 ------|---------------|----------------
 user|true|null
 

@@ -28,9 +28,8 @@ module.exports = async function (config) {
   addConfigHelpers(config)
   var cloud = new Hypercloud(config)
   cloud.version = packageJson.version
-  await cloud.setupDatabase() // pause all loading during DB setup
+  await cloud.setup()
   cloud.loadAllArchives()
-  cloud.setupAdminUser()
 
   console.log(figures.pointerSmall, 'Instantiating server')
   var app = express()
@@ -245,7 +244,7 @@ module.exports = async function (config) {
     }
 
     // general uncaught error
-    console.error('[ERROR]', err)
+    console.error('[ERROR]', req.method, req.url, err)
     res.status(500)
     var error = {
       message: 'Internal server error',

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node bin.js",
     "test": "npm run unit && npm run lint",
-    "unit": "ava test/*.js --fail-fast",
+    "unit": "ava --fail-fast test/*.js",
     "lint": "standard --fix"
   },
   "keywords": [

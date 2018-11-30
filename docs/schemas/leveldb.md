@@ -52,7 +52,7 @@ Schema:
   createdAt: Number, the timestamp of creation time
 
   isEmailVerified: Boolean
-  emailVerifyNonce: String, the random verification nonce (register flow)
+  emailVerificationNonce: String, the random verification nonce (register flow)
 
   forgotPasswordNonce: String, the random verification nonce (forgot password flow)
 

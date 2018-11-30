@@ -489,7 +489,7 @@ Response body:
   email: String, the user's email address
   username: String, the chosen username
   isEmailVerified: Boolean
-  emailVerifyNonce: String, the random verification nonce
+  emailVerificationNonce: String, the random verification nonce
   scopes: Array of strings, what is this user's perms?
   diskUsage: Number, how many bytes the user is using
   diskQuota: Number, how many bytes the user is allowed

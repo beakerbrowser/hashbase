@@ -58,12 +58,12 @@ CREATE TABLE users (
   diskQuota INTEGER,
   namedArchiveQuota INTEGER,
 
-  isEmailVerified INTEGER DEFAULT 0,
-  emailVerifyNonce TEXT,
+  isEmailVerified INTEGER DEFAULT 0, -- flag
+  emailVerificationNonce TEXT,
 
   forgotPasswordNonce TEXT,
 
-  isProfileDatVerified INTEGER DEFAULT 0,
+  isProfileDatVerified INTEGER DEFAULT 0, -- flag
   profileVerifyToken TEXT,
 
   stripeCustomerId TEXT,
