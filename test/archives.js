@@ -316,6 +316,21 @@ test('change archive name', async t => {
 
   res = await app.req.get({url: '/v2/users/admin/test-archive', json: true, auth})
   t.is(res.statusCode, 404, '404 old name not found')
+
+  // ignore case
+  json = {key: testDatKey, name: 'TEST--DAT'}
+  res = await app.req.post({uri: '/v2/archives/add', json, auth})
+  t.is(res.statusCode, 200, '200 added dat')
+
+  res = await app.req.get({url: '/v2/users/admin/test--dat', json: true, auth})
+  t.is(res.statusCode, 200, '200 got dat data by name')
+  t.deepEqual(res.body, {
+    user: 'admin',
+    key: testDatKey,
+    name: 'test--dat',
+    title: 'Test Dat 1',
+    description: 'The first test dat'
+  })
 })
 
 test('dont allow two archives with same name', async t => {
