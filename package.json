@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node bin.js",
     "test": "npm run unit && npm run lint",
-    "unit": "ava test/*.js --fail-fast",
+    "unit": "ava --fail-fast --verbose test/*.js",
     "lint": "standard --fix"
   },
   "keywords": [
@@ -73,7 +73,8 @@
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "rimraf": "^2.6.2",
-    "sqlite3": "^4.0.4",
+    "sql-template-strings": "^2.2.2",
+    "sqlite": "^3.0.0",
     "stream-collector": "^1.0.1",
     "stream-each": "^1.2.2",
     "stripe": "^4.25.0",

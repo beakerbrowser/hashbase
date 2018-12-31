@@ -78,8 +78,8 @@ async function createLocalApp (cb) {
 
   var app = await createApp(config)
   var server = app.listen(config.port, (err) => {
-    console.log(`server started on http://127.0.0.1:${config.port}`)
-    app.cloud.whenAdminCreated(() => cb(err, app))
+    if (!err) console.log(`server started on http://127.0.0.1:${config.port}`)
+    cb(err, app)
   })
 
   app.isRemote = false

@@ -31,7 +31,7 @@
         </div>
 
         <div class="your-archives">
-          <% if (!sessionUser.archives.length) { %>
+          <% if (!sessionUser.archives || !sessionUser.archives.length) { %>
             <p class="no-archives">
               <em>No archives</em>
             </p>
@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <% if (sessionUser.archives.length > 5) { %>
+      <% if (sessionUser.archives && sessionUser.archives.length > 5) { %>
         <a class="more" href="/<%= sessionUser.username%>">
           <%= sessionUser.archives.length - 5 %> more archives...
         </a>

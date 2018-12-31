@@ -468,7 +468,7 @@ test('forgot password flow', async t => {
   res = await app.req.post({
     uri: '/v2/accounts/forgot-password',
     json: {
-      email: 'bob@example.com'
+      email: 'bob2@example.com'
     }
   })
   t.is(res.statusCode, 200, '200 started forgot password flow')
