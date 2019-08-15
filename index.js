@@ -146,6 +146,14 @@ module.exports = async function (config) {
 
   // Then apply csurf
   app.use(config.csrf ? csurf({cookie: true}) : fakeCSRF)
+  
+  // add CORS to address https://github.com/beakerbrowser/hashbase/issues/118 
+  // for non-beaker CORS access to /.well-known/psa, etc.
+  app.use(function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*") // for CORS access to /.well-known/psa
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next();
+  });
 
   // service apis
   // =
