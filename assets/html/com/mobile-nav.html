@@ -23,14 +23,6 @@
       <li class="nav-item">
         <a href="/account">Manage account</a>
       </li>
-      <% if (sessionUser.plan === 'basic' && stripePK) { %>
-        <li class="nav-item">
-          <a href="/account/upgrade">
-            Upgrade to pro
-            <span class="pro-tag">pro</span>
-          </a>
-        </li>
-      <% } %>
       <li class="nav-item">
         <a href="/v2/accounts/logout">Logout</a>
       </li>
@@ -49,9 +41,6 @@
       </li>
       <li class="nav-item">
         <a href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="btn primary register href="/register">Sign up</a>
       </li>
     <% } %>
   </ul>

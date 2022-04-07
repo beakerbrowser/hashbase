@@ -170,10 +170,10 @@ module.exports = async function (config) {
   app.get('/login', cloud.api.pages.login)
   app.get('/forgot-password', cloud.api.pages.forgotPassword)
   app.get('/reset-password', cloud.api.pages.resetPassword)
-  app.get('/register', cloud.api.pages.register)
-  if (config.stripe) {
-    app.get('/register/pro', cloud.api.pages.registerPro)
-  }
+  // app.get('/register', cloud.api.pages.register)
+  // if (config.stripe) {
+    // app.get('/register/pro', cloud.api.pages.registerPro)
+  // }
   app.get('/registered', cloud.api.pages.registered)
   app.get('/profile', cloud.api.pages.profileRedirect)
   if (config.stripe) {

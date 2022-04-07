@@ -74,7 +74,7 @@
     "request-promise-native": "^1.0.7",
     "rimraf": "^2.6.3",
     "sql-template-strings": "^2.2.2",
-    "sqlite": "^3.0.2",
+    "sqlite": "^3.0.3",
     "stream-collector": "^1.0.1",
     "stream-each": "^1.2.2",
     "stripe": "^4.25.0",
